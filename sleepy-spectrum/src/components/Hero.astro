@@ -5,30 +5,123 @@ interface Props {
 
 const { lang = "en" } = Astro.props;
 
-const terminalTags = ["ASP.NET Core", "Angular", "Azure", "AI Integration", "Clean Architecture"];
+const projectFlowSteps = [
+  { 
+    id: 1, 
+    label: "Requirements", 
+    sublabel: "Analysis & Planning",
+    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+      <polyline points="14 2 14 8 20 8"/>
+      <line x1="16" y1="13" x2="8" y2="13"/>
+      <line x1="16" y1="17" x2="8" y2="17"/>
+    </svg>`
+  },
+  { 
+    id: 2, 
+    label: "Architecture", 
+    sublabel: "System Design",
+    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7" rx="1"/>
+      <rect x="14" y="3" width="7" height="7" rx="1"/>
+      <rect x="14" y="14" width="7" height="7" rx="1"/>
+      <rect x="3" y="14" width="7" height="7" rx="1"/>
+    </svg>`
+  },
+  { 
+    id: 3, 
+    label: "Development", 
+    sublabel: "Clean Code & TDD",
+    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="16 18 22 12 16 6"/>
+      <polyline points="8 6 2 12 8 18"/>
+    </svg>`
+  },
+  { 
+    id: 4, 
+    label: "Testing", 
+    sublabel: "Quality Assurance",
+    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+      <polyline points="22 4 12 14.01 9 11.01"/>
+    </svg>`
+  },
+  { 
+    id: 5, 
+    label: "Deployment", 
+    sublabel: "CI/CD Pipeline",
+    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+      <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+      <line x1="12" y1="22.08" x2="12" y2="12"/>
+    </svg>`
+  },
+  { 
+    id: 6, 
+    label: "Monitoring", 
+    sublabel: "Support & Scale",
+    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+    </svg>`
+  }
+];
 
-const availabilityItems = [
+const contractTypes = [
   { 
-    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-      <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-      <path d="M2 17l10 5 10-5"/>
-      <path d="M2 12l10 5 10-5"/>
+    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M9 11l3 3L22 4"/>
+      <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
     </svg>`,
-    text: "Build scalable APIs and modern web apps with clean architecture"
+    title: "Fixed-Scope Projects",
+    duration: "2-8 weeks",
+    description: "Complete feature development with clear deliverables"
   },
   { 
-    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-      <circle cx="12" cy="12" r="3"/>
-      <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
-    </svg>`,
-    text: "Integrate AI capabilities into your existing .NET systems"
-  },
-  { 
-    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <circle cx="12" cy="12" r="10"/>
       <polyline points="12 6 12 12 16 14"/>
     </svg>`,
-    text: "Ship faster with predictable delivery and 24h response time"
+    title: "Short-Term Contracts",
+    duration: "1-12 weeks",
+    description: "Targeted solutions for specific technical challenges"
+  },
+  { 
+    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>`,
+    title: "AI Integration",
+    duration: "3-6 weeks",
+    description: "Add intelligent capabilities to existing systems"
+  },
+  { 
+    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 20h9"/>
+      <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+    </svg>`,
+    title: "Technical Consulting",
+    duration: "Flexible",
+    description: "Architecture reviews and strategic guidance"
+  },
+  { 
+    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+      <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/>
+    </svg>`,
+    title: "Monthly Retainers",
+    duration: "Ongoing",
+    description: "Continuous development and maintenance partnership"
+  },
+  { 
+    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"/>
+      <path d="M21 21l-4.35-4.35"/>
+      <path d="M11 8a3 3 0 00-3 3"/>
+    </svg>`,
+    title: "Code Audits",
+    duration: "1-2 weeks",
+    description: "Security reviews and performance optimization"
   },
 ];
 ---
@@ -45,23 +138,54 @@ const availabilityItems = [
       Clean architecture, predictable delivery.
     </p>
 
-    <div class="terminal-card">
-      <div class="terminal-header">
-        <div class="terminal-dots">
-          <span class="terminal-dot terminal-dot--red"></span>
-          <span class="terminal-dot terminal-dot--yellow"></span>
-          <span class="terminal-dot terminal-dot--green"></span>
+    <div class="flow-diagram-card">
+      <div class="flow-diagram-header">
+        <div class="flow-diagram-title">
+          <div class="title-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <span>Project Flow</span>
         </div>
-        <div class="terminal-title">qais@portfolio:~/work</div>
-        <span class="terminal-badge">live</span>
+        <span class="flow-diagram-badge">
+          <span class="badge-dot"></span>
+          END-TO-END PROCESS
+        </span>
       </div>
-      <div class="terminal-body">
-        <span class="terminal-prompt">❯</span> <span id="typed"></span><span class="terminal-cursor"></span>
-      </div>
-      <div class="terminal-footer">
-        {terminalTags.map(tag => (
-          <span class="terminal-tag">{tag}</span>
-        ))}
+      
+      <div class="flow-diagram">
+        <div class="flow-wrapper">
+          {projectFlowSteps.map((step, index) => (
+            <>
+              <div class={`flow-step`} data-step={index + 1}>
+                <div class="flow-step-node">
+                  <div class="node-ring"></div>
+                  <div class="node-inner">
+                    <div class="flow-step-icon" set:html={step.icon} />
+                  </div>
+                  <div class="node-glow"></div>
+                </div>
+                <div class="flow-step-content">
+                  <div class="flow-step-label">{step.label}</div>
+                  <div class="flow-step-sublabel">{step.sublabel}</div>
+                </div>
+              </div>
+              {index < projectFlowSteps.length - 1 && (
+                <div class="flow-connector">
+                  <div class="connector-track"></div>
+                  <div class="connector-line"></div>
+                  <div class="connector-particles">
+                    <span class="particle"></span>
+                    <span class="particle"></span>
+                    <span class="particle"></span>
+                  </div>
+                </div>
+              )}
+            </>
+          ))}
+        </div>
       </div>
     </div>
 
@@ -71,12 +195,23 @@ const availabilityItems = [
       <a class="btn btn--ghost btn--lg" href="#">Download CV</a>
     </div>
 
-    <div class="availability-card">
-      <div class="availability-grid">
-        {availabilityItems.map((item) => (
-          <div class="availability-item">
-            <span class="availability-icon" set:html={item.icon} />
-            <p class="availability-text">{item.text}</p>
+    <div class="contract-section">
+      <div class="contract-header">
+        <h3 class="contract-title">How I can help</h3>
+        <p class="contract-subtitle">Choose the engagement model that fits your needs</p>
+      </div>
+      
+      <div class="contract-grid">
+        {contractTypes.map((contract) => (
+          <div class="contract-card">
+            <div class="contract-card-inner">
+              <div class="contract-icon" set:html={contract.icon} />
+              <div class="contract-content">
+                <h4 class="contract-name">{contract.title}</h4>
+                <span class="contract-duration">{contract.duration}</span>
+                <p class="contract-description">{contract.description}</p>
+              </div>
+            </div>
           </div>
         ))}
       </div>
@@ -85,35 +220,43 @@ const availabilityItems = [
 </section>
 
 <script>
-  const messages = [
-    "dotnet new webapi --name SecureAPI",
-    "Integrating OpenAI + Azure AI Services...",
-    "ASP.NET Core + Clean Architecture + AI",
-    "Building intelligent .NET solutions...",
-    "8+ years delivering production excellence"
-  ];
-  
-  let msgIndex = 0;
-  let charIndex = 0;
-  const typedEl = document.getElementById('typed');
-  
-  function typeMessage() {
-    if (!typedEl) return;
-    const msg = messages[msgIndex];
-    if (charIndex < msg.length) {
-      typedEl.textContent += msg.charAt(charIndex++);
-      setTimeout(typeMessage, 45);
-    } else {
+  function animateFlowDiagram() {
+    const steps = document.querySelectorAll('.flow-step');
+    const connectors = document.querySelectorAll('.flow-connector');
+    
+    // First step appears immediately
+    if (steps[0]) {
       setTimeout(() => {
-        typedEl.textContent = '';
-        charIndex = 0;
-        msgIndex = (msgIndex + 1) % messages.length;
-        typeMessage();
-      }, 2200);
+        steps[0].classList.add('active');
+      }, 100);
     }
+    
+    // Animate each connector AFTER the previous step is fully active
+    connectors.forEach((connector, index) => {
+      setTimeout(() => {
+        // Wait for previous step to be fully visible before starting line
+        setTimeout(() => {
+          connector.classList.add('animating');
+          
+          // After line finishes drawing, mark as completed and show next step
+          setTimeout(() => {
+            connector.classList.remove('animating');
+            connector.classList.add('completed');
+            
+            // Reveal next step
+            if (steps[index + 1]) {
+              steps[index + 1].classList.add('active');
+            }
+          }, 1000);
+        }, 400); // Wait 400ms after step appears before starting line
+      }, index * 1800);
+    });
   }
   
-  typeMessage();
+  // Start animation
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(animateFlowDiagram, 400);
+  });
 </script>
 
 <style>
@@ -156,132 +299,422 @@ const availabilityItems = [
     animation: fadeInUp 0.6s ease 0.1s both;
   }
 
-  /* Terminal */
-  .terminal-card {
+  /* Flow Diagram Card */
+  .flow-diagram-card {
     width: 100%;
-    max-width: 540px;
+    max-width: 100%;
     margin: 0 auto 2rem;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
+    background: linear-gradient(
+      135deg,
+      rgba(59, 130, 246, 0.03) 0%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+    border: 1px solid rgba(59, 130, 246, 0.15);
+    border-radius: 20px;
     overflow: hidden;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+                0 1px 2px rgba(59, 130, 246, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
     animation: fadeInUp 0.6s ease 0.15s both;
+    position: relative;
   }
 
-  :global(.light) .terminal-card {
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  .flow-diagram-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(59, 130, 246, 0.5) 50%,
+      transparent
+    );
   }
 
-  .terminal-header {
+  :global(.light) .flow-diagram-card {
+    background: linear-gradient(
+      135deg,
+      rgba(59, 130, 246, 0.08) 0%,
+      rgba(255, 255, 255, 0.95) 100%
+    );
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),
+                0 2px 8px rgba(59, 130, 246, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  }
+
+  .flow-diagram-header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 0.75rem;
-    padding: 0.625rem 1rem;
-    background: rgba(255, 255, 255, 0.02);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 1rem 1.75rem;
+    background: linear-gradient(
+      180deg,
+      rgba(59, 130, 246, 0.05) 0%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+    border-bottom: 1px solid rgba(59, 130, 246, 0.1);
   }
 
-  :global(.light) .terminal-header {
-    background: rgba(0, 0, 0, 0.02);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  :global(.light) .flow-diagram-header {
+    background: linear-gradient(
+      180deg,
+      rgba(59, 130, 246, 0.06) 0%,
+      rgba(255, 255, 255, 0.4) 100%
+    );
+    border-bottom: 1px solid rgba(59, 130, 246, 0.15);
   }
 
-  .terminal-dots {
+  .flow-diagram-title {
     display: flex;
-    gap: 5px;
+    align-items: center;
+    gap: 0.625rem;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
   }
 
-  .terminal-dot {
-    width: 10px;
-    height: 10px;
+  .title-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(59, 130, 246, 0.05));
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: 8px;
+    color: var(--accent);
+  }
+
+  .flow-diagram-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 10px;
+    padding: 5px 12px;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.08));
+    color: var(--accent);
+    border: 1px solid rgba(59, 130, 246, 0.25);
+    border-radius: 50px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
     border-radius: 50%;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+    animation: pulse-dot 2s ease-in-out infinite;
   }
 
-  .terminal-dot--red { background: #ff5f56; }
-  .terminal-dot--yellow { background: #ffbd2e; }
-  .terminal-dot--green { background: #27ca40; }
+  @keyframes pulse-dot {
+    0%, 100% { 
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% { 
+      opacity: 0.6;
+      transform: scale(0.85);
+    }
+  }
 
-  .terminal-title {
-    flex: 1;
+  .flow-diagram {
+    padding: 3.5rem 2rem 3rem;
+    overflow: visible;
+  }
+
+  .flow-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    width: 100%;
+  }
+
+  /* Flow Steps */
+  .flow-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+    transition: all 0.6s  (0.34, 1.56, 0.64, 1);
+    flex-shrink: 0;
+  }
+
+  .flow-step.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .flow-step-node {
+    width: 60px;
+    height: 60px;
+    position: relative;
+    margin-bottom: 1rem;
+  }
+
+  .node-ring {
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), transparent) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .flow-step.active .node-ring {
+    opacity: 1;
+    animation: rotate 8s linear infinite;
+  }
+
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .node-inner {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(59, 130, 246, 0.08) 0%,
+      rgba(255, 255, 255, 0.03) 100%
+    );
+    border: 2px solid rgba(59, 130, 246, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    backdrop-filter: blur(10px);
+  }
+
+  :global(.light) .node-inner {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(59, 130, 246, 0.05) 100%
+    );
+    border-color: rgba(59, 130, 246, 0.25);
+  }
+
+  .flow-step.active .node-inner {
+    background: linear-gradient(
+      135deg,
+      rgba(59, 130, 246, 0.2) 0%,
+      rgba(59, 130, 246, 0.05) 100%
+    );
+    border-color: var(--accent);
+    box-shadow: 0 0 0 5px rgba(59, 130, 246, 0.1),
+                0 8px 24px rgba(59, 130, 246, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  .node-glow {
+    position: absolute;
+    inset: -10px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(59, 130, 246, 0.4) 0%,
+      transparent 70%
+    );
+    opacity: 0;
+    filter: blur(16px);
+    transition: opacity 0.5s ease;
+  }
+
+  .flow-step.active .node-glow {
+    opacity: 1;
+    animation: glow-pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% { 
+      opacity: 0.6;
+      transform: scale(1);
+    }
+    50% { 
+      opacity: 0.3;
+      transform: scale(1.1);
+    }
+  }
+
+  .flow-step-icon {
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    z-index: 1;
+  }
+
+  .flow-step.active .flow-step-icon {
+    color: var(--accent);
+    filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));
+    transform: scale(1.1);
+  }
+
+  .flow-step-content {
     text-align: center;
+  }
+
+  .flow-step-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+    white-space: nowrap;
+    letter-spacing: -0.01em;
+  }
+
+  .flow-step-sublabel {
     font-size: 10px;
     color: var(--text-muted);
-    font-family: 'JetBrains Mono', monospace;
+    white-space: nowrap;
+    font-weight: 500;
   }
 
-  .terminal-badge {
-    font-size: 8px;
-    padding: 2px 6px;
-    background: var(--accent-subtle);
-    color: var(--accent);
-    border-radius: 50px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
+  /* Flow Connectors */
+  .flow-connector {
+    position: relative;
+    width: 60px;
+    height: 2px;
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 30px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
 
-  .terminal-body {
-    padding: 1rem 1.25rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    line-height: 1.8;
-    min-height: 60px;
-    display: flex;
-    align-items: center;
+  .flow-connector.animating,
+  .flow-connector.completed {
+    opacity: 1;
   }
 
-  .terminal-prompt {
-    color: var(--success);
+  .connector-track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      rgba(59, 130, 246, 0.15) 0%,
+      rgba(59, 130, 246, 0.05) 50%,
+      rgba(59, 130, 246, 0.15) 100%
+    );
+    border-radius: 1px;
   }
 
-  .terminal-cursor {
-    display: inline-block;
-    width: 7px;
-    height: 14px;
-    background: var(--accent);
-    margin-left: 2px;
-    animation: blink 1s step-end infinite;
-    vertical-align: text-bottom;
+  :global(.light) .connector-track {
+    background: linear-gradient(
+      90deg,
+      rgba(59, 130, 246, 0.2) 0%,
+      rgba(59, 130, 246, 0.1) 50%,
+      rgba(59, 130, 246, 0.2) 100%
+    );
   }
 
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+  .connector-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 0;
+    background: linear-gradient(
+      90deg,
+      var(--accent),
+      rgba(59, 130, 246, 0.8)
+    );
+    border-radius: 1px;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.6),
+                0 0 20px rgba(59, 130, 246, 0.3);
   }
 
-  .terminal-footer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.375rem;
-    padding: 0.625rem 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-    background: rgba(255, 255, 255, 0.01);
-    justify-content: center;
+  .flow-connector.animating .connector-line {
+    animation: drawLine 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
 
-  :global(.light) .terminal-footer {
-    border-top: 1px solid rgba(0, 0, 0, 0.06);
-    background: rgba(0, 0, 0, 0.01);
+  .flow-connector.completed .connector-line {
+    width: 100%;
   }
 
-  .terminal-tag {
-    font-size: 9px;
-    padding: 2px 6px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 4px;
-    color: var(--text-muted);
-    font-family: 'JetBrains Mono', monospace;
+  @keyframes drawLine {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
   }
 
-  :global(.light) .terminal-tag {
-    background: rgba(0, 0, 0, 0.04);
-    border: 1px solid rgba(0, 0, 0, 0.08);
+  .connector-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    opacity: 0;
+  }
+
+  .flow-connector.animating .connector-particles {
+    opacity: 1;
+  }
+
+  .particle {
+    position: absolute;
+    top: 50%;
+    width: 3px;
+    height: 3px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.8);
+    transform: translate(-50%, -50%);
+  }
+
+  .flow-connector.animating .particle:nth-child(1) {
+    animation: moveParticle 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .flow-connector.animating .particle:nth-child(2) {
+    animation: moveParticle 1s cubic-bezier(0.4, 0, 0.2, 1) 0.15s forwards;
+  }
+
+  .flow-connector.animating .particle:nth-child(3) {
+    animation: moveParticle 1s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+  }
+
+  @keyframes moveParticle {
+    0% {
+      left: 0%;
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      left: 100%;
+      opacity: 0;
+    }
   }
 
   /* CTA Buttons */
@@ -290,7 +723,7 @@ const availabilityItems = [
     flex-wrap: wrap;
     gap: 0.75rem;
     justify-content: center;
-    margin-bottom: 2.5rem;
+    margin-bottom: 3rem;
     animation: fadeInUp 0.6s ease 0.2s both;
   }
 
@@ -379,83 +812,122 @@ const availabilityItems = [
     border-radius: 9px;
   }
 
-  /* Availability Card - Glass Style */
-  .availability-card {
+  /* Contract Section */
+  .contract-section {
     width: 100%;
-    padding: 2rem;
+    animation: fadeInUp 0.6s ease 0.3s both;
+  }
+
+  .contract-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .contract-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .contract-subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .contract-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .contract-card {
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 16px;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3),
-                0 1px 2px rgba(0, 0, 0, 0.2);
-    animation: fadeInUp 0.6s ease 0.3s both;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
   }
 
-  .availability-card:hover {
+  .contract-card:hover {
     background: rgba(255, 255, 255, 0.04);
     border-color: rgba(59, 130, 246, 0.4);
-    transform: translateY(-6px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4),
-                0 0 20px rgba(59, 130, 246, 0.15),
-                0 0 0 1px rgba(59, 130, 246, 0.2);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3),
+                0 0 12px rgba(59, 130, 246, 0.1);
   }
 
-  :global(.light) .availability-card {
-    background: rgba(255, 255, 255, 0.8);
+  :global(.light) .contract-card {
+    background: rgba(255, 255, 255, 0.6);
     border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08),
-                0 1px 2px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04),
+                0 1px 2px rgba(0, 0, 0, 0.02);
   }
 
-  :global(.light) .availability-card:hover {
-    background: rgba(255, 255, 255, 0.95);
-    border-color: rgba(59, 130, 246, 0.5);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12),
-                0 0 20px rgba(59, 130, 246, 0.1),
-                0 0 0 1px rgba(59, 130, 246, 0.3);
+  :global(.light) .contract-card:hover {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08),
+                0 4px 12px rgba(0, 0, 0, 0.04),
+                0 0 12px rgba(59, 130, 246, 0.1);
   }
 
-  .availability-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+  .contract-card-inner {
+    padding: 1.25rem;
   }
 
-  .availability-item {
-    text-align: left;
-  }
-
-  .availability-icon {
+  .contract-icon {
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 8px;
     margin-bottom: 1rem;
-    color: var(--text-muted);
-    opacity: 0.6;
-    transition: all 0.2s ease;
-  }
-
-  .availability-item:hover .availability-icon {
     color: var(--accent);
-    opacity: 1;
+    transition: all 0.3s ease;
   }
 
-  .availability-icon :global(svg) {
-    width: 24px;
-    height: 24px;
+  .contract-card:hover .contract-icon {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.3);
+    transform: scale(1.05);
   }
 
-  .availability-text {
-    font-size: 14px;
+  .contract-content {
+    text-align: left;
+  }
+
+  .contract-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 0.375rem 0;
+    letter-spacing: -0.01em;
+  }
+
+  .contract-duration {
+    display: inline-block;
+    font-size: 11px;
+    color: var(--accent);
+    background: rgba(59, 130, 246, 0.1);
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 0.625rem;
     font-weight: 500;
+  }
+
+  .contract-description {
+    font-size: 13px;
     color: var(--text-secondary);
-    line-height: 1.6;
-    margin: 0;
+    line-height: 1.5;
+    margin: 0.625rem 0 0 0;
   }
 
   @keyframes fadeInUp {
@@ -479,21 +951,115 @@ const availabilityItems = [
       font-size: 1.875rem;
     }
 
-    .availability-card {
-      padding: 1.5rem;
+    .flow-diagram {
+      padding: 3rem 1.5rem 2.5rem;
     }
 
-    .availability-grid {
+    .flow-wrapper {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .flow-step {
+      width: 100%;
+    }
+
+    .flow-step-node {
+      width: 56px;
+      height: 56px;
+    }
+
+    .flow-connector {
+      width: 2px;
+      height: 35px;
+      margin: 0;
+      align-self: center;
+      margin-top: 0;
+    }
+
+    .connector-track {
+      width: 2px;
+      height: 100%;
+    }
+
+    .connector-line {
+      width: 2px;
+      height: 0;
+    }
+
+    .flow-connector.animating .connector-line {
+      animation: drawLineVertical 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .flow-connector.completed .connector-line {
+      height: 100%;
+    }
+
+    @keyframes drawLineVertical {
+      from {
+        height: 0;
+      }
+      to {
+        height: 100%;
+      }
+    }
+
+    .connector-particles {
+      width: 2px;
+      height: 100%;
+    }
+
+    .flow-connector.animating .particle:nth-child(1) {
+      animation: moveParticleVertical 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .flow-connector.animating .particle:nth-child(2) {
+      animation: moveParticleVertical 1s cubic-bezier(0.4, 0, 0.2, 1) 0.15s forwards;
+    }
+
+    .flow-connector.animating .particle:nth-child(3) {
+      animation: moveParticleVertical 1s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+    }
+
+    @keyframes moveParticleVertical {
+      0% {
+        top: 0%;
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        top: 100%;
+        opacity: 0;
+      }
+    }
+
+    .contract-grid {
       grid-template-columns: 1fr;
-      gap: 1.5rem;
+      gap: 0.875rem;
     }
 
-    .availability-item {
-      text-align: center;
+    .contract-card-inner {
+      padding: 1rem;
     }
 
-    .availability-icon {
-      margin: 0 auto 0.75rem;
+    .contract-title {
+      font-size: 1.25rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero__cta {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .btn {
+      width: 100%;
     }
   }
 </style>
