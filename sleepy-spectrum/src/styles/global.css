@@ -44,3 +44,27 @@ body {
   min-height: 100vh;
   transition: background var(--transition-normal), color var(--transition-normal);
 }
+/* Hide content until loader finishes */
+body:not(.loaded) main,
+body:not(.loaded) header {
+  opacity: 0;
+  visibility: hidden;
+}
+
+body.loaded main,
+body.loaded header {
+  opacity: 1;
+  visibility: visible;
+  animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
