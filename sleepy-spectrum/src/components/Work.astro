@@ -1,0 +1,485 @@
+---
+/**
+ * WORK SECTION — Ultra-dark (no color accents)
+ * - 100% dark theme (neutral only)
+ * - No gradients, no purple/emerald/blue/orange accents
+ * - Click a project on the left → updates the same case-study panel on the right
+ * - “Real data” shown as neutral tiles (modules, integrations, delivery, etc.)
+ * - Smooth transition on switch
+ */
+
+const projects = [
+  {
+    id: "a-survey",
+    chip: "AI • Mental Health",
+    title: "A-Survey",
+    subtitle: "AI-powered online mental health questionnaire",
+    status: "Live",
+    timeframe: "2025 — Present",
+    role: "Full-stack • AI integration",
+    summary:
+      "An online mental health questionnaire platform using AI to improve question clarity, support structured flows, and produce analytics-ready reporting.",
+    highlights: [
+      "AI-assisted question refinement (clarity + tone)",
+      "Admin builder for questionnaires and flows",
+      "Analytics-ready reporting views for insights",
+    ],
+    stack: ["ASP.NET Core", "Web API", "SQL Server", "Tailwind", "AI Layer"],
+    data: [
+      { label: "Core modules", value: "Question Builder • AI Assist • Reporting" },
+      { label: "Focus", value: "Mental health questionnaires" },
+      { label: "Delivery", value: "Production-ready system" },
+      { label: "Collaboration", value: "DK ↔ FR (with SeoSoft)" },
+    ],
+    links: [
+      { label: "View collaboration", href: "#credentials" },
+      { label: "Contact", href: "#contact" },
+    ],
+  },
+  {
+    id: "invoice-studio",
+    chip: "AI • Finance",
+    title: "Invoice Studio",
+    subtitle: "AI-assisted invoicing workflow",
+    status: "Active",
+    timeframe: "2025 — Present",
+    role: "Backend + AI workflows",
+    summary:
+      "An AI-assisted invoicing system that speeds up invoice creation, improves line item descriptions, and supports automation-friendly exports.",
+    highlights: [
+      "AI suggestions for invoice items and descriptions",
+      "Template-based invoice generation for speed",
+      "Export-friendly formats for finance workflows",
+    ],
+    stack: ["ASP.NET Core", "SQL Server", "AI Assist", "Workflow Engine"],
+    data: [
+      { label: "Core", value: "Templates • AI suggestions • Exports" },
+      { label: "Goal", value: "Faster invoicing + clean data" },
+      { label: "Delivery", value: "Active build" },
+      { label: "Collaboration", value: "Cross-team iteration" },
+    ],
+    links: [
+      { label: "View collaboration", href: "#credentials" },
+      { label: "Contact", href: "#contact" },
+    ],
+  },
+  {
+    id: "tasksync",
+    chip: "AI • Product",
+    title: "TaskSync AI",
+    subtitle: "AI-powered project insight dashboard",
+    status: "Active",
+    timeframe: "2025 — Present",
+    role: "Product • Full-stack",
+    summary:
+      "A dashboard that improves delivery clarity using AI-generated insights, ticket improvements, PR risk signals, and sprint health visibility.",
+    highlights: [
+      "AI-generated insights and clarity scoring",
+      "Secure integrations (OAuth) with engineering tools",
+      "Sprint health + QA/test suggestions",
+    ],
+    stack: ["ASP.NET Core", "Angular", "Tailwind", "OAuth 2.0", "AI Pipelines"],
+    data: [
+      { label: "Signals", value: "Risk • Clarity • Sprint Health" },
+      { label: "Integrations", value: "Jira • GitHub (and more)" },
+      { label: "Delivery", value: "Active build" },
+      { label: "Website", value: "tasksync.ai" },
+    ],
+    links: [
+      { label: "Visit website", href: "https://tasksync.ai/" },
+      { label: "View collaboration", href: "#credentials" },
+    ],
+  },
+  {
+    id: "seosoft",
+    chip: "Enterprise • Delivery",
+    title: "SeoSoft Projects",
+    subtitle: "Enterprise portfolio delivered with SeoSoft ApS",
+    status: "Ongoing",
+    timeframe: "2024 — Present",
+    role: "Engineering partner",
+    summary:
+      "A portfolio of enterprise solutions built with SeoSoft ApS, including automation platforms, education tools, and AI-supported systems.",
+    highlights: [
+      "OrtoDOC • structured document workflows",
+      "SMS Reminder • notification automation",
+      "CyberLearn, BatchVision • specialized platforms",
+    ],
+    stack: ["Enterprise Delivery", "Automation", "AI Systems", "Maintenance"],
+    data: [
+      { label: "Projects", value: "OrtoDOC • SMS Reminder • CyberLearn • BatchVision" },
+      { label: "Model", value: "Long-term collaboration" },
+      { label: "Delivery", value: "Ongoing releases" },
+      { label: "Website", value: "seosoft.dk" },
+    ],
+    links: [
+      { label: "Visit SeoSoft", href: "https://seosoft.dk/" },
+      { label: "View collaboration", href: "#credentials" },
+    ],
+  },
+];
+
+const defaultProject = projects[0];
+const encode = (obj) => encodeURIComponent(JSON.stringify(obj));
+
+/** Optional “Expertise” pills like your screenshot (dark only). */
+const expertise = [
+  { label: "Enterprise", icon: "🌐" },
+  { label: "Security", icon: "🛡️" },
+  { label: "Databases", icon: "🗄️" },
+  { label: "DevOps", icon: "⚙️" },
+];
+---
+
+<section id="work" class="relative overflow-hidden bg-black text-white">
+  <!-- Pure dark ambience (no color) -->
+  <div class="pointer-events-none absolute inset-0 -z-10">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_48%)]"></div>
+    <div class="absolute inset-0 opacity-[0.35] [background-image:radial-gradient(rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:18px_18px]"></div>
+  </div>
+
+  <div class="mx-auto max-w-7xl px-6 py-24">
+    <!-- Header -->
+    <div class="text-center">
+      <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xs font-semibold text-white/80">
+        <span class="h-2 w-2 rounded-full bg-white/60"></span>
+        Work
+      </div>
+
+      <h2 class="mt-4 text-4xl font-extrabold tracking-tight sm:text-6xl">
+        Project Showcase
+      </h2>
+
+      <p class="mx-auto mt-4 max-w-3xl text-white/70">
+        Click a project to view the same case-study panel with real delivery details, stack, and highlights.
+      </p>
+    </div>
+
+    <!-- Optional “Expertise” block like your screenshot -->
+    <div class="mx-auto mt-10 max-w-3xl rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur">
+      <div class="text-xs font-semibold tracking-wider text-white/50">EXPERTISE</div>
+
+      <div class="mt-4 grid gap-3 sm:grid-cols-2">
+        {expertise.map((e) => (
+          <div class="flex items-center gap-3 rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm font-semibold text-white/85 shadow-[0_0_0_1px_rgba(255,255,255,0.02)]">
+            <span class="text-white/70">{e.icon}</span>
+            <span>{e.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Main layout -->
+    <div class="mt-14 grid gap-8 lg:grid-cols-12">
+      <!-- LEFT: project rail -->
+      <div class="lg:col-span-4">
+        <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur">
+          <div class="flex items-center justify-between">
+            <div class="text-sm font-bold">Projects</div>
+            <div class="text-xs text-white/50">Select one</div>
+          </div>
+
+          <div class="mt-4 grid gap-3">
+            {projects.map((p, idx) => (
+              <button
+                type="button"
+                class:list={[
+                  "project-btn group relative w-full overflow-hidden rounded-2xl border border-white/10 bg-black/40 p-4 text-left transition",
+                  "hover:border-white/20 hover:bg-white/[0.05]",
+                  idx === 0 ? "ring-1 ring-white/25" : "",
+                ]}
+                data-project={encode(p)}
+              >
+                <!-- subtle hover sheen (monochrome) -->
+                <div class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <div class="absolute -left-1/3 top-0 h-full w-1/2 rotate-12 bg-white/[0.04] blur-xl"></div>
+                </div>
+
+                <div class="relative flex items-start justify-between gap-3">
+                  <div class="min-w-0">
+                    <div class="flex flex-wrap items-center gap-2">
+                      <span class="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text-[11px] font-semibold text-white/75">
+                        {p.chip}
+                      </span>
+                      <span class="text-[11px] text-white/40">{p.timeframe}</span>
+                    </div>
+
+                    <div class="mt-2 truncate text-sm font-extrabold text-white/90">{p.title}</div>
+                    <div class="mt-1 truncate text-xs text-white/55">{p.subtitle}</div>
+                  </div>
+
+                  <span class="shrink-0 rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text-[11px] font-semibold text-white/80">
+                    {p.status}
+                  </span>
+                </div>
+
+                <div class="relative mt-3 flex flex-wrap gap-2">
+                  {p.stack.slice(0, 3).map((t) => (
+                    <span class="rounded-full border border-white/10 bg-white/[0.02] px-2.5 py-1 text-[11px] text-white/70">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                <div class="relative mt-3 flex items-center justify-between text-xs text-white/45">
+                  <span class="truncate">{p.role}</span>
+                  <span class="opacity-0 transition group-hover:opacity-100">Open →</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: case-study panel -->
+      <div class="lg:col-span-8">
+        <div class="relative isolate overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-7 backdrop-blur shadow-[0_0_0_1px_rgba(255,255,255,0.02)]">
+          <!-- monochrome frame glow -->
+          <div class="pointer-events-none absolute inset-0 opacity-100">
+            <div class="absolute -top-24 left-1/2 h-48 w-[520px] -translate-x-1/2 rounded-full bg-white/[0.06] blur-3xl"></div>
+          </div>
+
+          <div id="casePanel" class="relative transition">
+            <!-- header -->
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <span id="caseChip" class="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs font-semibold text-white/80">
+                    {defaultProject.chip}
+                  </span>
+
+                  <span id="caseStatus" class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs font-semibold text-white/80">
+                    <span class="h-2 w-2 rounded-full bg-white/60"></span>
+                    {defaultProject.status}
+                  </span>
+
+                  <span id="caseTime" class="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-white/70">
+                    {defaultProject.timeframe}
+                  </span>
+
+                  <span id="caseRole" class="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-white/70">
+                    {defaultProject.role}
+                  </span>
+                </div>
+
+                <h3 id="caseTitle" class="mt-4 text-3xl font-extrabold tracking-tight text-white/95">
+                  {defaultProject.title}
+                </h3>
+                <p id="caseSubtitle" class="mt-2 text-sm text-white/70">
+                  {defaultProject.subtitle}
+                </p>
+              </div>
+
+              <div class="flex flex-wrap gap-2">
+                <a
+                  id="caseLinkPrimary"
+                  href={defaultProject.links[0].href}
+                  class="group relative inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm font-semibold text-white/90 transition hover:border-white/20 hover:bg-white/[0.06]"
+                  target={defaultProject.links[0].href.startsWith("http") ? "_blank" : "_self"}
+                  rel={defaultProject.links[0].href.startsWith("http") ? "noopener noreferrer" : ""}
+                >
+                  {defaultProject.links[0].label}
+                  <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">↗</span>
+
+                  <span class="pointer-events-none absolute bottom-0 left-0 h-px w-full overflow-hidden">
+                    <span class="block h-px w-full -translate-x-full bg-gradient-to-r from-transparent via-white/35 to-transparent transition-transform duration-700 group-hover:translate-x-0"></span>
+                  </span>
+                </a>
+
+                <a
+                  id="caseLinkSecondary"
+                  href={defaultProject.links[1].href}
+                  class="inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm font-semibold text-white/80 transition hover:bg-white/[0.04]"
+                  target={defaultProject.links[1].href.startsWith("http") ? "_blank" : "_self"}
+                  rel={defaultProject.links[1].href.startsWith("http") ? "noopener noreferrer" : ""}
+                >
+                  {defaultProject.links[1].label}
+                  <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            </div>
+
+            <p id="caseSummary" class="mt-6 max-w-4xl text-sm text-white/75">
+              {defaultProject.summary}
+            </p>
+
+            <!-- Real data tiles -->
+            <div id="caseTiles" class="mt-7 grid gap-4 lg:grid-cols-4">
+              {defaultProject.data.map((d) => (
+                <div class="rounded-2xl border border-white/10 bg-black/40 p-4">
+                  <div class="text-[11px] font-semibold uppercase tracking-wider text-white/45">
+                    {d.label}
+                  </div>
+                  <div class="mt-2 text-sm font-semibold text-white/90">
+                    {d.value}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <!-- Highlights + stack -->
+            <div class="mt-7 grid gap-4 lg:grid-cols-12">
+              <div class="rounded-2xl border border-white/10 bg-black/40 p-5 lg:col-span-7">
+                <div class="flex items-center justify-between">
+                  <div class="text-xs font-semibold uppercase tracking-wider text-white/45">Highlights</div>
+                  <span class="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-white/70">
+                    Key outcomes
+                  </span>
+                </div>
+
+                <ul id="caseHighlights" class="mt-4 space-y-2 text-sm text-white/85">
+                  {defaultProject.highlights.map((h) => (
+                    <li class="flex gap-2">
+                      <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-white/60"></span>
+                      <span>{h}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div class="mt-6 h-px w-full bg-gradient-to-r from-transparent via-white/15 to-transparent"></div>
+
+                <div class="mt-5 text-xs text-white/45">
+                  Add screenshots later (optional). This layout already reads “real product”.
+                </div>
+              </div>
+
+              <div class="rounded-2xl border border-white/10 bg-black/40 p-5 lg:col-span-5">
+                <div class="text-xs font-semibold uppercase tracking-wider text-white/45">Stack</div>
+
+                <div id="caseStack" class="mt-4 flex flex-wrap gap-2">
+                  {defaultProject.stack.map((t) => (
+                    <span class="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-white/80">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                <div class="mt-6 rounded-xl border border-white/10 bg-white/[0.02] p-4">
+                  <div class="text-[11px] font-semibold uppercase tracking-wider text-white/45">Notes</div>
+                  <div class="mt-2 text-sm text-white/70">
+                    Keep it real: modules, integrations, delivery type, and your role.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="relative mt-6 text-xs text-white/40">
+            Dark-only design: neutral borders, soft glow, and clean hierarchy (no accent colors).
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    const btns = document.querySelectorAll(".project-btn");
+    const $ = (id) => document.getElementById(id);
+    const panel = $("casePanel");
+
+    const fadeOutIn = async (fn) => {
+      panel.classList.add("case-fade-out");
+      await new Promise((r) => setTimeout(r, 140));
+      fn();
+      panel.classList.remove("case-fade-out");
+      panel.classList.add("case-fade-in");
+      setTimeout(() => panel.classList.remove("case-fade-in"), 220);
+    };
+
+    const renderTiles = (data) =>
+      data
+        .map(
+          (d) => `
+          <div class="rounded-2xl border border-white/10 bg-black/40 p-4">
+            <div class="text-[11px] font-semibold uppercase tracking-wider text-white/45">${d.label}</div>
+            <div class="mt-2 text-sm font-semibold text-white/90">${d.value}</div>
+          </div>
+        `
+        )
+        .join("");
+
+    const renderHighlights = (items) =>
+      items
+        .map(
+          (h) => `
+          <li class="flex gap-2">
+            <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-white/60"></span>
+            <span>${h}</span>
+          </li>
+        `
+        )
+        .join("");
+
+    const renderStack = (items) =>
+      items
+        .map(
+          (t) => `
+          <span class="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-white/80">${t}</span>
+        `
+        )
+        .join("");
+
+    const setLinks = (primary, secondary, links) => {
+      const p0 = links[0], p1 = links[1];
+
+      primary.textContent = p0.label;
+      primary.href = p0.href;
+      primary.target = p0.href.startsWith("http") ? "_blank" : "_self";
+      primary.rel = p0.href.startsWith("http") ? "noopener noreferrer" : "";
+
+      secondary.textContent = p1.label;
+      secondary.href = p1.href;
+      secondary.target = p1.href.startsWith("http") ? "_blank" : "_self";
+      secondary.rel = p1.href.startsWith("http") ? "noopener noreferrer" : "";
+    };
+
+    const setPanel = (p) => {
+      $("caseChip").textContent = p.chip;
+      $("caseStatus").innerHTML = `<span class="h-2 w-2 rounded-full bg-white/60"></span>${p.status}`;
+      $("caseTime").textContent = p.timeframe;
+      $("caseRole").textContent = p.role;
+
+      $("caseTitle").textContent = p.title;
+      $("caseSubtitle").textContent = p.subtitle;
+      $("caseSummary").textContent = p.summary;
+
+      $("caseTiles").innerHTML = renderTiles(p.data);
+      $("caseHighlights").innerHTML = renderHighlights(p.highlights);
+      $("caseStack").innerHTML = renderStack(p.stack);
+
+      setLinks($("caseLinkPrimary"), $("caseLinkSecondary"), p.links);
+    };
+
+    btns.forEach((b) => {
+      b.addEventListener("click", () => {
+        const p = JSON.parse(decodeURIComponent(b.dataset.project));
+
+        btns.forEach((x) => x.classList.remove("ring-1", "ring-white/25"));
+        b.classList.add("ring-1", "ring-white/25");
+
+        fadeOutIn(() => setPanel(p));
+      });
+    });
+  </script>
+
+  <style>
+    .case-fade-out {
+      opacity: 0.35;
+      transform: translateY(4px);
+      transition: opacity 140ms ease, transform 140ms ease;
+    }
+    .case-fade-in {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 220ms ease, transform 220ms ease;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .case-fade-out,
+      .case-fade-in {
+        transition: none !important;
+        transform: none !important;
+      }
+    }
+  </style>
+</section>
