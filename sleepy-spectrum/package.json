@@ -9,9 +9,16 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.71.2",
     "@astrojs/vercel": "^9.0.3",
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.16.7",
     "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.8",
+    "@vercel/node": "^5.5.19",
+    "typescript": "^5.5.4",
+    "vercel": "^50.3.2"
   }
 }
