@@ -201,10 +201,14 @@ const suggestions = [
     input: HTMLTextAreaElement | null;
     sendButton: HTMLElement | null;
     suggestions: HTMLElement | null;
+    messageCount: number;
+    maxMessagesPerSession: number;
 
     constructor() {
       this.messages = [];
       this.isTyping = false;
+      this.messageCount = 0;
+      this.maxMessagesPerSession = 20; // Limit: 20 messages per session
       
       this.messagesContainer = document.getElementById('chatMessages');
       this.input = document.getElementById('chatInput') as HTMLTextAreaElement;
@@ -212,6 +216,7 @@ const suggestions = [
       this.suggestions = document.getElementById('chatSuggestions');
       
       this.init();
+      this.loadChatHistory();
     }
 
     init() {
@@ -245,6 +250,55 @@ const suggestions = [
           }
         });
       });
+    }
+
+    loadChatHistory() {
+      try {
+        const savedMessages = localStorage.getItem('chatHistory');
+        if (savedMessages) {
+          const history = JSON.parse(savedMessages);
+          this.messages = history.messages || [];
+          this.messageCount = history.messageCount || 0;
+          
+          // Restore messages in UI
+          history.messages?.forEach((msg: any) => {
+            if (msg.role === 'user' || msg.role === 'assistant') {
+              this.addMessage(msg.content, msg.role === 'assistant' ? 'ai' : 'user', false);
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Failed to load chat history:', error);
+      }
+    }
+
+    saveChatHistory() {
+      try {
+        localStorage.setItem('chatHistory', JSON.stringify({
+          messages: this.messages,
+          messageCount: this.messageCount,
+          timestamp: Date.now()
+        }));
+      } catch (error) {
+        console.error('Failed to save chat history:', error);
+      }
+    }
+
+    clearOldHistory() {
+      try {
+        const saved = localStorage.getItem('chatHistory');
+        if (saved) {
+          const history = JSON.parse(saved);
+          const oneDayAgo = Date.now() - (24 * 60 * 60 * 1000);
+          if (history.timestamp && history.timestamp < oneDayAgo) {
+            localStorage.removeItem('chatHistory');
+            this.messages = [];
+            this.messageCount = 0;
+          }
+        }
+      } catch (error) {
+        console.error('Failed to clear old history:', error);
+      }
     }
 
     addMessage(text: string, role: 'user' | 'ai', typewriter = false) {
@@ -301,6 +355,39 @@ const suggestions = [
       type();
     }
 
+    showThinking() {
+      if (!this.messagesContainer) return;
+      
+      const thinkingDiv = document.createElement('div');
+      thinkingDiv.className = 'message message--ai';
+      thinkingDiv.id = 'thinkingIndicator';
+      
+      thinkingDiv.innerHTML = `
+        <div class="message-avatar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </div>
+        <div class="message-content">
+          <div class="thinking-indicator">
+            <span>Thinking</span>
+            <span class="thinking-dot"></span>
+            <span class="thinking-dot"></span>
+            <span class="thinking-dot"></span>
+          </div>
+        </div>
+      `;
+      
+      this.messagesContainer.appendChild(thinkingDiv);
+      this.scrollToBottom();
+    }
+
+    hideThinking() {
+      const thinkingIndicator = document.getElementById('thinkingIndicator');
+      thinkingIndicator?.remove();
+    }
+
     showTyping() {
       if (!this.messagesContainer) return;
       
@@ -345,6 +432,15 @@ const suggestions = [
       const text = this.input?.value.trim();
       if (!text || this.isTyping) return;
 
+      // Check rate limit
+      if (this.messageCount >= this.maxMessagesPerSession) {
+        this.addMessage(
+          `You've reached the limit of ${this.maxMessagesPerSession} messages for this session. For more help, email qais@seosoft.dk directly!`,
+          'ai'
+        );
+        return;
+      }
+
       // Hide suggestions after first message
       if (this.suggestions) {
         this.suggestions.style.display = 'none';
@@ -357,6 +453,16 @@ const suggestions = [
         this.input.style.height = 'auto';
       }
 
+      this.messageCount++;
+
+      // Show thinking indicator
+      this.showThinking();
+      
+      // Simulate thinking time (0.5-1.5 seconds)
+      await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 1000));
+      
+      this.hideThinking();
+      
       // Show typing indicator
       this.showTyping();
 
@@ -392,6 +498,9 @@ const suggestions = [
             { role: 'user', content: text },
             { role: 'assistant', content: aiMessage }
           );
+
+          // Save to localStorage
+          this.saveChatHistory();
         } else {
           throw new Error('Invalid response');
         }
@@ -408,7 +517,8 @@ const suggestions = [
 
   // Initialize chat when DOM is ready
   document.addEventListener('DOMContentLoaded', () => {
-    new ChatInterface();
+    const chat = new ChatInterface();
+    chat.clearOldHistory(); // Clear history older than 24 hours
   });
 </script>
 
@@ -550,7 +660,7 @@ const suggestions = [
 
   /* Chat Messages */
   .chat-messages {
-    height: 450px;
+    height: 350px;
     overflow-y: auto;
     padding: 1.75rem 1.5rem;
     display: flex;
@@ -718,6 +828,41 @@ const suggestions = [
     30% {
       opacity: 1;
       transform: scale(1);
+    }
+  }
+
+  /* Thinking Indicator */
+  .thinking-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  .thinking-dot {
+    width: 4px;
+    height: 4px;
+    background: var(--text-muted);
+    border-radius: 50%;
+    animation: thinking 1.5s infinite;
+  }
+
+  .thinking-dot:nth-child(2) {
+    animation-delay: 0.3s;
+  }
+
+  .thinking-dot:nth-child(3) {
+    animation-delay: 0.6s;
+  }
+
+  @keyframes thinking {
+    0%, 60%, 100% {
+      opacity: 0.2;
+    }
+    30% {
+      opacity: 1;
     }
   }
 
