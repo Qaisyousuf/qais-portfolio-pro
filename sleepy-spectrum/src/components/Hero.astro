@@ -557,6 +557,11 @@ const suggestions = [
     flex-direction: column;
     gap: 1.25rem;
     scroll-behavior: smooth;
+    text-align: left; /* Override hero's text-align: center */
+  }
+
+  .chat-messages * {
+    text-align: left; /* Force all children to be left-aligned */
   }
 
   /* Custom Scrollbar */
@@ -600,6 +605,8 @@ const suggestions = [
     display: flex;
     gap: 0.75rem;
     align-items: flex-start;
+    width: 100%;
+    text-align: left;
   }
 
   .message--user {
@@ -633,21 +640,26 @@ const suggestions = [
     min-width: 0;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
   }
 
   .message--user .message-content {
     align-items: flex-end;
+    text-align: right;
   }
 
   .message-bubble {
     display: block;
+    width: 100%;
+    max-width: 90%;
     padding: 0.875rem 1.125rem;
     border-radius: 16px;
     font-size: 14.5px;
     line-height: 1.65;
-    max-width: 85%;
     word-wrap: break-word;
     white-space: pre-wrap;
+    text-align: left !important;
   }
 
   .message--ai .message-bubble {
@@ -655,7 +667,6 @@ const suggestions = [
     border: 1px solid rgba(59, 130, 246, 0.15);
     color: var(--text-primary);
     border-top-left-radius: 4px;
-    text-align: left;
   }
 
   .message--user .message-bubble {
@@ -663,7 +674,7 @@ const suggestions = [
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: var(--text-primary);
     border-top-right-radius: 4px;
-    text-align: left;
+    text-align: left !important;
   }
 
   :global(.light) .message--ai .message-bubble {
