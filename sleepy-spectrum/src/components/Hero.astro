@@ -99,9 +99,17 @@ const suggestions = [
             <p class="chat-header-subtitle">About services, experience, or pricing</p>
           </div>
         </div>
-        <div class="chat-header-badge">
-          <span class="status-dot"></span>
-          Online
+        <div class="chat-header-right">
+          <button id="clearChat" class="clear-chat-button" title="Clear conversation">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+            </svg>
+          </button>
+          <div class="chat-header-badge">
+            <span class="status-dot"></span>
+            Online
+          </div>
         </div>
       </div>
 
@@ -223,6 +231,10 @@ const suggestions = [
       // Send button click
       this.sendButton?.addEventListener('click', () => this.sendMessage());
 
+      // Clear chat button
+      const clearButton = document.getElementById('clearChat');
+      clearButton?.addEventListener('click', () => this.clearChat());
+
       // Enter key to send (Shift+Enter for new line)
       this.input?.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -282,6 +294,67 @@ const suggestions = [
       } catch (error) {
         console.error('Failed to save chat history:', error);
       }
+    }
+
+    clearChat() {
+      // Ask for confirmation
+      const confirmed = confirm('Clear conversation history? This cannot be undone.');
+      if (!confirmed) return;
+
+      // Clear localStorage
+      localStorage.removeItem('chatHistory');
+      
+      // Reset state
+      this.messages = [];
+      this.messageCount = 0;
+      
+      // Clear UI (keep only welcome message)
+      if (this.messagesContainer) {
+        this.messagesContainer.innerHTML = `
+          <div class="message message--ai">
+            <div class="message-avatar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </div>
+            <div class="message-content">
+              <div class="message-bubble">
+                Hey! I can answer questions about Qais's experience, services, and how he works. What would you like to know?
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Show suggestions again
+      if (this.suggestions) {
+        this.suggestions.style.display = 'flex';
+      }
+
+      // Show success feedback
+      const tempMessage = document.createElement('div');
+      tempMessage.className = 'message message--ai';
+      tempMessage.innerHTML = `
+        <div class="message-avatar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <div class="message-content">
+          <div class="message-bubble" style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.2);">
+            Conversation cleared! Ready for a fresh start.
+          </div>
+        </div>
+      `;
+      
+      this.messagesContainer?.appendChild(tempMessage);
+      
+      // Remove success message after 3 seconds
+      setTimeout(() => {
+        tempMessage.remove();
+      }, 3000);
     }
 
     clearOldHistory() {
@@ -565,7 +638,7 @@ const suggestions = [
   /* Chat Container */
   .chat-container {
     width: 100%;
-    max-width: 750px;
+    max-width: 850px;
     margin: 0 auto 2rem;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -592,7 +665,7 @@ const suggestions = [
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.125rem 1.5rem;
+    padding: 1rem 1.25rem;
     background: rgba(255, 255, 255, 0.03);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
@@ -606,6 +679,47 @@ const suggestions = [
     display: flex;
     align-items: center;
     gap: 0.75rem;
+  }
+
+  .chat-header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .clear-chat-button {
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .clear-chat-button:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+    transform: translateY(-1px);
+  }
+
+  .clear-chat-button:active {
+    transform: translateY(0);
+  }
+
+  :global(.light) .clear-chat-button {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  :global(.light) .clear-chat-button:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
   }
 
   .chat-avatar {
@@ -660,12 +774,12 @@ const suggestions = [
 
   /* Chat Messages */
   .chat-messages {
-    height: 350px;
+    height: 280px;
     overflow-y: auto;
-    padding: 1.75rem 1.5rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1rem;
     scroll-behavior: smooth;
     text-align: left; /* Override hero's text-align: center */
   }
