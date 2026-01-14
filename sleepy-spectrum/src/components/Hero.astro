@@ -201,6 +201,25 @@ const suggestions = [
   </div>
 </section>
 
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-icon">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+    </div>
+    <h3 class="modal-title">Clear Conversation?</h3>
+    <p class="modal-message">This will permanently delete all messages in this conversation. This action cannot be undone.</p>
+    <div class="modal-actions">
+      <button id="cancelDelete" class="modal-btn modal-btn--cancel">Cancel</button>
+      <button id="confirmDelete" class="modal-btn modal-btn--confirm">Clear Chat</button>
+    </div>
+  </div>
+</div>
+
 <script>
   class ChatInterface {
     messages: Array<{role: string, content: string}>;
@@ -234,6 +253,19 @@ const suggestions = [
       // Clear chat button
       const clearButton = document.getElementById('clearChat');
       clearButton?.addEventListener('click', () => this.clearChat());
+
+      // Modal buttons
+      const cancelBtn = document.getElementById('cancelDelete');
+      const confirmBtn = document.getElementById('confirmDelete');
+      const modalOverlay = document.getElementById('deleteModal');
+      
+      cancelBtn?.addEventListener('click', () => this.hideDeleteModal());
+      confirmBtn?.addEventListener('click', () => this.confirmClearChat());
+      modalOverlay?.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) {
+          this.hideDeleteModal();
+        }
+      });
 
       // Enter key to send (Shift+Enter for new line)
       this.input?.addEventListener('keydown', (e) => {
@@ -296,11 +328,61 @@ const suggestions = [
       }
     }
 
-    clearChat() {
-      // Ask for confirmation
-      const confirmed = confirm('Clear conversation history? This cannot be undone.');
-      if (!confirmed) return;
+    copyMessage(text: string, button: HTMLElement) {
+      navigator.clipboard.writeText(text).then(() => {
+        // Change icon to checkmark
+        button.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>`;
+        button.style.color = '#22c55e';
+        
+        // Reset after 2 seconds
+        setTimeout(() => {
+          button.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+          </svg>`;
+          button.style.color = '';
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy:', err);
+      });
+    }
 
+    deleteMessage(messageElement: HTMLElement) {
+      // Just hide the message with fade out animation
+      messageElement.style.opacity = '0';
+      messageElement.style.transform = 'translateX(-20px)';
+      messageElement.style.transition = 'all 0.3s ease';
+      
+      setTimeout(() => {
+        messageElement.remove();
+      }, 300);
+    }
+
+    showDeleteModal() {
+      const modal = document.getElementById('deleteModal');
+      if (modal) {
+        modal.style.display = 'flex';
+        setTimeout(() => {
+          modal.classList.add('show');
+        }, 10);
+      }
+    }
+
+    hideDeleteModal() {
+      const modal = document.getElementById('deleteModal');
+      if (modal) {
+        modal.classList.remove('show');
+        setTimeout(() => {
+          modal.style.display = 'none';
+        }, 300);
+      }
+    }
+
+    confirmClearChat() {
+      this.hideDeleteModal();
+      
       // Clear localStorage
       localStorage.removeItem('chatHistory');
       
@@ -357,6 +439,10 @@ const suggestions = [
       }, 3000);
     }
 
+    clearChat() {
+      this.showDeleteModal();
+    }
+
     clearOldHistory() {
       try {
         const saved = localStorage.getItem('chatHistory');
@@ -404,7 +490,35 @@ const suggestions = [
         bubble.textContent = text;
       }
 
+      // Add action buttons
+      const actions = document.createElement('div');
+      actions.className = 'message-actions';
+      
+      // Copy button
+      const copyBtn = document.createElement('button');
+      copyBtn.className = 'message-action-btn';
+      copyBtn.title = 'Copy message';
+      copyBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+        <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+      </svg>`;
+      copyBtn.onclick = () => this.copyMessage(text, copyBtn);
+      
+      // Delete button
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'message-action-btn message-action-btn--delete';
+      deleteBtn.title = 'Delete message';
+      deleteBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="3 6 5 6 21 6"/>
+        <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+      </svg>`;
+      deleteBtn.onclick = () => this.deleteMessage(messageDiv);
+      
+      actions.appendChild(copyBtn);
+      actions.appendChild(deleteBtn);
+
       content.appendChild(bubble);
+      content.appendChild(actions);
       messageDiv.appendChild(avatar);
       messageDiv.appendChild(content);
       this.messagesContainer.appendChild(messageDiv);
@@ -901,6 +1015,61 @@ const suggestions = [
     text-align: left !important;
   }
 
+  /* Message Action Buttons */
+  .message-actions {
+    display: flex;
+    gap: 0.375rem;
+    margin-top: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .message:hover .message-actions {
+    opacity: 1;
+  }
+
+  .message-action-btn {
+    padding: 0.375rem 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 11px;
+  }
+
+  .message-action-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--text-secondary);
+    transform: translateY(-1px);
+  }
+
+  .message-action-btn--delete:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+  }
+
+  :global(.light) .message-action-btn {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  :global(.light) .message-action-btn:hover {
+    background: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.15);
+  }
+
+  :global(.light) .message-action-btn--delete:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+  }
+
   :global(.light) .message--ai .message-bubble {
     background: rgba(59, 130, 246, 0.08);
     border-color: rgba(59, 130, 246, 0.15);
@@ -1368,5 +1537,133 @@ const suggestions = [
       font-size: 11px;
       padding: 0.5rem 0.75rem;
     }
+  }
+
+  /* Delete Confirmation Modal */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .modal-overlay.show {
+    opacity: 1;
+  }
+
+  .modal-content {
+    background: rgba(0, 0, 0, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .modal-overlay.show .modal-content {
+    transform: scale(1);
+  }
+
+  :global(.light) .modal-content {
+    background: rgba(255, 255, 255, 0.98);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .modal-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1.5rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 2px solid rgba(239, 68, 68, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ef4444;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem 0;
+    letter-spacing: -0.02em;
+  }
+
+  .modal-message {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0 0 2rem 0;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+  }
+
+  .modal-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+  }
+
+  .modal-btn--cancel {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+  }
+
+  .modal-btn--cancel:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+  }
+
+  .modal-btn--confirm {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.15));
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+  }
+
+  .modal-btn--confirm:hover {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(239, 68, 68, 0.2));
+    border-color: rgba(239, 68, 68, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+  }
+
+  .modal-btn:active {
+    transform: translateY(0);
+  }
+
+  :global(.light) .modal-btn--cancel {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  :global(.light) .modal-btn--cancel:hover {
+    background: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.15);
   }
 </style>
