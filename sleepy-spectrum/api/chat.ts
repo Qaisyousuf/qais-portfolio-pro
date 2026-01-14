@@ -100,7 +100,7 @@ Examples:
 ✅ "Shoot me an email at qais@seosoft.dk if you want to discuss your specific project."
 
 # CONTACT
-Email: mr.qais.yousuf@gmail.com (24h response time)
+Email: qais@seosoft.dk (24h response time)
 GitHub: github.com/qaisyousuf`;
 
 // Rate limiting map (simple in-memory - for production use Redis)
