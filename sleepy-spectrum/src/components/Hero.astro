@@ -306,49 +306,36 @@ const suggestions = [
 
     saveChatHistory() {
       try {
+        // Rebuild messages array from DOM
+        const domMessages: Array<{role: string, content: string}> = [];
+        const messageElements = this.messagesContainer?.querySelectorAll('.message');
+        
+        messageElements?.forEach((msgEl) => {
+          const isAI = msgEl.classList.contains('message--ai');
+          const bubble = msgEl.querySelector('.message-bubble');
+          if (bubble && bubble.textContent) {
+            const role = isAI ? 'assistant' : 'user';
+            const content = bubble.textContent.trim();
+            if (content && 
+                !content.includes('Thinking') && 
+                !content.includes('Conversation cleared')) {
+              domMessages.push({ role, content });
+            }
+          }
+        });
+        
+        // Update internal state
+        this.messages = domMessages;
+        
+        // Save to localStorage
         localStorage.setItem('chatHistory', JSON.stringify({
-          messages: this.messages,
+          messages: domMessages,
           messageCount: this.messageCount,
           timestamp: Date.now()
         }));
       } catch (error) {
         console.error('Failed to save chat history:', error);
       }
-    }
-
-    copyMessage(text: string, button: HTMLElement) {
-      navigator.clipboard.writeText(text).then(() => {
-        // Change icon to checkmark
-        button.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="20 6 9 17 4 12"/>
-        </svg>`;
-        button.style.color = '#22c55e';
-        
-        // Reset after 2 seconds
-        setTimeout(() => {
-          button.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
-          </svg>`;
-          button.style.color = '';
-        }, 2000);
-      }).catch(err => {
-        console.error('Failed to copy:', err);
-      });
-    }
-
-    deleteMessage(messageElement: HTMLElement) {
-      // Fade out animation
-      messageElement.style.opacity = '0';
-      messageElement.style.transform = 'translateX(-20px)';
-      messageElement.style.transition = 'all 0.3s ease';
-      
-      setTimeout(() => {
-        messageElement.remove();
-        
-        // Also save the updated state to localStorage
-        this.saveChatHistory();
-      }, 300);
     }
 
     showDeleteModal() {
@@ -374,24 +361,24 @@ const suggestions = [
     confirmClearChat() {
       this.hideDeleteModal();
       
-      // Clear localStorage
-      localStorage.removeItem('chatHistory');
+      // Clear UI completely
+      if (this.messagesContainer) {
+        this.messagesContainer.innerHTML = '';
+      }
       
       // Reset state
       this.messages = [];
       this.messageCount = 0;
       
-      // Clear UI completely
-      if (this.messagesContainer) {
-        this.messagesContainer.innerHTML = '';
-      }
+      // Clear localStorage
+      localStorage.removeItem('chatHistory');
 
       // Show suggestions again
       if (this.suggestions) {
         this.suggestions.style.display = 'flex';
       }
 
-      // Show success feedback
+      // Show success feedback (temporary)
       const tempMessage = document.createElement('div');
       tempMessage.className = 'message message--ai';
       tempMessage.innerHTML = `
@@ -461,64 +448,13 @@ const suggestions = [
       const bubble = document.createElement('div');
       bubble.className = 'message-bubble';
       
-      // Format text with basic markdown support for lists
-      const formatText = (txt: string) => {
-        // Convert numbered lists (1. item)
-        txt = txt.replace(/^(\d+)\.\s+(.+)$/gm, '<div class="list-item numbered"><span class="list-number">$1.</span> $2</div>');
-        
-        // Convert bullet lists (- item or * item)
-        txt = txt.replace(/^[-*]\s+(.+)$/gm, '<div class="list-item"><span class="bullet">•</span> $1</div>');
-        
-        // Convert **bold** text
-        txt = txt.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-        
-        // Convert newlines to <br> but not if already in list items
-        if (!txt.includes('<div class="list-item')) {
-          txt = txt.replace(/\n/g, '<br>');
-        }
-        
-        return txt;
-      };
-      
       if (typewriter) {
-        this.typewriterEffect(bubble, text, formatText);
+        this.typewriterEffect(bubble, text);
       } else {
-        if (role === 'ai') {
-          bubble.innerHTML = formatText(text);
-        } else {
-          bubble.textContent = text;
-        }
+        bubble.textContent = text;
       }
 
-      // Add action buttons
-      const actions = document.createElement('div');
-      actions.className = 'message-actions';
-      
-      // Copy button
-      const copyBtn = document.createElement('button');
-      copyBtn.className = 'message-action-btn';
-      copyBtn.title = 'Copy';
-      copyBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-        <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
-      </svg>`;
-      copyBtn.onclick = () => this.copyMessage(text, copyBtn);
-      
-      // Delete button
-      const deleteBtn = document.createElement('button');
-      deleteBtn.className = 'message-action-btn message-action-btn--delete';
-      deleteBtn.title = 'Delete';
-      deleteBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="3 6 5 6 21 6"/>
-        <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
-      </svg>`;
-      deleteBtn.onclick = () => this.deleteMessage(messageDiv);
-      
-      actions.appendChild(copyBtn);
-      actions.appendChild(deleteBtn);
-
       content.appendChild(bubble);
-      content.appendChild(actions);
       messageDiv.appendChild(avatar);
       messageDiv.appendChild(content);
       this.messagesContainer.appendChild(messageDiv);
@@ -527,31 +463,19 @@ const suggestions = [
     }
 
     typewriterEffect(element: HTMLElement, text: string, formatFn?: (txt: string) => string) {
-      if (formatFn) {
-        // For formatted text, display it all at once with fade-in
-        element.innerHTML = formatFn(text);
-        element.style.opacity = '0';
-        setTimeout(() => {
-          element.style.transition = 'opacity 0.3s ease';
-          element.style.opacity = '1';
-        }, 10);
-        this.scrollToBottom();
-      } else {
-        // Original typewriter for plain text
-        let index = 0;
-        const speed = 15;
-        
-        const type = () => {
-          if (index < text.length) {
-            element.textContent += text.charAt(index);
-            index++;
-            this.scrollToBottom();
-            setTimeout(type, speed);
-          }
-        };
-        
-        type();
-      }
+      let index = 0;
+      const speed = 15;
+      
+      const type = () => {
+        if (index < text.length) {
+          element.textContent += text.charAt(index);
+          index++;
+          this.scrollToBottom();
+          setTimeout(type, speed);
+        }
+      };
+      
+      type();
     }
 
     showThinking() {
@@ -1046,93 +970,6 @@ const suggestions = [
     color: var(--text-primary);
     border-top-right-radius: 4px;
     text-align: left !important;
-  }
-
-  /* Formatted Lists in Messages */
-  .message-bubble .list-item {
-    display: flex;
-    gap: 0.5rem;
-    margin: 0.375rem 0;
-    line-height: 1.6;
-  }
-
-  .message-bubble .list-item .bullet {
-    color: var(--accent);
-    font-weight: 600;
-    flex-shrink: 0;
-  }
-
-  .message-bubble .list-item.numbered {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  .message-bubble .list-item .list-number {
-    color: var(--accent);
-    font-weight: 600;
-    flex-shrink: 0;
-    min-width: 1.5rem;
-  }
-
-  .message-bubble strong {
-    font-weight: 600;
-    color: var(--text-primary);
-  }
-
-  /* Message Action Buttons */
-  .message-actions {
-    display: flex;
-    gap: 0.25rem;
-    margin-top: 0.375rem;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-
-  .message:hover .message-actions {
-    opacity: 1;
-  }
-
-  .message-action-btn {
-    padding: 0.25rem 0.375rem;
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 6px;
-    color: rgba(255, 255, 255, 0.6);
-    cursor: pointer;
-    transition: all 0.15s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .message-action-btn:hover {
-    background: rgba(0, 0, 0, 0.6);
-    border-color: rgba(255, 255, 255, 0.3);
-    color: rgba(255, 255, 255, 0.9);
-  }
-
-  .message-action-btn--delete:hover {
-    background: rgba(239, 68, 68, 0.2);
-    border-color: rgba(239, 68, 68, 0.4);
-    color: #ef4444;
-  }
-
-  :global(.light) .message-action-btn {
-    background: rgba(0, 0, 0, 0.06);
-    border-color: rgba(0, 0, 0, 0.12);
-    color: rgba(0, 0, 0, 0.5);
-  }
-
-  :global(.light) .message-action-btn:hover {
-    background: rgba(0, 0, 0, 0.1);
-    border-color: rgba(0, 0, 0, 0.2);
-    color: rgba(0, 0, 0, 0.8);
-  }
-
-  :global(.light) .message-action-btn--delete:hover {
-    background: rgba(239, 68, 68, 0.1);
-    border-color: rgba(239, 68, 68, 0.3);
-    color: #ef4444;
   }
 
   :global(.light) .message--ai .message-bubble {
