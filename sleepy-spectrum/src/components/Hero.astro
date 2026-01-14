@@ -100,6 +100,28 @@ const suggestions = [
           </div>
         </div>
         <div class="chat-header-right">
+          <div class="style-selector">
+            <button class="style-btn active" data-style="normal" title="Normal">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 20h9"/>
+                <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+              </svg>
+            </button>
+            <button class="style-btn" data-style="concise" title="Concise">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="21" y1="10" x2="3" y2="10"/>
+                <line x1="21" y1="6" x2="3" y2="6"/>
+                <line x1="21" y1="14" x2="3" y2="14"/>
+                <line x1="21" y1="18" x2="3" y2="18"/>
+              </svg>
+            </button>
+            <button class="style-btn" data-style="formal" title="Formal">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+              </svg>
+            </button>
+          </div>
           <button id="clearChat" class="clear-chat-button" title="Clear conversation">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="3 6 5 6 21 6"/>
@@ -218,12 +240,14 @@ const suggestions = [
     suggestions: HTMLElement | null;
     messageCount: number;
     maxMessagesPerSession: number;
+    responseStyle: string;
 
     constructor() {
       this.messages = [];
       this.isTyping = false;
       this.messageCount = 0;
       this.maxMessagesPerSession = 20; // Limit: 20 messages per session
+      this.responseStyle = 'normal'; // Default style
       
       this.messagesContainer = document.getElementById('chatMessages');
       this.input = document.getElementById('chatInput') as HTMLTextAreaElement;
@@ -241,6 +265,21 @@ const suggestions = [
       // Clear chat button
       const clearButton = document.getElementById('clearChat');
       clearButton?.addEventListener('click', () => this.clearChat());
+
+      // Style selector buttons
+      document.querySelectorAll('.style-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const target = e.currentTarget as HTMLElement;
+          const style = target.getAttribute('data-style') || 'normal';
+          
+          // Update active state
+          document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
+          target.classList.add('active');
+          
+          // Update response style
+          this.responseStyle = style;
+        });
+      });
 
       // Modal buttons
       const cancelBtn = document.getElementById('cancelDelete');
@@ -263,12 +302,20 @@ const suggestions = [
         }
       });
 
-      // Auto-resize textarea
+      // Hide suggestions when user starts typing
       this.input?.addEventListener('input', (e) => {
         const target = e.target as HTMLTextAreaElement;
         if (target) {
+          // Auto-resize textarea
           target.style.height = 'auto';
           target.style.height = Math.min(target.scrollHeight, 120) + 'px';
+          
+          // Hide suggestions if user is typing
+          if (target.value.length > 0 && this.suggestions) {
+            this.suggestions.style.display = 'none';
+          } else if (target.value.length === 0 && this.messageCount === 0 && this.suggestions) {
+            this.suggestions.style.display = 'flex';
+          }
         }
       });
 
@@ -564,15 +611,13 @@ const suggestions = [
         return;
       }
 
-      // Disable send button
+      // Disable send button and hide suggestions
       this.isTyping = true;
       if (this.sendButton) {
         this.sendButton.style.opacity = '0.5';
         this.sendButton.style.cursor = 'not-allowed';
         this.sendButton.style.pointerEvents = 'none';
       }
-
-      // Hide suggestions after first message
       if (this.suggestions) {
         this.suggestions.style.display = 'none';
       }
@@ -598,6 +643,14 @@ const suggestions = [
       this.showTyping();
 
       try {
+        // Build system message with style preference
+        let styleInstruction = '';
+        if (this.responseStyle === 'concise') {
+          styleInstruction = '\n\nIMPORTANT: Keep your response extremely brief - 1-2 sentences maximum. Get straight to the point.';
+        } else if (this.responseStyle === 'formal') {
+          styleInstruction = '\n\nIMPORTANT: Use a formal, professional tone. Be thorough and structured in your response.';
+        }
+        
         // Call our Vercel serverless function
         const response = await fetch('/api/chat', {
           method: 'POST',
@@ -607,7 +660,7 @@ const suggestions = [
           body: JSON.stringify({
             messages: [
               ...this.messages,
-              { role: 'user', content: text }
+              { role: 'user', content: text + styleInstruction }
             ]
           })
         });
@@ -643,7 +696,7 @@ const suggestions = [
           'ai'
         );
       } finally {
-        // Re-enable send button
+        // Re-enable send button (keep suggestions hidden)
         this.isTyping = false;
         if (this.sendButton) {
           this.sendButton.style.opacity = '1';
@@ -753,6 +806,66 @@ const suggestions = [
     gap: 0.75rem;
   }
 
+  /* Style Selector */
+  .style-selector {
+    display: flex;
+    gap: 0.25rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 0.25rem;
+  }
+
+  :global(.light) .style-selector {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+
+  .style-btn {
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .style-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-secondary);
+  }
+
+  .style-btn.active {
+    background: rgba(59, 130, 246, 0.15);
+    color: var(--accent);
+  }
+
+  .style-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -0.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 1px;
+  }
+
+  :global(.light) .style-btn:hover {
+    background: rgba(0, 0, 0, 0.06);
+  }
+
+  :global(.light) .style-btn.active {
+    background: rgba(59, 130, 246, 0.1);
+  }
+
   .clear-chat-button {
     width: 36px;
     height: 36px;
@@ -848,7 +961,6 @@ const suggestions = [
     gap: 1rem;
     scroll-behavior: smooth;
     text-align: left; /* Override hero's text-align: center */
-    background: rgba(0, 0, 0, 0.4);
   }
 
   .chat-messages * {
