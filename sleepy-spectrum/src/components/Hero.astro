@@ -114,19 +114,7 @@ const suggestions = [
       </div>
 
       <div class="chat-messages" id="chatMessages">
-        <div class="message message--ai">
-          <div class="message-avatar">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/>
-              <circle cx="12" cy="12" r="3"/>
-            </svg>
-          </div>
-          <div class="message-content">
-            <div class="message-bubble">
-              Hey! I can answer questions about Qais's experience, services, and how he works. What would you like to know?
-            </div>
-          </div>
-        </div>
+        <!-- Messages will be added here dynamically -->
       </div>
 
       <div class="chat-suggestions" id="chatSuggestions">
@@ -350,13 +338,16 @@ const suggestions = [
     }
 
     deleteMessage(messageElement: HTMLElement) {
-      // Just hide the message with fade out animation
+      // Fade out animation
       messageElement.style.opacity = '0';
       messageElement.style.transform = 'translateX(-20px)';
       messageElement.style.transition = 'all 0.3s ease';
       
       setTimeout(() => {
         messageElement.remove();
+        
+        // Also save the updated state to localStorage
+        this.saveChatHistory();
       }, 300);
     }
 
@@ -390,23 +381,9 @@ const suggestions = [
       this.messages = [];
       this.messageCount = 0;
       
-      // Clear UI (keep only welcome message)
+      // Clear UI completely
       if (this.messagesContainer) {
-        this.messagesContainer.innerHTML = `
-          <div class="message message--ai">
-            <div class="message-avatar">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/>
-                <circle cx="12" cy="12" r="3"/>
-              </svg>
-            </div>
-            <div class="message-content">
-              <div class="message-bubble">
-                Hey! I can answer questions about Qais's experience, services, and how he works. What would you like to know?
-              </div>
-            </div>
-          </div>
-        `;
+        this.messagesContainer.innerHTML = '';
       }
 
       // Show suggestions again
@@ -426,17 +403,17 @@ const suggestions = [
         </div>
         <div class="message-content">
           <div class="message-bubble" style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.2);">
-            Conversation cleared! Ready for a fresh start.
+            Conversation cleared!
           </div>
         </div>
       `;
       
       this.messagesContainer?.appendChild(tempMessage);
       
-      // Remove success message after 3 seconds
+      // Remove success message after 2 seconds
       setTimeout(() => {
         tempMessage.remove();
-      }, 3000);
+      }, 2000);
     }
 
     clearChat() {
@@ -484,10 +461,33 @@ const suggestions = [
       const bubble = document.createElement('div');
       bubble.className = 'message-bubble';
       
+      // Format text with basic markdown support for lists
+      const formatText = (txt: string) => {
+        // Convert numbered lists (1. item)
+        txt = txt.replace(/^(\d+)\.\s+(.+)$/gm, '<div class="list-item numbered"><span class="list-number">$1.</span> $2</div>');
+        
+        // Convert bullet lists (- item or * item)
+        txt = txt.replace(/^[-*]\s+(.+)$/gm, '<div class="list-item"><span class="bullet">•</span> $1</div>');
+        
+        // Convert **bold** text
+        txt = txt.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        
+        // Convert newlines to <br> but not if already in list items
+        if (!txt.includes('<div class="list-item')) {
+          txt = txt.replace(/\n/g, '<br>');
+        }
+        
+        return txt;
+      };
+      
       if (typewriter) {
-        this.typewriterEffect(bubble, text);
+        this.typewriterEffect(bubble, text, formatText);
       } else {
-        bubble.textContent = text;
+        if (role === 'ai') {
+          bubble.innerHTML = formatText(text);
+        } else {
+          bubble.textContent = text;
+        }
       }
 
       // Add action buttons
@@ -497,7 +497,7 @@ const suggestions = [
       // Copy button
       const copyBtn = document.createElement('button');
       copyBtn.className = 'message-action-btn';
-      copyBtn.title = 'Copy message';
+      copyBtn.title = 'Copy';
       copyBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
         <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
@@ -507,7 +507,7 @@ const suggestions = [
       // Delete button
       const deleteBtn = document.createElement('button');
       deleteBtn.className = 'message-action-btn message-action-btn--delete';
-      deleteBtn.title = 'Delete message';
+      deleteBtn.title = 'Delete';
       deleteBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="3 6 5 6 21 6"/>
         <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
@@ -526,20 +526,32 @@ const suggestions = [
       this.scrollToBottom();
     }
 
-    typewriterEffect(element: HTMLElement, text: string) {
-      let index = 0;
-      const speed = 15;
-      
-      const type = () => {
-        if (index < text.length) {
-          element.textContent += text.charAt(index);
-          index++;
-          this.scrollToBottom();
-          setTimeout(type, speed);
-        }
-      };
-      
-      type();
+    typewriterEffect(element: HTMLElement, text: string, formatFn?: (txt: string) => string) {
+      if (formatFn) {
+        // For formatted text, display it all at once with fade-in
+        element.innerHTML = formatFn(text);
+        element.style.opacity = '0';
+        setTimeout(() => {
+          element.style.transition = 'opacity 0.3s ease';
+          element.style.opacity = '1';
+        }, 10);
+        this.scrollToBottom();
+      } else {
+        // Original typewriter for plain text
+        let index = 0;
+        const speed = 15;
+        
+        const type = () => {
+          if (index < text.length) {
+            element.textContent += text.charAt(index);
+            index++;
+            this.scrollToBottom();
+            setTimeout(type, speed);
+          }
+        };
+        
+        type();
+      }
     }
 
     showThinking() {
@@ -628,6 +640,14 @@ const suggestions = [
         return;
       }
 
+      // Disable send button
+      this.isTyping = true;
+      if (this.sendButton) {
+        this.sendButton.style.opacity = '0.5';
+        this.sendButton.style.cursor = 'not-allowed';
+        this.sendButton.style.pointerEvents = 'none';
+      }
+
       // Hide suggestions after first message
       if (this.suggestions) {
         this.suggestions.style.display = 'none';
@@ -698,6 +718,14 @@ const suggestions = [
           "Hmm, something's not working right now. Try emailing qais@seosoft.dk directly or check back in a few minutes.",
           'ai'
         );
+      } finally {
+        // Re-enable send button
+        this.isTyping = false;
+        if (this.sendButton) {
+          this.sendButton.style.opacity = '1';
+          this.sendButton.style.cursor = 'pointer';
+          this.sendButton.style.pointerEvents = 'auto';
+        }
       }
     }
   }
@@ -871,9 +899,9 @@ const suggestions = [
     gap: 0.5rem;
     font-size: 11px;
     padding: 4px 10px;
-    background: rgba(34, 197, 94, 0.1);
-    color: #22c55e;
-    border: 1px solid rgba(34, 197, 94, 0.2);
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--accent);
+    border: 1px solid rgba(59, 130, 246, 0.2);
     border-radius: 50px;
     font-weight: 600;
   }
@@ -881,14 +909,14 @@ const suggestions = [
   .status-dot {
     width: 6px;
     height: 6px;
-    background: #22c55e;
+    background: var(--accent);
     border-radius: 50%;
     animation: pulse-dot 2s ease-in-out infinite;
   }
 
   /* Chat Messages */
   .chat-messages {
-    height: 280px;
+    height: 260px;
     overflow-y: auto;
     padding: 1.5rem;
     display: flex;
@@ -896,10 +924,15 @@ const suggestions = [
     gap: 1rem;
     scroll-behavior: smooth;
     text-align: left; /* Override hero's text-align: center */
+    background: rgba(0, 0, 0, 0.4);
   }
 
   .chat-messages * {
     text-align: left; /* Force all children to be left-aligned */
+  }
+
+  :global(.light) .chat-messages {
+    background: rgba(0, 0, 0, 0.02);
   }
 
   /* Custom Scrollbar */
@@ -1015,11 +1048,42 @@ const suggestions = [
     text-align: left !important;
   }
 
+  /* Formatted Lists in Messages */
+  .message-bubble .list-item {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0.375rem 0;
+    line-height: 1.6;
+  }
+
+  .message-bubble .list-item .bullet {
+    color: var(--accent);
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .message-bubble .list-item.numbered {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .message-bubble .list-item .list-number {
+    color: var(--accent);
+    font-weight: 600;
+    flex-shrink: 0;
+    min-width: 1.5rem;
+  }
+
+  .message-bubble strong {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
   /* Message Action Buttons */
   .message-actions {
     display: flex;
-    gap: 0.375rem;
-    margin-top: 0.5rem;
+    gap: 0.25rem;
+    margin-top: 0.375rem;
     opacity: 0;
     transition: opacity 0.2s ease;
   }
@@ -1029,45 +1093,46 @@ const suggestions = [
   }
 
   .message-action-btn {
-    padding: 0.375rem 0.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.25rem 0.375rem;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 6px;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.6);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
     display: flex;
     align-items: center;
-    gap: 0.25rem;
-    font-size: 11px;
+    justify-content: center;
   }
 
   .message-action-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
-    color: var(--text-secondary);
-    transform: translateY(-1px);
+    background: rgba(0, 0, 0, 0.6);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.9);
   }
 
   .message-action-btn--delete:hover {
-    background: rgba(239, 68, 68, 0.1);
-    border-color: rgba(239, 68, 68, 0.3);
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.4);
     color: #ef4444;
   }
 
   :global(.light) .message-action-btn {
-    background: rgba(0, 0, 0, 0.04);
-    border-color: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.12);
+    color: rgba(0, 0, 0, 0.5);
   }
 
   :global(.light) .message-action-btn:hover {
-    background: rgba(0, 0, 0, 0.08);
-    border-color: rgba(0, 0, 0, 0.15);
+    background: rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 0, 0, 0.2);
+    color: rgba(0, 0, 0, 0.8);
   }
 
   :global(.light) .message-action-btn--delete:hover {
     background: rgba(239, 68, 68, 0.1);
     border-color: rgba(239, 68, 68, 0.3);
+    color: #ef4444;
   }
 
   :global(.light) .message--ai .message-bubble {
