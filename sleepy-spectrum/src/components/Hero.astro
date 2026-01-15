@@ -286,8 +286,6 @@ const suggestions = [
     isListening: boolean;
     isSpeaking: boolean;
     voiceEnabled: boolean;
-    speechSynthesis: SpeechSynthesis | null;
-    currentUtterance: SpeechSynthesisUtterance | null;
 
     constructor() {
       this.messages = [];
@@ -297,8 +295,6 @@ const suggestions = [
       this.isListening = false;
       this.isSpeaking = false;
       this.voiceEnabled = true; // Auto-speak responses
-      this.speechSynthesis = window.speechSynthesis || null;
-      this.currentUtterance = null;
       
       this.messagesContainer = document.getElementById('chatMessages');
       this.input = document.getElementById('chatInput') as HTMLTextAreaElement;
@@ -400,44 +396,77 @@ const suggestions = [
         this.speakerButton?.classList.remove('active');
         
         // Stop any current speech
-        if (this.isSpeaking && this.speechSynthesis) {
-          this.speechSynthesis.cancel();
+        if (this.isSpeaking) {
+          // Audio will be stopped when user toggles off
           this.isSpeaking = false;
+          this.speakerButton?.classList.remove('speaking');
         }
       }
     }
 
     speak(text: string) {
-      if (!this.voiceEnabled || !this.speechSynthesis) return;
+      if (!this.voiceEnabled) return;
 
-      // Cancel any ongoing speech
-      if (this.isSpeaking) {
-        this.speechSynthesis.cancel();
+      // Show speaking indicator
+      this.speakerButton?.classList.add('speaking');
+      this.isSpeaking = true;
+
+      // Call our Google TTS API
+      fetch('/api/tts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.audioContent) {
+            // Convert base64 audio to blob and play
+            const audioBlob = this.base64ToBlob(data.audioContent, 'audio/mp3');
+            const audioUrl = URL.createObjectURL(audioBlob);
+            const audio = new Audio(audioUrl);
+
+            audio.onended = () => {
+              this.isSpeaking = false;
+              this.speakerButton?.classList.remove('speaking');
+              URL.revokeObjectURL(audioUrl);
+            };
+
+            audio.onerror = () => {
+              console.error('Audio playback error');
+              this.isSpeaking = false;
+              this.speakerButton?.classList.remove('speaking');
+              URL.revokeObjectURL(audioUrl);
+            };
+
+            audio.play();
+          }
+        })
+        .catch(error => {
+          console.error('TTS error:', error);
+          this.isSpeaking = false;
+          this.speakerButton?.classList.remove('speaking');
+        });
+    }
+
+    base64ToBlob(base64: string, contentType: string): Blob {
+      const byteCharacters = atob(base64);
+      const byteArrays = [];
+
+      for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+        const slice = byteCharacters.slice(offset, offset + 512);
+        const byteNumbers = new Array(slice.length);
+        
+        for (let i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i);
+        }
+        
+        const byteArray = new Uint8Array(byteNumbers);
+        byteArrays.push(byteArray);
       }
 
-      this.currentUtterance = new SpeechSynthesisUtterance(text);
-      this.currentUtterance.lang = 'en-US';
-      this.currentUtterance.rate = 1.0;
-      this.currentUtterance.pitch = 1.0;
-      this.currentUtterance.volume = 1.0;
-
-      this.currentUtterance.onstart = () => {
-        this.isSpeaking = true;
-        this.speakerButton?.classList.add('speaking');
-      };
-
-      this.currentUtterance.onend = () => {
-        this.isSpeaking = false;
-        this.speakerButton?.classList.remove('speaking');
-      };
-
-      this.currentUtterance.onerror = (event) => {
-        console.error('Speech synthesis error:', event);
-        this.isSpeaking = false;
-        this.speakerButton?.classList.remove('speaking');
-      };
-
-      this.speechSynthesis.speak(this.currentUtterance);
+      return new Blob(byteArrays, { type: contentType });
     }
 
     init() {
