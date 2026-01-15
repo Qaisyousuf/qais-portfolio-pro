@@ -24,7 +24,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'Text is required' });
     }
 
-    const apiKey = process.env.AIzaSyAlVnrrpK4EVszq1Zuh7M8RBWgtFJMMRHU;
+    const apiKey = process.env.GOOGLE_TTS_API_KEY;
 
     if (!apiKey) {
       console.error('GOOGLE_TTS_API_KEY not found in environment');
