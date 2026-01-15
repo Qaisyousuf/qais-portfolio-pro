@@ -176,35 +176,37 @@ const suggestions = [
         ))}
       </div>
 
-      <div class="chat-input-container">
+      <div class="chat-input-wrapper">
         <textarea 
           id="chatInput"
           class="chat-input" 
           placeholder="Ask about services, pricing, or experience..."
           rows="1"
         ></textarea>
-        <button id="stopButton" class="stop-button" style="display: none;" title="Stop speaking">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <rect x="6" y="6" width="12" height="12" rx="2"/>
-          </svg>
-        </button>
-        <button id="voiceButton" class="voice-button" title="Voice input">
-          <svg class="voice-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/>
-            <path d="M19 10v2a7 7 0 01-14 0v-2"/>
-            <line x1="12" y1="19" x2="12" y2="23"/>
-            <line x1="8" y1="23" x2="16" y2="23"/>
-          </svg>
-          <div class="voice-listening" style="display: none;">
-            <div class="voice-pulse"></div>
-          </div>
-        </button>
-        <button id="sendMessage" class="chat-send-button">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="22" y1="2" x2="11" y2="13"/>
-            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-          </svg>
-        </button>
+        <div class="chat-input-actions">
+          <button id="stopButton" class="stop-button" style="display: none;" title="Stop speaking">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="6" y="6" width="12" height="12" rx="2"/>
+            </svg>
+          </button>
+          <button id="voiceButton" class="voice-button" title="Voice input">
+            <svg class="voice-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/>
+              <path d="M19 10v2a7 7 0 01-14 0v-2"/>
+              <line x1="12" y1="19" x2="12" y2="23"/>
+              <line x1="8" y1="23" x2="16" y2="23"/>
+            </svg>
+            <div class="voice-listening" style="display: none;">
+              <div class="voice-pulse"></div>
+            </div>
+          </button>
+          <button id="sendMessage" class="chat-send-button">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -539,8 +541,13 @@ const suggestions = [
       this.input?.addEventListener('input', (e) => {
         const target = e.target as HTMLTextAreaElement;
         if (target) {
-          target.style.height = 'auto';
-          target.style.height = Math.min(target.scrollHeight, 120) + 'px';
+          target.style.height = '48px';
+          if (target.scrollHeight > 48) {
+            target.style.height = Math.min(target.scrollHeight, 120) + 'px';
+            target.style.overflowY = 'auto';
+          } else {
+            target.style.overflowY = 'hidden';
+          }
         }
       });
 
@@ -720,17 +727,17 @@ const suggestions = [
       let index = 0;
       const speed = 15;
       
+      // Start voice immediately if enabled (not after typing)
+      if (this.voiceEnabled) {
+        this.speak(text);
+      }
+      
       const type = () => {
         if (index < text.length) {
           element.textContent += text.charAt(index);
           index++;
           this.scrollToBottom();
           setTimeout(type, speed);
-        } else {
-          // Typewriter finished - now speak if voice is enabled
-          if (this.voiceEnabled) {
-            this.speak(text);
-          }
         }
       };
       
@@ -753,10 +760,8 @@ const suggestions = [
         </div>
         <div class="message-content">
           <div class="thinking-indicator">
-            <span>Thinking</span>
-            <span class="thinking-dot"></span>
-            <span class="thinking-dot"></span>
-            <span class="thinking-dot"></span>
+            <div class="spinner-loader"></div>
+            <span>Thinking...</span>
           </div>
         </div>
       `;
@@ -835,14 +840,15 @@ const suggestions = [
       this.addMessage(text, 'user');
       if (this.input) {
         this.input.value = '';
-        this.input.style.height = 'auto';
+        this.input.style.height = '48px';
+        this.input.style.overflowY = 'hidden';
       }
 
       this.messageCount++;
 
-      // Show thinking indicator for longer (2-3 seconds)
+      // Show thinking indicator for longer (3-5 seconds)
       this.showThinking();
-      await new Promise(resolve => setTimeout(resolve, 2000 + Math.random() * 1000));
+      await new Promise(resolve => setTimeout(resolve, 3000 + Math.random() * 2000));
       this.hideThinking();
       
       // Show typing indicator
@@ -964,7 +970,7 @@ const suggestions = [
     width: 100%;
     max-width: 850px;
     margin: 0 auto 2rem;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(19, 18, 18, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 20px;
     overflow: hidden;
@@ -1373,10 +1379,24 @@ const suggestions = [
   .thinking-indicator {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.625rem;
     font-size: 12px;
     color: var(--text-muted);
     font-style: italic;
+  }
+
+  .spinner-loader {
+    width: 20px;
+    height: 20px;
+    border: 2.5px solid rgba(251, 146, 60, 0.2);
+    border-top: 2.5px solid #fb923c;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 
   .thinking-dot {
@@ -1475,33 +1495,38 @@ const suggestions = [
   }
 
   /* Chat Input */
-  .chat-input-container {
+  .chat-input-wrapper {
     display: flex;
+    flex-direction: row;
+    align-items: flex-end;
     gap: 0.625rem;
-    padding: 1rem 1.25rem;
+    padding: 1rem 1.25rem 1.25rem;
     background: transparent;
     border-top: none;
   }
 
-  :global(.light) .chat-input-container {
+  :global(.light) .chat-input-wrapper {
     background: transparent;
     border-top: none;
   }
 
   .chat-input {
     flex: 1;
-    padding: 0.875rem 1.25rem;
+    padding: 0.625rem 1rem;
     background: rgba(255, 255, 255, 0.04);
     border: 1.5px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
+    border-radius: 14px;
     color: var(--text-primary);
-    font-size: 14.5px;
+    font-size: 14px;
     font-family: inherit;
     resize: none;
+   
     max-height: 120px;
+    line-height: 1.5;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    overflow-y: hidden;
   }
 
   .chat-input:hover {
@@ -1537,6 +1562,13 @@ const suggestions = [
     border-color: rgba(59, 130, 246, 0.5);
     box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.08),
                 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .chat-input-actions {
+    display: flex;
+    gap: 0.625rem;
+    align-items: center;
+    flex-shrink: 0;
   }
 
   .chat-send-button {
@@ -1929,16 +1961,24 @@ const suggestions = [
       height: 300px;
     }
 
-    .chat-input-container {
-      gap: 0.5rem;
-      padding: 0.875rem 1rem;
+    .chat-input-wrapper {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.75rem;
+      padding: 0.875rem 1rem 1rem;
     }
 
     .chat-input {
       font-size: 15px;
-      padding: 0.75rem 1rem;
-      min-height: 46px;
-      border-radius: 14px;
+      padding: 0.625rem 0.875rem;
+      height: 46px;
+      border-radius: 13px;
+      line-height: 1.5;
+    }
+
+    .chat-input-actions {
+      gap: 0.5rem;
+      justify-content: flex-end;
     }
 
     .chat-send-button,
