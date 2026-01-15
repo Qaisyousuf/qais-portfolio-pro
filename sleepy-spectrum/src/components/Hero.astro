@@ -139,6 +139,17 @@ const suggestions = [
           </div>
         </div>
         <div class="chat-header-right">
+          <button id="speakerButton" class="speaker-button active" title="Voice responses on">
+            <svg class="speaker-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+              <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/>
+            </svg>
+            <svg class="speaker-off" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+              <line x1="23" y1="9" x2="17" y2="15"/>
+              <line x1="17" y1="9" x2="23" y2="15"/>
+            </svg>
+          </button>
           <button id="clearChat" class="clear-chat-button" title="Clear conversation">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="3 6 5 6 21 6"/>
@@ -267,11 +278,16 @@ const suggestions = [
     input: HTMLTextAreaElement | null;
     sendButton: HTMLElement | null;
     voiceButton: HTMLElement | null;
+    speakerButton: HTMLElement | null;
     suggestions: HTMLElement | null;
     messageCount: number;
     maxMessagesPerSession: number;
     recognition: any;
     isListening: boolean;
+    isSpeaking: boolean;
+    voiceEnabled: boolean;
+    speechSynthesis: SpeechSynthesis | null;
+    currentUtterance: SpeechSynthesisUtterance | null;
 
     constructor() {
       this.messages = [];
@@ -279,11 +295,16 @@ const suggestions = [
       this.messageCount = 0;
       this.maxMessagesPerSession = 20;
       this.isListening = false;
+      this.isSpeaking = false;
+      this.voiceEnabled = true; // Auto-speak responses
+      this.speechSynthesis = window.speechSynthesis || null;
+      this.currentUtterance = null;
       
       this.messagesContainer = document.getElementById('chatMessages');
       this.input = document.getElementById('chatInput') as HTMLTextAreaElement;
       this.sendButton = document.getElementById('sendMessage');
       this.voiceButton = document.getElementById('voiceButton');
+      this.speakerButton = document.getElementById('speakerButton');
       this.suggestions = document.getElementById('chatSuggestions');
       
       this.setupVoiceRecognition();
@@ -362,12 +383,72 @@ const suggestions = [
       }
     }
 
+    toggleSpeaker() {
+      this.voiceEnabled = !this.voiceEnabled;
+      
+      // Update button visual state
+      const speakerOn = this.speakerButton?.querySelector('.speaker-on') as HTMLElement;
+      const speakerOff = this.speakerButton?.querySelector('.speaker-off') as HTMLElement;
+      
+      if (this.voiceEnabled) {
+        if (speakerOn) speakerOn.style.display = 'block';
+        if (speakerOff) speakerOff.style.display = 'none';
+        this.speakerButton?.classList.add('active');
+      } else {
+        if (speakerOn) speakerOn.style.display = 'none';
+        if (speakerOff) speakerOff.style.display = 'block';
+        this.speakerButton?.classList.remove('active');
+        
+        // Stop any current speech
+        if (this.isSpeaking && this.speechSynthesis) {
+          this.speechSynthesis.cancel();
+          this.isSpeaking = false;
+        }
+      }
+    }
+
+    speak(text: string) {
+      if (!this.voiceEnabled || !this.speechSynthesis) return;
+
+      // Cancel any ongoing speech
+      if (this.isSpeaking) {
+        this.speechSynthesis.cancel();
+      }
+
+      this.currentUtterance = new SpeechSynthesisUtterance(text);
+      this.currentUtterance.lang = 'en-US';
+      this.currentUtterance.rate = 1.0;
+      this.currentUtterance.pitch = 1.0;
+      this.currentUtterance.volume = 1.0;
+
+      this.currentUtterance.onstart = () => {
+        this.isSpeaking = true;
+        this.speakerButton?.classList.add('speaking');
+      };
+
+      this.currentUtterance.onend = () => {
+        this.isSpeaking = false;
+        this.speakerButton?.classList.remove('speaking');
+      };
+
+      this.currentUtterance.onerror = (event) => {
+        console.error('Speech synthesis error:', event);
+        this.isSpeaking = false;
+        this.speakerButton?.classList.remove('speaking');
+      };
+
+      this.speechSynthesis.speak(this.currentUtterance);
+    }
+
     init() {
       // Send button click
       this.sendButton?.addEventListener('click', () => this.sendMessage());
 
       // Voice button click
       this.voiceButton?.addEventListener('click', () => this.toggleVoiceRecognition());
+
+      // Speaker button click
+      this.speakerButton?.addEventListener('click', () => this.toggleSpeaker());
 
       // Clear chat button
       const clearButton = document.getElementById('clearChat');
@@ -734,6 +815,9 @@ const suggestions = [
           );
 
           this.saveChatHistory();
+          
+          // Speak the AI response if voice is enabled
+          this.speak(aiMessage);
         } else {
           throw new Error('Invalid response');
         }
@@ -888,6 +972,63 @@ const suggestions = [
   :global(.light) .clear-chat-button:hover {
     background: rgba(239, 68, 68, 0.1);
     border-color: rgba(239, 68, 68, 0.3);
+  }
+
+  /* Speaker Button */
+  .speaker-button {
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .speaker-button:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: var(--text-secondary);
+    transform: translateY(-1px);
+  }
+
+  .speaker-button.active {
+    background: rgba(34, 197, 94, 0.15);
+    border-color: rgba(34, 197, 94, 0.3);
+    color: #22c55e;
+  }
+
+  .speaker-button.speaking {
+    animation: speaker-pulse 1s ease-in-out infinite;
+  }
+
+  @keyframes speaker-pulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 0 8px rgba(34, 197, 94, 0);
+    }
+  }
+
+  :global(.light) .speaker-button {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  :global(.light) .speaker-button:hover {
+    background: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.15);
+  }
+
+  :global(.light) .speaker-button.active {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.3);
   }
 
   .chat-avatar {
