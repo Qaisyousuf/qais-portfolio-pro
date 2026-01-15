@@ -45,10 +45,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           },
           voice: {
             languageCode: 'en-US',
-            ssmlGender: 'NEUTRAL',
+            name: 'en-US-Neural2-D', // Professional male voice
+            ssmlGender: 'MALE',
           },
           audioConfig: {
             audioEncoding: 'MP3',
+            speakingRate: 1.0,
+            pitch: 0.0,
           },
         }),
       }
