@@ -24,7 +24,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'Text is required' });
     }
 
-    const apiKey = process.env.GOOGLE_TTS_API_KEY;
+    const apiKey = process.env.AIzaSyAlVnrrpK4EVszq1Zuh7M8RBWgtFJMMRHU;
 
     if (!apiKey) {
       console.error('GOOGLE_TTS_API_KEY not found in environment');
@@ -45,14 +45,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           },
           voice: {
             languageCode: 'en-US',
-            name: 'en-US-Neural2-J', // Natural male voice
-            ssmlGender: 'MALE',
+            ssmlGender: 'NEUTRAL',
           },
           audioConfig: {
             audioEncoding: 'MP3',
-            speakingRate: 1.0,
-            pitch: 0.0,
-            volumeGainDb: 0.0,
           },
         }),
       }
