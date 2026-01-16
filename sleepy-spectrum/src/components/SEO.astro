@@ -1,0 +1,102 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  url?: string;
+  type?: string;
+  lang?: string;
+}
+
+const {
+  title = "GetRok - Senior .NET Engineer | AI Integration & Web Development",
+  description = "Senior .NET engineer with 8+ years of experience helping European teams build scalable APIs, modern web apps, and integrate AI solutions. Clean architecture, predictable delivery.",
+  image = "https://getrok.com/og-image.jpg",
+  url = "https://getrok.com",
+  type = "website",
+  lang = "en"
+} = Astro.props;
+
+const fullTitle = title.includes("GetRok") ? title : `${title} | GetRok`;
+---
+
+<!-- Primary Meta Tags -->
+<title>{fullTitle}</title>
+<meta name="title" content={fullTitle} />
+<meta name="description" content={description} />
+<meta name="keywords" content=".NET developer, ASP.NET Core, Angular, Azure, AI integration, web development, API development, clean architecture, European developer, Denmark, France" />
+<meta name="author" content="Qais Yousuf" />
+<meta name="language" content={lang} />
+<meta name="robots" content="index, follow" />
+<meta name="revisit-after" content="7 days" />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={url} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={image} />
+<meta property="og:site_name" content="GetRok" />
+<meta property="og:locale" content={lang === "en" ? "en_US" : lang === "da" ? "da_DK" : lang === "fr" ? "fr_FR" : lang === "sv" ? "sv_SE" : "nl_NL"} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={url} />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+<meta name="twitter:creator" content="@getrok" />
+
+<!-- Canonical URL -->
+<link rel="canonical" href={url} />
+
+<!-- Language alternates -->
+<link rel="alternate" hreflang="en" href="https://getrok.com/" />
+<link rel="alternate" hreflang="da" href="https://getrok.com/da/" />
+<link rel="alternate" hreflang="fr" href="https://getrok.com/fr/" />
+<link rel="alternate" hreflang="sv" href="https://getrok.com/sv/" />
+<link rel="alternate" hreflang="nl" href="https://getrok.com/nl/" />
+<link rel="alternate" hreflang="x-default" href="https://getrok.com/" />
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+<!-- Additional SEO -->
+<meta name="theme-color" content="#000000" />
+<meta name="msapplication-TileColor" content="#000000" />
+
+<!-- Structured Data (JSON-LD) -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "GetRok",
+  "description": description,
+  "url": "https://getrok.com",
+  "logo": "https://getrok.com/logo.png",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "qais@seosoft.dk",
+    "contactType": "Customer Service",
+    "availableLanguage": ["English", "Danish", "French", "Swedish", "Dutch"]
+  },
+  "founder": {
+    "@type": "Person",
+    "name": "Qais Yousuf",
+    "jobTitle": "Senior .NET Engineer",
+    "email": "qais@seosoft.dk",
+    "knowsAbout": [".NET", "ASP.NET Core", "Angular", "Azure", "AI Integration", "Clean Architecture"],
+    "alumniOf": {
+      "@type": "Organization",
+      "name": "Software Engineering"
+    }
+  },
+  "areaServed": ["Europe", "Denmark", "France", "Sweden", "Netherlands"],
+  "serviceType": [
+    "API Development",
+    "Web Application Development", 
+    "AI Integration",
+    "Technical Consulting"
+  ],
+  "priceRange": "Contact for pricing"
+})} />

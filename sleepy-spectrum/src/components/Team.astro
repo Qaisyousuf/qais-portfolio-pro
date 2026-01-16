@@ -1,0 +1,604 @@
+---
+interface Props {
+  lang?: string;
+}
+
+const { lang = "en" } = Astro.props;
+
+const team = [
+  {
+    name: "Qais Yousuf",
+    role: "Senior .NET Engineer",
+    company: "TaskSync AI (France) & SeoSoft ApS (Denmark)",
+    location: "Vaulx-en-Velin, France",
+    image: "https://i.ibb.co/Y4tQyQhS/Whats-App-Image-2026-01-01-at-9-19-08-AM.jpg",
+    bio: "Full-stack .NET developer with 8+ years of experience specializing in ASP.NET Core, Angular, and Clean Architecture. Building scalable systems and integrating AI for European clients.",
+    skills: [
+      { name: "ASP.NET Core", category: "Backend" },
+      { name: "Angular", category: "Frontend" },
+      { name: "Azure Services", category: "Cloud" },
+      { name: "Clean Architecture", category: "Architecture" },
+      { name: "AI Integration", category: "AI/ML" },
+      { name: "GDPR Compliance", category: "Security" }
+    ],
+    contact: {
+      email: "qais@seosoft.dk",
+      linkedin: "#",
+      github: "#"
+    }
+  },
+  {
+    name: "Søren Eggert",
+    role: "Founder & CEO",
+    company: "SeoSoft ApS",
+    location: "Lundsgade Olsen, Region of Southern Denmark",
+    image: "https://i.ibb.co/4F9Qrht/image.jpg",
+    bio: "25+ years of experience with Dynamics AX and senior craftsmanship. Quality and senior craftsmanship are not something you talk about – it's something you deliver. We know the pitfalls because we've seen them all.",
+    skills: [
+      { name: "Dynamics Axapta", category: "ERP" },
+      { name: ".NET Core", category: "Development" },
+      { name: "SQL Server", category: "Database" },
+      { name: "Performance Optimization", category: "Optimization" },
+      { name: "Troubleshooting", category: "Analysis" }
+    ],
+    philosophy: [
+      "Senior expertise in robust solutions",
+      "Root-cause analysis for symptom treatment",
+      "Long-term solutions that scale"
+    ],
+    contact: {
+      email: "soren@seosoft.dk",
+      linkedin: "#"
+    }
+  }
+];
+---
+
+<section id="team" class="team">
+  <div class="team__container">
+    <!-- Header -->
+    <div class="team__header">
+      <div class="team__badge">
+        <span class="badge-pulse"></span>
+        THE TEAM
+      </div>
+      <h2 class="team__title">Meet the Experts</h2>
+      <p class="team__subtitle">
+        Combining 30+ years of experience to deliver enterprise-grade solutions across Europe.
+      </p>
+    </div>
+
+    <!-- Team Grid -->
+    <div class="team__grid">
+      {team.map((member, idx) => (
+        <article class="team-card" data-index={idx}>
+          <!-- Profile Section -->
+          <div class="profile-section">
+            <div class="profile-image-wrapper">
+              <img src={member.image} alt={member.name} class="profile-image" />
+              <div class="profile-ring"></div>
+            </div>
+
+            <div class="profile-info">
+              <h3 class="profile-name">{member.name}</h3>
+              <p class="profile-role">{member.role}</p>
+              <p class="profile-company">{member.company}</p>
+              
+              <div class="profile-location">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                <span>{member.location}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bio -->
+          <p class="member-bio">{member.bio}</p>
+
+          <!-- Philosophy (if exists) -->
+          {member.philosophy && (
+            <div class="philosophy-section">
+              <div class="philosophy-header">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 16v-4M12 8h.01"/>
+                </svg>
+                <span>Leadership Philosophy</span>
+              </div>
+              <ul class="philosophy-list">
+                {member.philosophy.map((point) => (
+                  <li class="philosophy-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <!-- Skills -->
+          <div class="skills-section">
+            <h4 class="skills-title">Expertise</h4>
+            <div class="skills-grid">
+              {member.skills.map((skill) => (
+                <div class="skill-tag">
+                  <span class="skill-name">{skill.name}</span>
+                  <span class="skill-category">{skill.category}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Contact -->
+          <div class="contact-section">
+            {member.contact.email && (
+              <a href={`mailto:${member.contact.email}`} class="contact-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+                <span>Contact {member.name.split(' ')[0]}</span>
+              </a>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- CTA -->
+   
+  </div>
+</section>
+
+<script>
+  // Intersection Observer for card animations
+  const cards = document.querySelectorAll('.team-card');
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    },
+    { threshold: 0.2 }
+  );
+
+  cards.forEach((card) => observer.observe(card));
+</script>
+
+<style>
+  .team {
+    min-height: 100vh;
+    padding: 6rem 2rem;
+    background: transparent;
+    position: relative;
+  }
+
+  .team__container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .team__header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .team__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 50px;
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .badge-pulse {
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  .team__title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+  }
+
+  .team__subtitle {
+    font-size: 1.0625rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  /* Team Grid */
+  .team__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  /* Team Card */
+  .team-card {
+    position: relative;
+    padding: 2.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .team-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .team-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(59, 130, 246, 0.4);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(59, 130, 246, 0.15);
+  }
+
+  :global(.light) .team-card {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  :global(.light) .team-card:hover {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12),
+                0 0 20px rgba(59, 130, 246, 0.1);
+  }
+
+  /* Profile Section */
+  .profile-section {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .profile-image-wrapper {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .profile-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(59, 130, 246, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .team-card:hover .profile-image {
+    border-color: rgba(59, 130, 246, 0.6);
+    transform: scale(1.05);
+  }
+
+  .profile-ring {
+    position: absolute;
+    inset: -8px;
+    border: 2px solid rgba(59, 130, 246, 0.2);
+    border-radius: 50%;
+    animation: ringPulse 3s ease-in-out infinite;
+  }
+
+  @keyframes ringPulse {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.1); opacity: 0; }
+  }
+
+  .profile-info {
+    flex: 1;
+  }
+
+  .profile-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.375rem;
+  }
+
+  .profile-role {
+    font-size: 1rem;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .profile-company {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 0.625rem;
+  }
+
+  .profile-location {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .profile-location svg {
+    opacity: 0.7;
+  }
+
+  /* Bio */
+  .member-bio {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  /* Philosophy Section */
+  .philosophy-section {
+    padding: 1.25rem;
+    background: rgba(59, 130, 246, 0.05);
+    border: 1px solid rgba(59, 130, 246, 0.15);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+  }
+
+  .philosophy-header {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 0.875rem;
+  }
+
+  .philosophy-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .philosophy-item {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .philosophy-item svg {
+    flex-shrink: 0;
+    color: var(--accent);
+  }
+
+  /* Skills */
+  .skills-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .skills-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.875rem;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.625rem;
+  }
+
+  .skill-tag {
+    display: flex;
+    flex-direction: column;
+    padding: 0.625rem 0.875rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+
+  .skill-tag:hover {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.2);
+  }
+
+  :global(.light) .skill-tag {
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .skill-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.125rem;
+  }
+
+  .skill-category {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* Contact */
+  .contact-section {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .contact-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.75rem 1.25rem;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 10px;
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .contact-btn:hover {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.3);
+    transform: translateY(-2px);
+  }
+
+  /* CTA */
+  .team-cta {
+    padding: 2.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    text-align: center;
+  }
+
+  :global(.light) .team-cta {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .cta-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+  }
+
+  .cta-description {
+    font-size: 1.0625rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto 1.5rem;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-primary {
+    background: rgba(59, 130, 246, 0.15);
+    color: var(--accent);
+    border: 1px solid rgba(59, 130, 246, 0.25);
+  }
+
+  .btn-primary:hover {
+    background: rgba(59, 130, 246, 0.25);
+    border-color: rgba(59, 130, 246, 0.4);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .team {
+      padding: 4rem 1rem;
+    }
+
+    .team__grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .team-card {
+      padding: 2rem;
+    }
+
+    .profile-section {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .profile-image {
+      width: 80px;
+      height: 80px;
+    }
+
+    .skills-grid {
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+
+    .contact-section {
+      flex-direction: column;
+    }
+
+    .contact-btn {
+      justify-content: center;
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+    }
+
+    .btn {
+      width: 100%;
+    }
+  }
+</style>

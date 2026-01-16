@@ -1,0 +1,82 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer__container">
+    <div class="footer__content">
+      <div class="brand">
+        <span class="dot"></span>
+        <span class="name">getrok.com</span>
+      </div>
+
+      <p class="copy">
+        © {year} getrok.com — Building for the AI-first future.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding: 2.5rem 2rem;
+    background: transparent;
+  }
+
+  .footer__container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .footer__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+  }
+
+  .name {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+  }
+
+  .copy {
+    margin: 0;
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: right;
+  }
+
+  @media (max-width: 768px) {
+    .footer {
+      padding: 2rem 1rem;
+    }
+
+    .footer__content {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .copy {
+      text-align: left;
+    }
+  }
+</style>

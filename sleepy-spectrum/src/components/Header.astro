@@ -10,7 +10,7 @@ const navLinks = [
   { href: "#work", label: "Work" },
   { href: "#services", label: "Services" },
   { href: "#process", label: "Process" },
-  { href: "#contact", label: "Contact" },
+  { href: "#team", label: "Team" },
 ];
 
 const languages = [
@@ -27,10 +27,10 @@ const currentLang = languages.find(l => l.code === lang) || languages[0];
 <header class="header">
   <div class="header__inner">
     <a class="logo" href="#top">
-      <span class="logo__mark">Q</span>
+      <span class="logo__mark">G</span>
       <span class="logo__text">
-        <span class="logo__name">Qais Yousuf</span>
-        <span class="logo__role">.NET Engineer</span>
+        <span class="logo__name">GetRok</span>
+     
       </span>
     </a>
 
@@ -112,12 +112,8 @@ const currentLang = languages.find(l => l.code === lang) || languages[0];
   <!-- Mobile Menu -->
   <div class="mobile-menu">
     <div class="mobile-menu__header">
-      <span class="mobile-menu__title">Menu</span>
-      <button class="mobile-menu__close" type="button" aria-label="Close menu">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M18 6L6 18M6 6l12 12"/>
-        </svg>
-      </button>
+    
+     
     </div>
 
     <nav class="mobile-nav">
@@ -142,6 +138,7 @@ const currentLang = languages.find(l => l.code === lang) || languages[0];
         <span>GitHub Profile</span>
       </a>
     </div>
+    
   </div>
 </header>
 
@@ -827,7 +824,7 @@ const currentLang = languages.find(l => l.code === lang) || languages[0];
   }
 
   .mobile-nav {
-    flex: 1;
+    
     display: flex;
     flex-direction: column;
     padding: 1.5rem 1.5rem 1rem;
