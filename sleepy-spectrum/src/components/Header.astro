@@ -6,7 +6,7 @@ interface Props {
 const { lang = "en" } = Astro.props;
 
 const navLinks = [
-  { href: "#credentials", label: "Credentials" },
+  { href: "#partner", label: "Partner" },
   { href: "#work", label: "Work" },
   { href: "#services", label: "Services" },
   { href: "#process", label: "Process" },
@@ -780,7 +780,7 @@ const currentLang = languages.find(l => l.code === lang) || languages[0];
     align-items: center;
     justify-content: space-between;
     padding: 1.5rem 1.5rem 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    
   }
 
   :global(.light) .mobile-menu__header {
