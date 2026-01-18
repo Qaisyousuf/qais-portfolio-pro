@@ -1,0 +1,143 @@
+{
+  "hero": {
+    "title": "Build reliable",
+    "titleAccent1": "APIs",
+    "titleMid": ", modern",
+    "titleAccent2": "web apps",
+    "titleEnd": "&",
+    "titleAccent3": "AI solutions",
+    "subtitle": "Senior .NET engineer helping European teams build scalable systems and integrate AI. Clean architecture, predictable delivery.",
+    "chatHeader": {
+      "title": "Ask me anything",
+      "subtitle": "About services, experience, or pricing",
+      "online": "Online"
+    },
+    "modal": {
+    "title": "Clear Conversation?",
+    "message": "This will permanently delete all messages in this conversation. This action cannot be undone.",
+    "cancel": "Cancel",
+    "confirm": "Clear Chat"
+  },
+    "chatPlaceholder": "How can I help you today?",
+    "suggestions": {
+      "experience": "Experience",
+      "projects": "Projects",
+      "techStack": "Tech Stack",
+      "pricing": "Pricing",
+      "availability": "Availability",
+      "contact": "Contact"
+    },
+    "contractSection": {
+      "title": "How I can help",
+      "subtitle": "Choose the engagement model that fits your needs"
+    },
+    "contracts": {
+      "fixedScope": {
+        "title": "Fixed-Scope Projects",
+        "duration": "2-8 weeks",
+        "description": "Complete feature development with clear deliverables"
+      },
+      "shortTerm": {
+        "title": "Short-Term Contracts",
+        "duration": "1-12 weeks",
+        "description": "Targeted solutions for specific technical challenges"
+      },
+      "aiIntegration": {
+        "title": "AI Integration",
+        "duration": "3-6 weeks",
+        "description": "Add intelligent capabilities to existing systems"
+      },
+      "consulting": {
+        "title": "Technical Consulting",
+        "duration": "Flexible",
+        "description": "Architecture reviews and strategic guidance"
+      },
+      "retainer": {
+        "title": "Monthly Retainers",
+        "duration": "Ongoing",
+        "description": "Continuous development and maintenance partnership"
+      },
+      "audit": {
+        "title": "Code Audits",
+        "duration": "1-2 weeks",
+        "description": "Security reviews and performance optimization"
+      }
+    }
+
+
+
+
+
+    
+  },
+  "nav": {
+    "partner": "Partner",
+    "about": "About",
+    "work": "Work",
+    "services": "Services",
+    "process": "Process",
+    "team": "Team",
+    "contact": "Contact"
+  },
+  "common": {
+    "availableNow": "Available Now",
+    "years": "Years",
+    "projects": "Projects",
+    "markets": "Markets"
+  },
+
+  
+
+
+
+"credentials": {
+  "badge": "Professional Credentials",
+  "title": "Professional AI Collaboration in Action",
+  "subtitle": "Delivering production AI systems that matter—mental health support, workflow automation, and intelligent enterprise solutions.",
+  "taskSync": {
+    "country": "France • Registered Entity",
+    "description": "AI product development & engineering focused on intelligent workflows, mental-health platforms, and applied automation.",
+    "siret": "SIRET",
+    "focusAreas": "Focus Areas",
+    "aiHealth": "AI Health",
+    "automation": "Automation",
+    "analytics": "Analytics",
+    "workflows": "Workflows",
+    "visitWebsite": "Visit Website"
+  },
+  "seoSoft": {
+    "country": "Denmark • ApS Company",
+    "description": "Enterprise engineering partner delivering secure, scalable software systems, with AI capabilities and long-term maintenance.",
+    "role": "Role",
+    "roleValue": "Senior Developer Partner",
+    "expertise": "Expertise",
+    "enterprise": "Enterprise",
+    "security": "Security",
+    "databases": "Databases",
+    "devops": "DevOps",
+    "visitWebsite": "Visit Website"
+  },
+  "partnership": "ACTIVE PARTNERSHIP",
+  "verified": "Verified",
+  "projects": {
+    "badge": "ACTIVE PORTFOLIO",
+    "title": "AI Projects We're Building Together",
+    "subtitle": "A focused set of AI-based platforms and tools—especially in mental health—built for real workflows, real teams, and real outcomes.",
+    "filters": {
+      "all": "All Projects",
+      "ai": "AI & ML",
+      "workflow": "Workflow",
+      "analytics": "Analytics",
+      "automation": "Automation",
+      "education": "Education"
+    },
+    "active": "ACTIVE",
+    "sharedBuild": "Shared build",
+    "view": "View",
+    "footer": "This section represents an active professional collaboration between registered entities on real production systems."
+  }
+}
+}
+
+
+

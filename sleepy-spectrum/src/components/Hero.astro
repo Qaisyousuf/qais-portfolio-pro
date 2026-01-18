@@ -5,24 +5,43 @@ interface Props {
 
 const { lang = "en" } = Astro.props;
 
+// Import translations
+import enTranslations from '../translations/en.json';
+import daTranslations from '../translations/da.json';
+import frTranslations from '../translations/fr.json';
+import svTranslations from '../translations/sv.json';
+import nlTranslations from '../translations/nl.json';
+
+// Get the right translations based on lang prop
+const translations = {
+  en: enTranslations,
+  da: daTranslations,
+  fr: frTranslations,
+  sv: svTranslations,
+  nl: nlTranslations
+}[lang] || enTranslations;
+
+// Get hero-specific translations
+const t = translations.hero;
+
 const contractTypes = [
   { 
     icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path d="M9 11l3 3L22 4"/>
       <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
     </svg>`,
-    title: "Fixed-Scope Projects",
-    duration: "2-8 weeks",
-    description: "Complete feature development with clear deliverables"
+    title: t.contracts.fixedScope.title,
+    duration: t.contracts.fixedScope.duration,
+    description: t.contracts.fixedScope.description
   },
   { 
     icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <circle cx="12" cy="12" r="10"/>
       <polyline points="12 6 12 12 16 14"/>
     </svg>`,
-    title: "Short-Term Contracts",
-    duration: "1-12 weeks",
-    description: "Targeted solutions for specific technical challenges"
+    title: t.contracts.shortTerm.title,
+    duration: t.contracts.shortTerm.duration,
+    description: t.contracts.shortTerm.description
   },
   { 
     icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -30,27 +49,27 @@ const contractTypes = [
       <polyline points="7 10 12 15 17 10"/>
       <line x1="12" y1="15" x2="12" y2="3"/>
     </svg>`,
-    title: "AI Integration",
-    duration: "3-6 weeks",
-    description: "Add intelligent capabilities to existing systems"
+    title: t.contracts.aiIntegration.title,
+    duration: t.contracts.aiIntegration.duration,
+    description: t.contracts.aiIntegration.description
   },
   { 
     icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path d="M12 20h9"/>
       <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
     </svg>`,
-    title: "Technical Consulting",
-    duration: "Flexible",
-    description: "Architecture reviews and strategic guidance"
+    title: t.contracts.consulting.title,
+    duration: t.contracts.consulting.duration,
+    description: t.contracts.consulting.description
   },
   { 
     icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
       <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/>
     </svg>`,
-    title: "Monthly Retainers",
-    duration: "Ongoing",
-    description: "Continuous development and maintenance partnership"
+    title: t.contracts.retainer.title,
+    duration: t.contracts.retainer.duration,
+    description: t.contracts.retainer.description
   },
   { 
     icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -58,9 +77,9 @@ const contractTypes = [
       <path d="M21 21l-4.35-4.35"/>
       <path d="M11 8a3 3 0 00-3 3"/>
     </svg>`,
-    title: "Code Audits",
-    duration: "1-2 weeks",
-    description: "Security reviews and performance optimization"
+    title: t.contracts.audit.title,
+    duration: t.contracts.audit.duration,
+    description: t.contracts.audit.description
   },
 ];
 
@@ -70,14 +89,14 @@ const suggestions = [
       <circle cx="12" cy="12" r="3"/>
       <path d="M12 1v6m0 6v6M5.6 5.6l4.2 4.2m4.2 4.2l4.2 4.2M1 12h6m6 0h6M5.6 18.4l4.2-4.2m4.2-4.2l4.2-4.2"/>
     </svg>`,
-    text: "Experience"
+    text: t.suggestions.experience
   },
   { 
     icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
       <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/>
     </svg>`,
-    text: "Projects"
+    text: t.suggestions.projects
   },
   { 
     icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -85,27 +104,27 @@ const suggestions = [
       <path d="M2 17l10 5 10-5"/>
       <path d="M2 12l10 5 10-5"/>
     </svg>`,
-    text: "Tech Stack"
+    text: t.suggestions.techStack
   },
   { 
     icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <line x1="12" y1="1" x2="12" y2="23"/>
       <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
     </svg>`,
-    text: "Pricing"
+    text: t.suggestions.pricing
   },
   { 
     icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <circle cx="12" cy="12" r="10"/>
       <polyline points="12 6 12 12 16 14"/>
     </svg>`,
-    text: "Availability"
+    text: t.suggestions.availability
   },
   { 
     icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
     </svg>`,
-    text: "Contact"
+    text: t.suggestions.contact
   }
 ];
 ---
@@ -113,13 +132,12 @@ const suggestions = [
 <section class="hero">
   <div class="hero__content">
     <h1 class="hero__title">
-      Build reliable <span class="accent">APIs</span>, modern<br>
-      <span class="accent">web apps</span> & <span class="accent">AI solutions</span>
+      {t.title} <span class="accent">{t.titleAccent1}</span>{t.titleMid}<br>
+      <span class="accent">{t.titleAccent2}</span> {t.titleEnd} <span class="accent">{t.titleAccent3}</span>
     </h1>
 
     <p class="hero__subtitle">
-      Senior .NET engineer helping European teams build scalable systems and integrate AI. 
-      Clean architecture, predictable delivery.
+      {t.subtitle}
     </p>
 
     <!-- AI Chat Interface - Replaces Project Flow -->
@@ -134,8 +152,8 @@ const suggestions = [
             </svg>
           </div>
           <div class="chat-header-info">
-            <h3 class="chat-header-title">Ask me anything</h3>
-            <p class="chat-header-subtitle">About services, experience, or pricing</p>
+            <h3 class="chat-header-title">{t.chatHeader.title}</h3>
+            <p class="chat-header-subtitle">{t.chatHeader.subtitle}</p>
           </div>
         </div>
         <div class="chat-header-right">
@@ -158,7 +176,7 @@ const suggestions = [
           </button>
           <div class="chat-header-badge">
             <span class="status-dot"></span>
-            Online
+            {t.chatHeader.online}
           </div>
         </div>
       </div>
@@ -180,7 +198,7 @@ const suggestions = [
         <textarea 
           id="chatInput"
           class="chat-input" 
-          placeholder="How can I help you today?"
+          placeholder={t.chatPlaceholder}
           rows="1"
         ></textarea>
         <div class="chat-input-actions">
@@ -218,8 +236,8 @@ const suggestions = [
 
     <div class="contract-section">
       <div class="contract-header">
-        <h3 class="contract-title">How I can help</h3>
-        <p class="contract-subtitle">Choose the engagement model that fits your needs</p>
+        <h3 class="contract-title">{t.contractSection.title}</h3>
+        <p class="contract-subtitle">{t.contractSection.subtitle}</p>
       </div>
       
       <div class="contract-grid">
@@ -241,6 +259,7 @@ const suggestions = [
 </section>
 
 <!-- Delete Confirmation Modal -->
+<!-- Delete Confirmation Modal -->
 <div id="deleteModal" class="modal-overlay">
   <div class="modal-content">
     <div class="modal-icon">
@@ -250,15 +269,14 @@ const suggestions = [
         <line x1="12" y1="16" x2="12.01" y2="16"/>
       </svg>
     </div>
-    <h3 class="modal-title">Clear Conversation?</h3>
-    <p class="modal-message">This will permanently delete all messages in this conversation. This action cannot be undone.</p>
+    <h3 class="modal-title">{t.modal.title}</h3>
+    <p class="modal-message">{t.modal.message}</p>
     <div class="modal-actions">
-      <button id="cancelDelete" class="modal-btn modal-btn--cancel">Cancel</button>
-      <button id="confirmDelete" class="modal-btn modal-btn--confirm">Clear Chat</button>
+      <button id="cancelDelete" class="modal-btn modal-btn--cancel">{t.modal.cancel}</button>
+      <button id="confirmDelete" class="modal-btn modal-btn--confirm">{t.modal.confirm}</button>
     </div>
   </div>
 </div>
-
 <script>
   class ChatInterface {
     messages: Array<{role: string, content: string}>;
@@ -580,7 +598,44 @@ const suggestions = [
         console.error('Failed to save chat history:', error);
       }
     }
+logConversation(question: string, response: string) {
+  try {
+    const sessionId = sessionStorage.getItem('chatSessionId') || 
+      (sessionStorage.setItem('chatSessionId', crypto.randomUUID()), 
+       sessionStorage.getItem('chatSessionId'));
 
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const countryMap: Record<string, string> = {
+      'Europe/Paris': 'France',
+      'Europe/Copenhagen': 'Denmark',
+      'Europe/Stockholm': 'Sweden',
+      'Europe/Amsterdam': 'Netherlands',
+      'Europe/London': 'UK',
+      'Europe/Berlin': 'Germany',
+      'America/New_York': 'USA (East)',
+      'America/Los_Angeles': 'USA (West)'
+    };
+
+    fetch('/api/log', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        question: question,
+        response: response,
+        sessionId: sessionId,
+        page: window.location.pathname,
+        referrer: document.referrer || 'direct',
+        device: /Mobile|Android|iPhone/i.test(navigator.userAgent) ? 'mobile' : 'desktop',
+        language: navigator.language,
+        country: countryMap[timezone] || timezone,
+        screenSize: `${window.innerWidth}x${window.innerHeight}`,
+        conversationLength: this.messages.length / 2
+      })
+    }).catch(() => {}); // Fail silently
+  } catch {
+    // Never block chat for logging errors
+  }
+}
     showDeleteModal() {
       const modal = document.getElementById('deleteModal');
       if (modal) {
@@ -858,17 +913,21 @@ const suggestions = [
         
         this.hideTyping();
 
-        if (data.content && data.content[0]) {
-          const aiMessage = data.content[0].text;
-          this.addMessage(aiMessage, 'ai', true);
-          
-          this.messages.push(
-            { role: 'user', content: text },
-            { role: 'assistant', content: aiMessage }
-          );
+       if (data.content && data.content[0]) {
+  const aiMessage = data.content[0].text;
+  this.addMessage(aiMessage, 'ai', true);
+  
+  this.messages.push(
+    { role: 'user', content: text },
+    { role: 'assistant', content: aiMessage }
+  );
 
-          this.saveChatHistory();
-        } else {
+  // Log conversation to Google Sheets
+  this.logConversation(text, aiMessage);
+
+  this.saveChatHistory();
+}
+        else {
           throw new Error('Invalid response');
         }
       } catch (error) {

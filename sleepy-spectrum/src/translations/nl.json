@@ -1,0 +1,133 @@
+{
+  "hero": {
+    "title": "Bouw betrouwbare",
+    "titleAccent1": "API's",
+    "titleMid": ", moderne",
+    "titleAccent2": "web apps",
+    "titleEnd": "&",
+    "titleAccent3": "AI-oplossingen",
+    "subtitle": "Senior .NET-engineer die Europese teams helpt schaalbare systemen te bouwen en AI te integreren. Schone architectuur, voorspelbare oplevering.",
+    "chatHeader": {
+      "title": "Vraag me wat dan ook",
+      "subtitle": "Over diensten, ervaring of prijzen",
+      "online": "Online"
+    },
+    "chatPlaceholder": "Hoe kan ik je vandaag helpen?",
+    "suggestions": {
+      "experience": "Ervaring",
+      "projects": "Projecten",
+      "techStack": "Technologieën",
+      "pricing": "Prijzen",
+      "availability": "Beschikbaarheid",
+      "contact": "Contact"
+    },
+    "modal": {
+  "title": "Gesprek Wissen?",
+  "message": "Dit zal permanent alle berichten in dit gesprek verwijderen. Deze actie kan niet ongedaan worden gemaakt.",
+  "cancel": "Annuleren",
+  "confirm": "Chat Wissen"
+},
+    "contractSection": {
+      "title": "Hoe ik kan helpen",
+      "subtitle": "Kies het samenwerkingsmodel dat bij uw behoeften past"
+    },
+    "contracts": {
+      "fixedScope": {
+        "title": "Vaste Prijsprojecten",
+        "duration": "2-8 weken",
+        "description": "Complete functie-ontwikkeling met duidelijke oplevering"
+      },
+      "shortTerm": {
+        "title": "Kortlopende Contracten",
+        "duration": "1-12 weken",
+        "description": "Gerichte oplossingen voor specifieke technische uitdagingen"
+      },
+      "aiIntegration": {
+        "title": "AI-Integratie",
+        "duration": "3-6 weken",
+        "description": "Voeg intelligente mogelijkheden toe aan bestaande systemen"
+      },
+      "consulting": {
+        "title": "Technisch Advies",
+        "duration": "Flexibel",
+        "description": "Architectuurbeoordelingen en strategische begeleiding"
+      },
+      "retainer": {
+        "title": "Maandelijkse Overeenkomsten",
+        "duration": "Doorlopend",
+        "description": "Continue ontwikkeling en onderhoudspartnerschap"
+      },
+      "audit": {
+        "title": "Code Audits",
+        "duration": "1-2 weken",
+        "description": "Beveiligingsbeoordelingen en prestatie-optimalisatie"
+      }
+    }
+  },
+  "nav": {
+    "partner": "Partner",
+    "about": "Over",
+    "work": "Werk",
+    "services": "Diensten",
+    "process": "Proces",
+    "team": "Team"
+  },
+  "common": {
+    "availableNow": "Nu Beschikbaar",
+    "years": "Jaren",
+    "projects": "Projecten",
+    "markets": "Markten"
+  },
+
+  
+
+
+  
+"credentials": {
+  "badge": "Professionele Referenties",
+  "title": "Professionele AI-Samenwerking in Actie",
+  "subtitle": "Levering van productie-AI-systemen die ertoe doen—ondersteuning voor geestelijke gezondheid, workflowautomatisering en intelligente bedrijfsoplossingen.",
+  "taskSync": {
+    "country": "Frankrijk • Geregistreerde Entiteit",
+    "description": "AI-productontwikkeling en engineering gericht op intelligente workflows, geestelijke gezondheidsplatforms en toegepaste automatisering.",
+    "siret": "SIRET",
+    "focusAreas": "Focusgebieden",
+    "aiHealth": "AI Gezondheid",
+    "automation": "Automatisering",
+    "analytics": "Analytics",
+    "workflows": "Workflows",
+    "visitWebsite": "Bezoek Website"
+  },
+  "seoSoft": {
+    "country": "Denemarken • ApS Bedrijf",
+    "description": "Zakelijke engineeringpartner die veilige, schaalbare softwaresystemen levert met AI-mogelijkheden en langdurig onderhoud.",
+    "role": "Rol",
+    "roleValue": "Senior Ontwikkelaar Partner",
+    "expertise": "Expertise",
+    "enterprise": "Onderneming",
+    "security": "Beveiliging",
+    "databases": "Databases",
+    "devops": "DevOps",
+    "visitWebsite": "Bezoek Website"
+  },
+  "partnership": "ACTIEF PARTNERSCHAP",
+  "verified": "Geverifieerd",
+  "projects": {
+    "badge": "ACTIEVE PORTFOLIO",
+    "title": "AI-Projecten Die We Samen Bouwen",
+    "subtitle": "Een gerichte set AI-gebaseerde platforms en tools—vooral in geestelijke gezondheid—gebouwd voor echte workflows, echte teams en echte resultaten.",
+    "filters": {
+      "all": "Alle Projecten",
+      "ai": "AI & ML",
+      "workflow": "Workflow",
+      "analytics": "Analytics",
+      "automation": "Automatisering",
+      "education": "Onderwijs"
+    },
+    "active": "ACTIEF",
+    "sharedBuild": "Gedeelde build",
+    "view": "Bekijk",
+    "footer": "Deze sectie vertegenwoordigt een actieve professionele samenwerking tussen geregistreerde entiteiten op echte productiesystemen."
+  }
+}
+}

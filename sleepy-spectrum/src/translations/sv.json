@@ -1,0 +1,130 @@
+{
+  "hero": {
+    "title": "Bygg pålitliga",
+    "titleAccent1": "API:er",
+    "titleMid": ", moderna",
+    "titleAccent2": "webbappar",
+    "titleEnd": "&",
+    "titleAccent3": "AI-lösningar",
+    "subtitle": "Senior .NET-ingenjör som hjälper europeiska team att bygga skalbara system och integrera AI. Ren arkitektur, förutsägbar leverans.",
+    "chatHeader": {
+      "title": "Fråga mig vad som helst",
+      "subtitle": "Om tjänster, erfarenhet eller priser",
+      "online": "Online"
+    },
+    "chatPlaceholder": "Hur kan jag hjälpa dig idag?",
+    "suggestions": {
+      "experience": "Erfarenhet",
+      "projects": "Projekt",
+      "techStack": "Teknologier",
+      "pricing": "Priser",
+      "availability": "Tillgänglighet",
+      "contact": "Kontakt"
+    },
+    "modal": {
+  "title": "Rensa Konversation?",
+  "message": "Detta kommer permanent ta bort alla meddelanden i denna konversation. Denna åtgärd kan inte ångras.",
+  "cancel": "Avbryt",
+  "confirm": "Rensa Chatt"
+},
+    "contractSection": {
+      "title": "Hur jag kan hjälpa",
+      "subtitle": "Välj den engagemangsmodell som passar dina behov"
+    },
+    "contracts": {
+      "fixedScope": {
+        "title": "Fastpris Projekt",
+        "duration": "2-8 veckor",
+        "description": "Komplett funktionsutveckling med tydliga leveranser"
+      },
+      "shortTerm": {
+        "title": "Kortvariga Kontrakt",
+        "duration": "1-12 veckor",
+        "description": "Riktade lösningar för specifika tekniska utmaningar"
+      },
+      "aiIntegration": {
+        "title": "AI-Integration",
+        "duration": "3-6 veckor",
+        "description": "Lägg till intelligenta funktioner i befintliga system"
+      },
+      "consulting": {
+        "title": "Teknisk Rådgivning",
+        "duration": "Flexibel",
+        "description": "Arkitekturgranskningar och strategisk vägledning"
+      },
+      "retainer": {
+        "title": "Månatliga Avtal",
+        "duration": "Pågående",
+        "description": "Kontinuerligt utvecklings- och underhållspartnerskap"
+      },
+      "audit": {
+        "title": "Kodgranskningar",
+        "duration": "1-2 veckor",
+        "description": "Säkerhetsgranskningar och prestandaoptimering"
+      }
+    }
+  },
+  "nav": {
+    "partner": "Partner",
+    "about": "Om",
+    "work": "Arbete",
+    "services": "Tjänster",
+    "process": "Process",
+    "team": "Team"
+  },
+  "common": {
+    "availableNow": "Tillgänglig Nu",
+    "years": "År",
+    "projects": "Projekt",
+    "markets": "Marknader"
+  },
+
+  
+"credentials": {
+  "badge": "Professionella Referenser",
+  "title": "Professionellt AI-Samarbete i Aktion",
+  "subtitle": "Levererar produktions-AI-system som spelar roll—mental hälsostöd, arbetsflödesautomation och intelligenta företagslösningar.",
+  "taskSync": {
+    "country": "Frankrike • Registrerad Enhet",
+    "description": "AI-produktutveckling och teknik fokuserad på intelligenta arbetsflöden, mental hälsoplattformar och tillämpad automation.",
+    "siret": "SIRET",
+    "focusAreas": "Fokusområden",
+    "aiHealth": "AI Hälsa",
+    "automation": "Automation",
+    "analytics": "Analys",
+    "workflows": "Arbetsflöden",
+    "visitWebsite": "Besök Webbplats"
+  },
+  "seoSoft": {
+    "country": "Danmark • ApS-Bolag",
+    "description": "Företagsteknisk partner som levererar säkra, skalbara mjukvarusystem med AI-kapacitet och långsiktigt underhåll.",
+    "role": "Roll",
+    "roleValue": "Senior Utvecklarpartner",
+    "expertise": "Expertis",
+    "enterprise": "Företag",
+    "security": "Säkerhet",
+    "databases": "Databaser",
+    "devops": "DevOps",
+    "visitWebsite": "Besök Webbplats"
+  },
+  "partnership": "AKTIVT PARTNERSKAP",
+  "verified": "Verifierad",
+  "projects": {
+    "badge": "AKTIV PORTFÖLJ",
+    "title": "AI-Projekt Vi Bygger Tillsammans",
+    "subtitle": "En fokuserad uppsättning AI-baserade plattformar och verktyg—särskilt inom mental hälsa—byggda för verkliga arbetsflöden, verkliga team och verkliga resultat.",
+    "filters": {
+      "all": "Alla Projekt",
+      "ai": "AI & ML",
+      "workflow": "Arbetsflöde",
+      "analytics": "Analys",
+      "automation": "Automation",
+      "education": "Utbildning"
+    },
+    "active": "AKTIV",
+    "sharedBuild": "Delad build",
+    "view": "Visa",
+    "footer": "Detta avsnitt representerar ett aktivt professionellt samarbete mellan registrerade enheter på verkliga produktionssystem."
+  }
+}
+}

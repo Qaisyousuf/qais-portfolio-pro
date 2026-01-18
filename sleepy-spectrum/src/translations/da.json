@@ -1,0 +1,133 @@
+{
+  "hero": {
+    "title": "Byg pålidelige",
+    "titleAccent1": "API'er",
+    "titleMid": ", moderne",
+    "titleAccent2": "web apps",
+    "titleEnd": "&",
+    "titleAccent3": "AI løsninger",
+    "subtitle": "Senior .NET udvikler hjælper europæiske teams med at bygge skalerbare systemer og integrere AI. Ren arkitektur, forudsigelig levering.",
+    "chatHeader": {
+      "title": "Spørg mig om noget",
+      "subtitle": "Om tjenester, erfaring eller priser",
+      "online": "Online"
+    },
+    
+"modal": {
+  "title": "Ryd Samtale?",
+  "message": "Dette vil permanent slette alle beskeder i denne samtale. Denne handling kan ikke fortrydes.",
+  "cancel": "Annuller",
+  "confirm": "Ryd Chat"
+},
+    "chatPlaceholder": "Hvordan kan jeg hjælpe dig i dag?",
+    "suggestions": {
+      "experience": "Erfaring",
+      "projects": "Projekter",
+      "techStack": "Teknologier",
+      "pricing": "Priser",
+      "availability": "Tilgængelighed",
+      "contact": "Kontakt"
+    },
+    "contractSection": {
+      "title": "Hvordan jeg kan hjælpe",
+      "subtitle": "Vælg den samarbejdsmodel, der passer til dine behov"
+    },
+    "contracts": {
+      "fixedScope": {
+        "title": "Fastpris Projekter",
+        "duration": "2-8 uger",
+        "description": "Komplet funktionsudvikling med klare leverancer"
+      },
+      "shortTerm": {
+        "title": "Kortvarige Kontrakter",
+        "duration": "1-12 uger",
+        "description": "Målrettede løsninger til specifikke tekniske udfordringer"
+      },
+      "aiIntegration": {
+        "title": "AI Integration",
+        "duration": "3-6 uger",
+        "description": "Tilføj intelligente funktioner til eksisterende systemer"
+      },
+      "consulting": {
+        "title": "Teknisk Rådgivning",
+        "duration": "Fleksibel",
+        "description": "Arkitektur anmeldelser og strategisk vejledning"
+      },
+      "retainer": {
+        "title": "Månedlige Aftaler",
+        "duration": "Løbende",
+        "description": "Kontinuerlig udvikling og vedligeholdelsespartnerskab"
+      },
+      "audit": {
+        "title": "Kode Audit",
+        "duration": "1-2 uger",
+        "description": "Sikkerhedsgennemgange og ydeevneoptimering"
+      }
+    }
+  },
+  "nav": {
+    "partner": "Partner",
+    "about": "Om",
+    "work": "Arbejde",
+    "services": "Tjenester",
+    "process": "Proces",
+    "team": "Team"
+  },
+  "common": {
+    "availableNow": "Tilgængelig Nu",
+    "years": "År",
+    "projects": "Projekter",
+    "markets": "Markeder"
+  },
+
+
+
+  
+"credentials": {
+  "badge": "Professionelle Legitimationsoplysninger",
+  "title": "Professionelt AI-Samarbejde i Aktion",
+  "subtitle": "Levering af produktions-AI-systemer, der betyder noget—mental sundhedsstøtte, workflow-automatisering og intelligente virksomhedsløsninger.",
+  "taskSync": {
+    "country": "Frankrig • Registreret Enhed",
+    "description": "AI-produktudvikling og engineering fokuseret på intelligente workflows, mental-sundhedsplatforme og anvendt automatisering.",
+    "siret": "SIRET",
+    "focusAreas": "Fokusområder",
+    "aiHealth": "AI Sundhed",
+    "automation": "Automatisering",
+    "analytics": "Analyse",
+    "workflows": "Workflows",
+    "visitWebsite": "Besøg Hjemmeside"
+  },
+  "seoSoft": {
+    "country": "Danmark • ApS Virksomhed",
+    "description": "Virksomhedsteknisk partner, der leverer sikre, skalerbare softwaresystemer med AI-funktioner og langsigtet vedligeholdelse.",
+    "role": "Rolle",
+    "roleValue": "Senior Udviklerpartner",
+    "expertise": "Ekspertise",
+    "enterprise": "Virksomhed",
+    "security": "Sikkerhed",
+    "databases": "Databaser",
+    "devops": "DevOps",
+    "visitWebsite": "Besøg Hjemmeside"
+  },
+  "partnership": "AKTIVT PARTNERSKAB",
+  "verified": "Verificeret",
+  "projects": {
+    "badge": "AKTIV PORTEFØLJE",
+    "title": "AI-Projekter Vi Bygger Sammen",
+    "subtitle": "Et fokuseret sæt af AI-baserede platforme og værktøjer—især inden for mental sundhed—bygget til rigtige workflows, rigtige teams og rigtige resultater.",
+    "filters": {
+      "all": "Alle Projekter",
+      "ai": "AI & ML",
+      "workflow": "Workflow",
+      "analytics": "Analyse",
+      "automation": "Automatisering",
+      "education": "Uddannelse"
+    },
+    "active": "AKTIV",
+    "sharedBuild": "Fælles build",
+    "view": "Vis",
+    "footer": "Dette afsnit repræsenterer et aktivt professionelt samarbejde mellem registrerede enheder på rigtige produktionssystemer."
+  }
+}
+}

@@ -1,0 +1,131 @@
+{
+  "hero": {
+    "title": "Créer des",
+    "titleAccent1": "APIs",
+    "titleMid": "fiables, des",
+    "titleAccent2": "applications web",
+    "titleEnd": "modernes &",
+    "titleAccent3": "solutions IA",
+    "subtitle": "Ingénieur .NET senior aidant les équipes européennes à construire des systèmes évolutifs et intégrer l'IA. Architecture propre, livraison prévisible.",
+    "chatHeader": {
+      "title": "Posez-moi n'importe quoi",
+      "subtitle": "À propos des services, de l'expérience ou des tarifs",
+      "online": "En ligne"
+    },
+    "modal": {
+  "title": "Effacer la Conversation?",
+  "message": "Cela supprimera définitivement tous les messages de cette conversation. Cette action ne peut pas être annulée.",
+  "cancel": "Annuler",
+  "confirm": "Effacer le Chat"
+},
+    "chatPlaceholder": "Comment puis-je vous aider aujourd'hui?",
+    "suggestions": {
+      "experience": "Expérience",
+      "projects": "Projets",
+      "techStack": "Technologies",
+      "pricing": "Tarifs",
+      "availability": "Disponibilité",
+      "contact": "Contact"
+    },
+    "contractSection": {
+      "title": "Comment je peux aider",
+      "subtitle": "Choisissez le modèle d'engagement qui correspond à vos besoins"
+    },
+    "contracts": {
+      "fixedScope": {
+        "title": "Projets à Portée Fixe",
+        "duration": "2-8 semaines",
+        "description": "Développement complet de fonctionnalités avec livrables clairs"
+      },
+      "shortTerm": {
+        "title": "Contrats Court Terme",
+        "duration": "1-12 semaines",
+        "description": "Solutions ciblées pour des défis techniques spécifiques"
+      },
+      "aiIntegration": {
+        "title": "Intégration IA",
+        "duration": "3-6 semaines",
+        "description": "Ajouter des capacités intelligentes aux systèmes existants"
+      },
+      "consulting": {
+        "title": "Conseil Technique",
+        "duration": "Flexible",
+        "description": "Examens d'architecture et conseils stratégiques"
+      },
+      "retainer": {
+        "title": "Abonnements Mensuels",
+        "duration": "Continu",
+        "description": "Partenariat de développement et maintenance continus"
+      },
+      "audit": {
+        "title": "Audits de Code",
+        "duration": "1-2 semaines",
+        "description": "Examens de sécurité et optimisation des performances"
+      }
+    }
+  },
+  "nav": {
+    "partner": "Partenaire",
+    "about": "À propos",
+    "work": "Travaux",
+    "services": "Services",
+    "process": "Processus",
+    "team": "Équipe"
+  },
+  "common": {
+    "availableNow": "Disponible Maintenant",
+    "years": "Années",
+    "projects": "Projets",
+    "markets": "Marchés"
+  },
+
+
+  
+"credentials": {
+  "badge": "Références Professionnelles",
+  "title": "Collaboration IA Professionnelle en Action",
+  "subtitle": "Livraison de systèmes IA de production qui comptent—support en santé mentale, automatisation des flux de travail et solutions d'entreprise intelligentes.",
+  "taskSync": {
+    "country": "France • Entité Enregistrée",
+    "description": "Développement de produits IA et ingénierie axés sur les flux de travail intelligents, les plateformes de santé mentale et l'automatisation appliquée.",
+    "siret": "SIRET",
+    "focusAreas": "Domaines d'Intervention",
+    "aiHealth": "IA Santé",
+    "automation": "Automatisation",
+    "analytics": "Analytique",
+    "workflows": "Flux de Travail",
+    "visitWebsite": "Visiter le Site"
+  },
+  "seoSoft": {
+    "country": "Danemark • Société ApS",
+    "description": "Partenaire d'ingénierie d'entreprise fournissant des systèmes logiciels sécurisés et évolutifs, avec des capacités IA et une maintenance à long terme.",
+    "role": "Rôle",
+    "roleValue": "Partenaire Développeur Senior",
+    "expertise": "Expertise",
+    "enterprise": "Entreprise",
+    "security": "Sécurité",
+    "databases": "Bases de Données",
+    "devops": "DevOps",
+    "visitWebsite": "Visiter le Site"
+  },
+  "partnership": "PARTENARIAT ACTIF",
+  "verified": "Vérifié",
+  "projects": {
+    "badge": "PORTFOLIO ACTIF",
+    "title": "Projets IA Que Nous Construisons Ensemble",
+    "subtitle": "Un ensemble ciblé de plateformes et d'outils basés sur l'IA—en particulier en santé mentale—construits pour de vrais flux de travail, de vraies équipes et de vrais résultats.",
+    "filters": {
+      "all": "Tous les Projets",
+      "ai": "IA & ML",
+      "workflow": "Flux de Travail",
+      "analytics": "Analytique",
+      "automation": "Automatisation",
+      "education": "Éducation"
+    },
+    "active": "ACTIF",
+    "sharedBuild": "Build partagé",
+    "view": "Voir",
+    "footer": "Cette section représente une collaboration professionnelle active entre des entités enregistrées sur de vrais systèmes de production."
+  }
+}
+}
