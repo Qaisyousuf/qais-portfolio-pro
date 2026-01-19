@@ -127,7 +127,316 @@
     "active": "ACTIEF",
     "sharedBuild": "Gedeelde build",
     "view": "Bekijk",
-    "footer": "Deze sectie vertegenwoordigt een actieve professionele samenwerking tussen geregistreerde entiteiten op echte productiesystemen."
+    "footer": "Deze sectie vertegenwoordigt een actieve professionele samenwerking tussen geregistreerde entiteiten op echte productiesystemen.",
+    "cards": {
+      "aiMentalHealth": {
+        "name": "AI Geestelijke Gezondheidsplatforms",
+        "tag": "AI • Gezondheid",
+        "desc": "AI-ondersteunde ervaringen gericht op mentaal welzijn en ondersteuning."
+      },
+      "ortoDOC": {
+        "name": "OrtoDOC",
+        "tag": "Docs • Workflow",
+        "desc": "Documentworkflows en gestructureerde processen voor teams."
+      },
+      "aSurvey": {
+        "name": "A-Survey",
+        "tag": "Formulieren • Analytics",
+        "desc": "Enquête-engine met rapportage, inzichten en automatisering."
+      },
+      "smsReminder": {
+        "name": "SMS Herinnering",
+        "tag": "Automatisering",
+        "desc": "Herinneringsstromen voor afspraken, taken en opvolgingen."
+      },
+      "aiModels": {
+        "name": "AI Modellen",
+        "tag": "ML • R&D",
+        "desc": "Aangepaste modellen en experimentatiepipelines voor echte use cases."
+      },
+      "cyberLearn": {
+        "name": "CyberLearn",
+        "tag": "EdTech • Beveiliging",
+        "desc": "Leersystemen met cybersecurity-gedreven structuur en inhoud."
+      },
+      "batchVision": {
+        "name": "BatchVision",
+        "tag": "Vision • Ops",
+        "desc": "Batch-gebaseerde verwerking en computer-vision workflows."
+      },
+      "taskSyncAI": {
+        "name": "TaskSync AI",
+        "tag": "Product • AI",
+        "desc": "AI-aangedreven projectinzicht dashboard en workflow-intelligentie."
+      }
+    }
+  }
+},
+
+
+"work": {
+  "badge": "Uitgelichte Projecten",
+  "title": "De Toekomst Bouwen",
+  "subtitle": "Productie-grade systemen die schone architectuur, AI-mogelijkheden en ondernemingsbetrouwbaarheid combineren",
+  "labels": {
+    "overview": "Projectoverzicht",
+    "impact": "Belangrijkste Impact",
+    "capabilities": "Kernmogelijkheden",
+    "details": "Projectdetails",
+    "techStack": "Technologiestack",
+    "timeline": "Tijdlijn",
+    "role": "Rol",
+    "status": "Status"
+  },
+  "projects": {
+    "aSurvey": {
+      "category": "AI • Mentale Gezondheid",
+      "title": "A-Survey",
+      "tagline": "AI-aangedreven platform voor mentale gezondheidsbeoordeling",
+      "badges": {
+        "status": "Productie",
+        "year": "2025",
+        "tech": "AI-Aangedreven"
+      },
+      "client": "Gezondheidszorgsector (DK)",
+      "overview": "Een geavanceerd platform voor vragenlijsten over mentale gezondheid dat AI gebruikt om vraaghelderheid te verbeteren, gestructureerde beoordelingsstromen te ondersteunen en bruikbare analyses te genereren voor zorgprofessionals.",
+      "impact": [
+        {
+          "metric": "Antwoordkwaliteit",
+          "value": "+40%",
+          "desc": "verbetering door AI-assistentie"
+        },
+        {
+          "metric": "Verwerkingstijd",
+          "value": "-60%",
+          "desc": "vermindering in rapportgeneratie"
+        },
+        {
+          "metric": "Klinische Inzichten",
+          "value": "Real-time",
+          "desc": "analyse dashboard"
+        }
+      ],
+      "capabilities": [
+        "AI-aangedreven vraagverfijning en toonoptimalisatie",
+        "Dynamische vragenlijstbouwer met voorwaardelijke logica",
+        "Geavanceerde analysemotor met klinische rapportage",
+        "AVG-conforme gegevensverwerking en encryptie"
+      ],
+      "techStack": [
+        {
+          "category": "Backend",
+          "items": ["ASP.NET Core 8", "Web API", "SQL Server", "Azure AI"]
+        },
+        {
+          "category": "Frontend",
+          "items": ["Blazor", "Tailwind CSS", "Chart.js"]
+        },
+        {
+          "category": "AI/ML",
+          "items": ["OpenAI GPT-4", "Azure Cognitive", "ML.NET"]
+        },
+        {
+          "category": "Cloud",
+          "items": ["Azure App Service", "Azure SQL", "Key Vault"]
+        }
+      ],
+      "projectDetails": {
+        "timeline": "12 weken",
+        "team": "Lead Engineer",
+        "delivery": "Productieklaar systeem"
+      },
+      "links": [
+        { "label": "Bekijk Casestudy", "href": "#credentials" },
+        { "label": "Contact voor Demo", "href": "#contact" }
+      ]
+    },
+    "taskSync": {
+      "category": "AI • Product",
+      "title": "TaskSync AI",
+      "tagline": "Intelligent platform voor projectleveringsinzichten",
+      "badges": {
+        "status": "Actief",
+        "year": "2025",
+        "tech": "ML-Gedreven"
+      },
+      "client": "TaskSync AI (FR)",
+      "overview": "Een AI-aangedreven dashboard dat projectmanagement transformeert door leveringsduidelijkheid te bieden via intelligente inzichten, ticketkwaliteitsscoring, PR-risicosignalen en sprint-gezondheidsmonitoring bij engineeringteams.",
+      "impact": [
+        {
+          "metric": "Leveringsduidelijkheid",
+          "value": "+55%",
+          "desc": "sprint voorspelbaarheidsverbetering"
+        },
+        {
+          "metric": "Risicodetectie",
+          "value": "Vroeg",
+          "desc": "blokkerings-identificatie"
+        },
+        {
+          "metric": "Teamsnelheid",
+          "value": "+35%",
+          "desc": "productiviteitsstijging"
+        }
+      ],
+      "capabilities": [
+        "AI-gegenereerde duidelijkheidsscores voor tickets en PR's",
+        "Veilige OAuth-integraties met Jira en GitHub",
+        "Voorspellende sprint-gezondheidsanalyse",
+        "Geautomatiseerde QA-suggesties en testaanbevelingen"
+      ],
+      "techStack": [
+        {
+          "category": "Backend",
+          "items": ["ASP.NET Core 8", "Clean Architecture", "MediatR"]
+        },
+        {
+          "category": "Frontend",
+          "items": ["Angular 18", "TypeScript", "RxJS", "Tailwind"]
+        },
+        {
+          "category": "AI/ML",
+          "items": ["Aangepaste ML-Modellen", "Azure OpenAI", "Semantische Analyse"]
+        },
+        {
+          "category": "Cloud",
+          "items": ["Docker", "Azure Kubernetes", "Redis Cache"]
+        }
+      ],
+      "projectDetails": {
+        "timeline": "16 weken",
+        "team": "Product Engineer",
+        "delivery": "Actieve ontwikkeling"
+      },
+      "links": [
+        { "label": "Bezoek Website", "href": "https://tasksync.ai/" },
+        { "label": "Bekijk Samenwerking", "href": "#credentials" }
+      ]
+    },
+    "invoiceStudio": {
+      "category": "AI • Financiën",
+      "title": "Invoice Studio",
+      "tagline": "Slimme facturering met AI-assistentie",
+      "badges": {
+        "status": "Actief",
+        "year": "2025",
+        "tech": "AI-Verbeterd"
+      },
+      "client": "Financiële Diensten (EU)",
+      "overview": "Een intelligent factureringssysteem dat factuurcreatie versnelt door AI-aangedreven regelitemsuggesties, sjabloongebaseerde generatie en automatiseringsklare exportformaten voor Europese financiële workflows.",
+      "impact": [
+        {
+          "metric": "Creatiesnelheid",
+          "value": "3x",
+          "desc": "snellere factuurgeneratie"
+        },
+        {
+          "metric": "Datanauwkeurigheid",
+          "value": "99.2%",
+          "desc": "met AI-validatie"
+        },
+        {
+          "metric": "EU-Naleving",
+          "value": "100%",
+          "desc": "formaatcompatibiliteit"
+        }
+      ],
+      "capabilities": [
+        "AI-aangedreven factuuritem- en beschrijvingssuggesties",
+        "Slimme sjabloonmotor met aanpassing",
+        "Multi-valuta ondersteuning met live wisselkoersen",
+        "Geautomatiseerde export naar boekhoudsystemen"
+      ],
+      "techStack": [
+        {
+          "category": "Backend",
+          "items": ["ASP.NET Core 8", "Entity Framework", "SQL Server"]
+        },
+        {
+          "category": "Frontend",
+          "items": ["Blazor Server", "MudBlazor", "SignalR"]
+        },
+        {
+          "category": "AI/ML",
+          "items": ["GPT-4", "Patroonherkenning"]
+        },
+        {
+          "category": "Cloud",
+          "items": ["Azure App Service", "Azure Functions", "Blob Storage"]
+        }
+      ],
+      "projectDetails": {
+        "timeline": "8 weken",
+        "team": "Backend Engineer",
+        "delivery": "Functie-compleet"
+      },
+      "links": [
+        { "label": "Technische Details", "href": "#credentials" },
+        { "label": "Bespreek Uw Project", "href": "#contact" }
+      ]
+    },
+    "seoSoft": {
+      "category": "Onderneming • Partnerschap",
+      "title": "SeoSoft Portfolio",
+      "tagline": "Partnerschap voor levering van bedrijfsoplossingen",
+      "badges": {
+        "status": "Lopend",
+        "year": "2024 — Heden",
+        "tech": "Onderneming"
+      },
+      "client": "SeoSoft ApS (DK)",
+      "overview": "Langdurig engineeringpartnerschap dat bedrijfsoplossingen levert, waaronder OrtoDOC documentworkflows, SMS Herinnering automatisering, CyberLearn educatieplatform en BatchVision gespecialiseerde systemen.",
+      "impact": [
+        {
+          "metric": "Projecten",
+          "value": "12+",
+          "desc": "productiesystemen"
+        },
+        {
+          "metric": "Uptime",
+          "value": "99.9%",
+          "desc": "platformbetrouwbaarheid"
+        },
+        {
+          "metric": "Partnerschap",
+          "value": "2+ jaar",
+          "desc": "actieve samenwerking"
+        }
+      ],
+      "capabilities": [
+        "Ondernemingsarchitectuur en systeemontwerp",
+        "Multi-tenant SaaS platformontwikkeling",
+        "Legacy systeemmodernisering en migratie",
+        "Doorlopend onderhoud en feature-ontwikkeling"
+      ],
+      "techStack": [
+        {
+          "category": "Backend",
+          "items": ["ASP.NET Core", "Microservices", "Event-Driven"]
+        },
+        {
+          "category": "Frontend",
+          "items": ["Angular", "React", "Modern CSS"]
+        },
+        {
+          "category": "Praktijken",
+          "items": ["Clean Architecture", "TDD", "SOLID"]
+        },
+        {
+          "category": "Cloud",
+          "items": ["Azure", "DevOps Pipelines", "Monitoring"]
+        }
+      ],
+      "projectDetails": {
+        "timeline": "Lopend",
+        "team": "Senior Partner",
+        "delivery": "Continue releases"
+      },
+      "links": [
+        { "label": "Bezoek SeoSoft", "href": "https://seosoft.dk/" },
+        { "label": "Partnerschapsdetails", "href": "#credentials" }
+      ]
+    }
   }
 }
 }

@@ -125,7 +125,316 @@
     "active": "ACTIF",
     "sharedBuild": "Build partagé",
     "view": "Voir",
-    "footer": "Cette section représente une collaboration professionnelle active entre des entités enregistrées sur de vrais systèmes de production."
+    "footer": "Cette section représente une collaboration professionnelle active entre des entités enregistrées sur de vrais systèmes de production.",
+    "cards": {
+      "aiMentalHealth": {
+        "name": "Plateformes IA de Santé Mentale",
+        "tag": "IA • Santé",
+        "desc": "Expériences assistées par IA axées sur le bien-être mental et le soutien."
+      },
+      "ortoDOC": {
+        "name": "OrtoDOC",
+        "tag": "Docs • Flux de Travail",
+        "desc": "Flux de travail documentaires et processus structurés pour les équipes."
+      },
+      "aSurvey": {
+        "name": "A-Survey",
+        "tag": "Formulaires • Analytique",
+        "desc": "Moteur d'enquêtes avec rapports, insights et automatisation."
+      },
+      "smsReminder": {
+        "name": "Rappel SMS",
+        "tag": "Automatisation",
+        "desc": "Flux de rappels pour rendez-vous, tâches et suivis."
+      },
+      "aiModels": {
+        "name": "Modèles IA",
+        "tag": "ML • R&D",
+        "desc": "Modèles personnalisés et pipelines d'expérimentation pour des cas d'usage réels."
+      },
+      "cyberLearn": {
+        "name": "CyberLearn",
+        "tag": "EdTech • Sécurité",
+        "desc": "Systèmes d'apprentissage avec structure et contenu axés sur la cybersécurité."
+      },
+      "batchVision": {
+        "name": "BatchVision",
+        "tag": "Vision • Ops",
+        "desc": "Traitement par lots et flux de travail de type vision par ordinateur."
+      },
+      "taskSyncAI": {
+        "name": "TaskSync AI",
+        "tag": "Produit • IA",
+        "desc": "Tableau de bord d'insights de projet alimenté par l'IA et intelligence de flux de travail."
+      }
+    }
+  }
+},
+
+
+"work": {
+  "badge": "Projets en Vedette",
+  "title": "Construire l'Avenir",
+  "subtitle": "Systèmes de qualité production combinant architecture propre, capacités IA et fiabilité d'entreprise",
+  "labels": {
+    "overview": "Aperçu du Projet",
+    "impact": "Impact Clé",
+    "capabilities": "Capacités Principales",
+    "details": "Détails du Projet",
+    "techStack": "Stack Technologique",
+    "timeline": "Calendrier",
+    "role": "Rôle",
+    "status": "Statut"
+  },
+  "projects": {
+    "aSurvey": {
+      "category": "IA • Santé Mentale",
+      "title": "A-Survey",
+      "tagline": "Plateforme d'évaluation de santé mentale alimentée par l'IA",
+      "badges": {
+        "status": "Production",
+        "year": "2025",
+        "tech": "Alimenté par l'IA"
+      },
+      "client": "Secteur de la Santé (DK)",
+      "overview": "Une plateforme sophistiquée de questionnaires de santé mentale exploitant l'IA pour améliorer la clarté des questions, soutenir des flux d'évaluation structurés et générer des analyses exploitables pour les professionnels de la santé.",
+      "impact": [
+        {
+          "metric": "Qualité des Réponses",
+          "value": "+40%",
+          "desc": "amélioration grâce à l'assistance IA"
+        },
+        {
+          "metric": "Temps de Traitement",
+          "value": "-60%",
+          "desc": "réduction de la génération de rapports"
+        },
+        {
+          "metric": "Insights Cliniques",
+          "value": "Temps réel",
+          "desc": "tableau de bord analytique"
+        }
+      ],
+      "capabilities": [
+        "Raffinement des questions et optimisation du ton alimentés par l'IA",
+        "Constructeur de questionnaires dynamique avec logique conditionnelle",
+        "Moteur d'analyse avancé avec rapports cliniques",
+        "Gestion des données et cryptage conformes au RGPD"
+      ],
+      "techStack": [
+        {
+          "category": "Backend",
+          "items": ["ASP.NET Core 8", "Web API", "SQL Server", "Azure AI"]
+        },
+        {
+          "category": "Frontend",
+          "items": ["Blazor", "Tailwind CSS", "Chart.js"]
+        },
+        {
+          "category": "IA/ML",
+          "items": ["OpenAI GPT-4", "Azure Cognitive", "ML.NET"]
+        },
+        {
+          "category": "Cloud",
+          "items": ["Azure App Service", "Azure SQL", "Key Vault"]
+        }
+      ],
+      "projectDetails": {
+        "timeline": "12 semaines",
+        "team": "Ingénieur Principal",
+        "delivery": "Système prêt pour la production"
+      },
+      "links": [
+        { "label": "Voir l'Étude de Cas", "href": "#credentials" },
+        { "label": "Contacter pour une Démo", "href": "#contact" }
+      ]
+    },
+    "taskSync": {
+      "category": "IA • Produit",
+      "title": "TaskSync AI",
+      "tagline": "Plateforme intelligente d'insights de livraison de projet",
+      "badges": {
+        "status": "Actif",
+        "year": "2025",
+        "tech": "Piloté par ML"
+      },
+      "client": "TaskSync AI (FR)",
+      "overview": "Un tableau de bord alimenté par l'IA qui transforme la gestion de projet en fournissant une clarté de livraison grâce à des insights intelligents, une notation de qualité des tickets, des signaux de risque PR et un suivi de santé des sprints dans les équipes d'ingénierie.",
+      "impact": [
+        {
+          "metric": "Clarté de Livraison",
+          "value": "+55%",
+          "desc": "amélioration de la prévisibilité des sprints"
+        },
+        {
+          "metric": "Détection des Risques",
+          "value": "Précoce",
+          "desc": "identification des blocages"
+        },
+        {
+          "metric": "Vélocité d'Équipe",
+          "value": "+35%",
+          "desc": "augmentation de la productivité"
+        }
+      ],
+      "capabilities": [
+        "Scores de clarté générés par l'IA pour les tickets et PR",
+        "Intégrations OAuth sécurisées avec Jira et GitHub",
+        "Analyse prédictive de santé des sprints",
+        "Suggestions QA automatisées et recommandations de tests"
+      ],
+      "techStack": [
+        {
+          "category": "Backend",
+          "items": ["ASP.NET Core 8", "Clean Architecture", "MediatR"]
+        },
+        {
+          "category": "Frontend",
+          "items": ["Angular 18", "TypeScript", "RxJS", "Tailwind"]
+        },
+        {
+          "category": "IA/ML",
+          "items": ["Modèles ML Personnalisés", "Azure OpenAI", "Analyse Sémantique"]
+        },
+        {
+          "category": "Cloud",
+          "items": ["Docker", "Azure Kubernetes", "Redis Cache"]
+        }
+      ],
+      "projectDetails": {
+        "timeline": "16 semaines",
+        "team": "Ingénieur Produit",
+        "delivery": "Développement actif"
+      },
+      "links": [
+        { "label": "Visiter le Site", "href": "https://tasksync.ai/" },
+        { "label": "Voir la Collaboration", "href": "#credentials" }
+      ]
+    },
+    "invoiceStudio": {
+      "category": "IA • Finance",
+      "title": "Invoice Studio",
+      "tagline": "Facturation intelligente avec assistance IA",
+      "badges": {
+        "status": "Actif",
+        "year": "2025",
+        "tech": "Amélioré par l'IA"
+      },
+      "client": "Services Financiers (UE)",
+      "overview": "Un système de facturation intelligent qui accélère la création de factures grâce à des suggestions d'articles alimentées par l'IA, une génération basée sur des modèles et des formats d'export prêts pour l'automatisation pour les flux de travail financiers européens.",
+      "impact": [
+        {
+          "metric": "Vitesse de Création",
+          "value": "3x",
+          "desc": "génération de factures plus rapide"
+        },
+        {
+          "metric": "Précision des Données",
+          "value": "99.2%",
+          "desc": "avec validation IA"
+        },
+        {
+          "metric": "Conformité UE",
+          "value": "100%",
+          "desc": "compatibilité des formats"
+        }
+      ],
+      "capabilities": [
+        "Suggestions d'articles et descriptions de factures alimentées par l'IA",
+        "Moteur de modèles intelligent avec personnalisation",
+        "Support multi-devises avec taux de change en direct",
+        "Export automatisé vers les systèmes comptables"
+      ],
+      "techStack": [
+        {
+          "category": "Backend",
+          "items": ["ASP.NET Core 8", "Entity Framework", "SQL Server"]
+        },
+        {
+          "category": "Frontend",
+          "items": ["Blazor Server", "MudBlazor", "SignalR"]
+        },
+        {
+          "category": "IA/ML",
+          "items": ["GPT-4", "Reconnaissance de Motifs"]
+        },
+        {
+          "category": "Cloud",
+          "items": ["Azure App Service", "Azure Functions", "Blob Storage"]
+        }
+      ],
+      "projectDetails": {
+        "timeline": "8 semaines",
+        "team": "Ingénieur Backend",
+        "delivery": "Fonctionnalités complètes"
+      },
+      "links": [
+        { "label": "Détails Techniques", "href": "#credentials" },
+        { "label": "Discuter de Votre Projet", "href": "#contact" }
+      ]
+    },
+    "seoSoft": {
+      "category": "Entreprise • Partenariat",
+      "title": "Portfolio SeoSoft",
+      "tagline": "Partenariat de livraison de solutions d'entreprise",
+      "badges": {
+        "status": "En cours",
+        "year": "2024 — Présent",
+        "tech": "Entreprise"
+      },
+      "client": "SeoSoft ApS (DK)",
+      "overview": "Partenariat d'ingénierie à long terme fournissant des solutions d'entreprise, notamment les flux de travail documentaires OrtoDOC, l'automatisation des rappels SMS, la plateforme éducative CyberLearn et les systèmes spécialisés BatchVision.",
+      "impact": [
+        {
+          "metric": "Projets",
+          "value": "12+",
+          "desc": "systèmes de production"
+        },
+        {
+          "metric": "Disponibilité",
+          "value": "99.9%",
+          "desc": "fiabilité de la plateforme"
+        },
+        {
+          "metric": "Partenariat",
+          "value": "2+ ans",
+          "desc": "collaboration active"
+        }
+      ],
+      "capabilities": [
+        "Architecture d'entreprise et conception de systèmes",
+        "Développement de plateformes SaaS multi-locataires",
+        "Modernisation et migration de systèmes hérités",
+        "Maintenance continue et développement de fonctionnalités"
+      ],
+      "techStack": [
+        {
+          "category": "Backend",
+          "items": ["ASP.NET Core", "Microservices", "Event-Driven"]
+        },
+        {
+          "category": "Frontend",
+          "items": ["Angular", "React", "CSS Moderne"]
+        },
+        {
+          "category": "Pratiques",
+          "items": ["Clean Architecture", "TDD", "SOLID"]
+        },
+        {
+          "category": "Cloud",
+          "items": ["Azure", "Pipelines DevOps", "Surveillance"]
+        }
+      ],
+      "projectDetails": {
+        "timeline": "En cours",
+        "team": "Partenaire Senior",
+        "delivery": "Versions continues"
+      },
+      "links": [
+        { "label": "Visiter SeoSoft", "href": "https://seosoft.dk/" },
+        { "label": "Détails du Partenariat", "href": "#credentials" }
+      ]
+    }
   }
 }
 }

@@ -124,7 +124,317 @@
     "active": "AKTIV",
     "sharedBuild": "Delad build",
     "view": "Visa",
-    "footer": "Detta avsnitt representerar ett aktivt professionellt samarbete mellan registrerade enheter på verkliga produktionssystem."
+    "footer": "Detta avsnitt representerar ett aktivt professionellt samarbete mellan registrerade enheter på verkliga produktionssystem.",
+    "cards": {
+      "aiMentalHealth": {
+        "name": "AI Mental Hälsoplattformar",
+        "tag": "AI • Hälsa",
+        "desc": "AI-assisterade upplevelser fokuserade på mentalt välbefinnande och stöd."
+      },
+      "ortoDOC": {
+        "name": "OrtoDOC",
+        "tag": "Docs • Arbetsflöde",
+        "desc": "Dokumentarbetsflöden och strukturerade processer för team."
+      },
+      "aSurvey": {
+        "name": "A-Survey",
+        "tag": "Formulär • Analys",
+        "desc": "Undersökningsmotor med rapportering, insikter och automation."
+      },
+      "smsReminder": {
+        "name": "SMS Påminnelse",
+        "tag": "Automation",
+        "desc": "Påminnelseflöden för möten, uppgifter och uppföljningar."
+      },
+      "aiModels": {
+        "name": "AI-Modeller",
+        "tag": "ML • FoU",
+        "desc": "Anpassade modeller och experimenteringspipelines för verkliga användningsfall."
+      },
+      "cyberLearn": {
+        "name": "CyberLearn",
+        "tag": "EdTech • Säkerhet",
+        "desc": "Lärsystem med cybersäkerhetsdriven struktur och innehåll."
+      },
+      "batchVision": {
+        "name": "BatchVision",
+        "tag": "Vision • Ops",
+        "desc": "Batchbaserad bearbetning och datorseende-arbetsflöden."
+      },
+      "taskSyncAI": {
+        "name": "TaskSync AI",
+        "tag": "Produkt • AI",
+        "desc": "AI-driven projektinsikt dashboard och arbetsflödesintelligens."
+      }
+    }
+  }
+},
+
+
+
+"work": {
+  "badge": "Utvalda Projekt",
+  "title": "Bygga Framtiden",
+  "subtitle": "Produktionskvalitetssystem som kombinerar ren arkitektur, AI-kapacitet och företagstillförlitlighet",
+  "labels": {
+    "overview": "Projektöversikt",
+    "impact": "Nyckelpåverkan",
+    "capabilities": "Kärnfunktioner",
+    "details": "Projektdetaljer",
+    "techStack": "Teknologistack",
+    "timeline": "Tidslinje",
+    "role": "Roll",
+    "status": "Status"
+  },
+  "projects": {
+    "aSurvey": {
+      "category": "AI • Mental Hälsa",
+      "title": "A-Survey",
+      "tagline": "AI-driven plattform för mental hälsobedömning",
+      "badges": {
+        "status": "Produktion",
+        "year": "2025",
+        "tech": "AI-Driven"
+      },
+      "client": "Hälsosektorn (DK)",
+      "overview": "En sofistikerad plattform för mentala hälsoenkäter som utnyttjar AI för att förbättra frågeklärhet, stödja strukturerade bedömningsflöden och generera handlingsbara analyser för vårdpersonal.",
+      "impact": [
+        {
+          "metric": "Svarskvalitet",
+          "value": "+40%",
+          "desc": "förbättring genom AI-assistans"
+        },
+        {
+          "metric": "Bearbetningstid",
+          "value": "-60%",
+          "desc": "minskning i rapportgenerering"
+        },
+        {
+          "metric": "Kliniska Insikter",
+          "value": "Realtid",
+          "desc": "analysdashboard"
+        }
+      ],
+      "capabilities": [
+        "AI-driven frågeförfining och tonoptimering",
+        "Dynamisk enkätbyggare med villkorlig logik",
+        "Avancerad analysmotor med klinisk rapportering",
+        "GDPR-kompatibel datahantering och kryptering"
+      ],
+      "techStack": [
+        {
+          "category": "Backend",
+          "items": ["ASP.NET Core 8", "Web API", "SQL Server", "Azure AI"]
+        },
+        {
+          "category": "Frontend",
+          "items": ["Blazor", "Tailwind CSS", "Chart.js"]
+        },
+        {
+          "category": "AI/ML",
+          "items": ["OpenAI GPT-4", "Azure Cognitive", "ML.NET"]
+        },
+        {
+          "category": "Cloud",
+          "items": ["Azure App Service", "Azure SQL", "Key Vault"]
+        }
+      ],
+      "projectDetails": {
+        "timeline": "12 veckor",
+        "team": "Ledande Ingenjör",
+        "delivery": "Produktionsklar system"
+      },
+      "links": [
+        { "label": "Visa Fallstudie", "href": "#credentials" },
+        { "label": "Kontakta för Demo", "href": "#contact" }
+      ]
+    },
+    "taskSync": {
+      "category": "AI • Produkt",
+      "title": "TaskSync AI",
+      "tagline": "Intelligent plattform för projektleveransinsikter",
+      "badges": {
+        "status": "Aktiv",
+        "year": "2025",
+        "tech": "ML-Driven"
+      },
+      "client": "TaskSync AI (FR)",
+      "overview": "En AI-driven instrumentpanel som transformerar projekthantering genom att ge leveransklarhet genom intelligenta insikter, biljettkvalitetspoäng, PR-risksignaler och sprint-hälsoövervakning i ingenjörsteam.",
+      "impact": [
+        {
+          "metric": "Leveransklarhet",
+          "value": "+55%",
+          "desc": "ökning av sprint-förutsägbarhet"
+        },
+        {
+          "metric": "Riskdetektering",
+          "value": "Tidig",
+          "desc": "blockeringsidentifiering"
+        },
+        {
+          "metric": "Teamhastighet",
+          "value": "+35%",
+          "desc": "produktivitetsökning"
+        }
+      ],
+      "capabilities": [
+        "AI-genererade klarhetspoäng för biljetter och PR:er",
+        "Säkra OAuth-integrationer med Jira och GitHub",
+        "Prediktiv sprint-hälsoanalys",
+        "Automatiserade QA-förslag och testrekommendationer"
+      ],
+      "techStack": [
+        {
+          "category": "Backend",
+          "items": ["ASP.NET Core 8", "Clean Architecture", "MediatR"]
+        },
+        {
+          "category": "Frontend",
+          "items": ["Angular 18", "TypeScript", "RxJS", "Tailwind"]
+        },
+        {
+          "category": "AI/ML",
+          "items": ["Anpassade ML-Modeller", "Azure OpenAI", "Semantisk Analys"]
+        },
+        {
+          "category": "Cloud",
+          "items": ["Docker", "Azure Kubernetes", "Redis Cache"]
+        }
+      ],
+      "projectDetails": {
+        "timeline": "16 veckor",
+        "team": "Produktingenjör",
+        "delivery": "Aktiv utveckling"
+      },
+      "links": [
+        { "label": "Besök Webbplats", "href": "https://tasksync.ai/" },
+        { "label": "Visa Samarbete", "href": "#credentials" }
+      ]
+    },
+    "invoiceStudio": {
+      "category": "AI • Finans",
+      "title": "Invoice Studio",
+      "tagline": "Smart fakturering med AI-assistans",
+      "badges": {
+        "status": "Aktiv",
+        "year": "2025",
+        "tech": "AI-Förbättrad"
+      },
+      "client": "Finansiella Tjänster (EU)",
+      "overview": "Ett intelligent faktureringssystem som accelererar fakturaskapande genom AI-drivna radpostförslag, mallbaserad generering och automationsklara exportformat för europeiska finansiella arbetsflöden.",
+      "impact": [
+        {
+          "metric": "Skapandehastighet",
+          "value": "3x",
+          "desc": "snabbare fakturagenerering"
+        },
+        {
+          "metric": "Datanoggrannhet",
+          "value": "99.2%",
+          "desc": "med AI-validering"
+        },
+        {
+          "metric": "EU-Efterlevnad",
+          "value": "100%",
+          "desc": "formatkompatibilitet"
+        }
+      ],
+      "capabilities": [
+        "AI-drivna fakturaposter och beskrivningsförslag",
+        "Smart mallmotor med anpassning",
+        "Stöd för flera valutor med livevalutakurser",
+        "Automatiserad export till bokföringssystem"
+      ],
+      "techStack": [
+        {
+          "category": "Backend",
+          "items": ["ASP.NET Core 8", "Entity Framework", "SQL Server"]
+        },
+        {
+          "category": "Frontend",
+          "items": ["Blazor Server", "MudBlazor", "SignalR"]
+        },
+        {
+          "category": "AI/ML",
+          "items": ["GPT-4", "Mönsterigenkänning"]
+        },
+        {
+          "category": "Cloud",
+          "items": ["Azure App Service", "Azure Functions", "Blob Storage"]
+        }
+      ],
+      "projectDetails": {
+        "timeline": "8 veckor",
+        "team": "Backend-Ingenjör",
+        "delivery": "Funktionskomplett"
+      },
+      "links": [
+        { "label": "Tekniska Detaljer", "href": "#credentials" },
+        { "label": "Diskutera Ditt Projekt", "href": "#contact" }
+      ]
+    },
+    "seoSoft": {
+      "category": "Företag • Partnerskap",
+      "title": "SeoSoft Portfölj",
+      "tagline": "Partnerskap för leverans av företagslösningar",
+      "badges": {
+        "status": "Pågående",
+        "year": "2024 — Nutid",
+        "tech": "Företag"
+      },
+      "client": "SeoSoft ApS (DK)",
+      "overview": "Långsiktigt ingenjörspartnerskap som levererar företagslösningar, inklusive OrtoDOC-dokumentarbetsflöden, SMS-påminnelseautomation, CyberLearn-utbildningsplattform och BatchVision-specialiserade system.",
+      "impact": [
+        {
+          "metric": "Projekt",
+          "value": "12+",
+          "desc": "produktionssystem"
+        },
+        {
+          "metric": "Drifttid",
+          "value": "99.9%",
+          "desc": "plattformstillförlitlighet"
+        },
+        {
+          "metric": "Partnerskap",
+          "value": "2+ år",
+          "desc": "aktivt samarbete"
+        }
+      ],
+      "capabilities": [
+        "Företagsarkitektur och systemdesign",
+        "Utveckling av SaaS-plattform för flera hyresgäster",
+        "Modernisering och migrering av äldre system",
+        "Löpande underhåll och funktionsutveckling"
+      ],
+      "techStack": [
+        {
+          "category": "Backend",
+          "items": ["ASP.NET Core", "Microservices", "Event-Driven"]
+        },
+        {
+          "category": "Frontend",
+          "items": ["Angular", "React", "Modern CSS"]
+        },
+        {
+          "category": "Praxis",
+          "items": ["Clean Architecture", "TDD", "SOLID"]
+        },
+        {
+          "category": "Cloud",
+          "items": ["Azure", "DevOps-Pipelines", "Övervakning"]
+        }
+      ],
+      "projectDetails": {
+        "timeline": "Pågående",
+        "team": "Senior Partner",
+        "delivery": "Kontinuerliga releaser"
+      },
+      "links": [
+        { "label": "Besök SeoSoft", "href": "https://seosoft.dk/" },
+        { "label": "Partnerskapsdetaljer", "href": "#credentials" }
+      ]
+    }
   }
 }
 }

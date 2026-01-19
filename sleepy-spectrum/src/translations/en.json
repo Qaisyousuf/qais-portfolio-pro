@@ -134,7 +134,323 @@
     "active": "ACTIVE",
     "sharedBuild": "Shared build",
     "view": "View",
-    "footer": "This section represents an active professional collaboration between registered entities on real production systems."
+    "footer": "This section represents an active professional collaboration between registered entities on real production systems.",
+    "cards": {
+      "aiMentalHealth": {
+        "name": "AI Mental Health Platforms",
+        "tag": "AI • Health",
+        "desc": "AI-assisted experiences focused on mental wellness and support."
+      },
+      "ortoDOC": {
+        "name": "OrtoDOC",
+        "tag": "Docs • Workflow",
+        "desc": "Document workflows and structured processes for teams."
+      },
+      "aSurvey": {
+        "name": "A-Survey",
+        "tag": "Forms • Analytics",
+        "desc": "Survey engine with reporting, insights, and automation."
+      },
+      "smsReminder": {
+        "name": "SMS Reminder",
+        "tag": "Automation",
+        "desc": "Reminder flows for appointments, tasks, and follow-ups."
+      },
+      "aiModels": {
+        "name": "AI Models",
+        "tag": "ML • R&D",
+        "desc": "Custom models and experimentation pipelines for real use cases."
+      },
+      "cyberLearn": {
+        "name": "CyberLearn",
+        "tag": "EdTech • Security",
+        "desc": "Learning systems with cybersecurity-driven structure and content."
+      },
+      "batchVision": {
+        "name": "BatchVision",
+        "tag": "Vision • Ops",
+        "desc": "Batch-based processing and computer-vision style workflows."
+      },
+      "taskSyncAI": {
+        "name": "TaskSync AI",
+        "tag": "Product • AI",
+        "desc": "AI-powered project insight dashboard and workflow intelligence."
+      }
+    }
+  }
+},
+
+
+
+
+
+
+
+
+
+"work": {
+  "badge": "Featured Projects",
+  "title": "Building the Future",
+  "subtitle": "Production-grade systems combining clean architecture, AI capabilities, and enterprise reliability",
+  "labels": {
+    "overview": "Project Overview",
+    "impact": "Key Impact",
+    "capabilities": "Core Capabilities",
+    "details": "Project Details",
+    "techStack": "Technology Stack",
+    "timeline": "Timeline",
+    "role": "Role",
+    "status": "Status"
+  },
+  "projects": {
+    "aSurvey": {
+      "category": "AI • Mental Health",
+      "title": "A-Survey",
+      "tagline": "AI-powered mental health assessment platform",
+      "badges": {
+        "status": "Production",
+        "year": "2025",
+        "tech": "AI-Powered"
+      },
+      "client": "Healthcare Sector (DK)",
+      "overview": "A sophisticated mental health questionnaire platform leveraging AI to enhance question clarity, support structured assessment flows, and generate actionable analytics for healthcare professionals.",
+      "impact": [
+        {
+          "metric": "Response Quality",
+          "value": "+40%",
+          "desc": "improvement through AI assistance"
+        },
+        {
+          "metric": "Processing Time",
+          "value": "-60%",
+          "desc": "reduction in report generation"
+        },
+        {
+          "metric": "Clinical Insights",
+          "value": "Real-time",
+          "desc": "analytics dashboard"
+        }
+      ],
+      "capabilities": [
+        "AI-powered question refinement and tone optimization",
+        "Dynamic questionnaire builder with conditional logic",
+        "Advanced analytics engine with clinical reporting",
+        "GDPR-compliant data handling and encryption"
+      ],
+      "techStack": [
+        {
+          "category": "Backend",
+          "items": ["ASP.NET Core 8", "Web API", "SQL Server", "Azure AI"]
+        },
+        {
+          "category": "Frontend",
+          "items": ["Blazor", "Tailwind CSS", "Chart.js"]
+        },
+        {
+          "category": "AI/ML",
+          "items": ["OpenAI GPT-4", "Azure Cognitive", "ML.NET"]
+        },
+        {
+          "category": "Cloud",
+          "items": ["Azure App Service", "Azure SQL", "Key Vault"]
+        }
+      ],
+      "projectDetails": {
+        "timeline": "12 weeks",
+        "team": "Lead Engineer",
+        "delivery": "Production-ready system"
+      },
+      "links": [
+        { "label": "View Case Study", "href": "#credentials" },
+        { "label": "Contact for Demo", "href": "#contact" }
+      ]
+    },
+    "taskSync": {
+      "category": "AI • Product",
+      "title": "TaskSync AI",
+      "tagline": "Intelligent project delivery insights platform",
+      "badges": {
+        "status": "Active",
+        "year": "2025",
+        "tech": "ML-Driven"
+      },
+      "client": "TaskSync AI (FR)",
+      "overview": "An AI-powered dashboard that transforms project management by providing delivery clarity through intelligent insights, ticket quality scoring, PR risk signals, and sprint health monitoring across engineering teams.",
+      "impact": [
+        {
+          "metric": "Delivery Clarity",
+          "value": "+55%",
+          "desc": "sprint predictability boost"
+        },
+        {
+          "metric": "Risk Detection",
+          "value": "Early",
+          "desc": "blocker identification"
+        },
+        {
+          "metric": "Team Velocity",
+          "value": "+35%",
+          "desc": "productivity increase"
+        }
+      ],
+      "capabilities": [
+        "AI-generated clarity scores for tickets and PRs",
+        "Secure OAuth integrations with Jira and GitHub",
+        "Predictive sprint health analytics",
+        "Automated QA suggestions and test recommendations"
+      ],
+      "techStack": [
+        {
+          "category": "Backend",
+          "items": ["ASP.NET Core 8", "Clean Architecture", "MediatR"]
+        },
+        {
+          "category": "Frontend",
+          "items": ["Angular 18", "TypeScript", "RxJS", "Tailwind"]
+        },
+        {
+          "category": "AI/ML",
+          "items": ["Custom ML Models", "Azure OpenAI", "Semantic Analysis"]
+        },
+        {
+          "category": "Cloud",
+          "items": ["Docker", "Azure Kubernetes", "Redis Cache"]
+        }
+      ],
+      "projectDetails": {
+        "timeline": "16 weeks",
+        "team": "Product Engineer",
+        "delivery": "Active development"
+      },
+      "links": [
+        { "label": "Visit Website", "href": "https://tasksync.ai/" },
+        { "label": "View Collaboration", "href": "#credentials" }
+      ]
+    },
+    "invoiceStudio": {
+      "category": "AI • Finance",
+      "title": "Invoice Studio",
+      "tagline": "Smart invoicing with AI assistance",
+      "badges": {
+        "status": "Active",
+        "year": "2025",
+        "tech": "AI-Enhanced"
+      },
+      "client": "Financial Services (EU)",
+      "overview": "An intelligent invoicing system that accelerates invoice creation through AI-powered line item suggestions, template-based generation, and automation-ready export formats for European financial workflows.",
+      "impact": [
+        {
+          "metric": "Creation Speed",
+          "value": "3x",
+          "desc": "faster invoice generation"
+        },
+        {
+          "metric": "Data Accuracy",
+          "value": "99.2%",
+          "desc": "with AI validation"
+        },
+        {
+          "metric": "EU Compliance",
+          "value": "100%",
+          "desc": "format compatibility"
+        }
+      ],
+      "capabilities": [
+        "AI-powered invoice item and description suggestions",
+        "Smart template engine with customization",
+        "Multi-currency support with live exchange rates",
+        "Automated export to accounting systems"
+      ],
+      "techStack": [
+        {
+          "category": "Backend",
+          "items": ["ASP.NET Core 8", "Entity Framework", "SQL Server"]
+        },
+        {
+          "category": "Frontend",
+          "items": ["Blazor Server", "MudBlazor", "SignalR"]
+        },
+        {
+          "category": "AI/ML",
+          "items": ["GPT-4", "Pattern Recognition"]
+        },
+        {
+          "category": "Cloud",
+          "items": ["Azure App Service", "Azure Functions", "Blob Storage"]
+        }
+      ],
+      "projectDetails": {
+        "timeline": "8 weeks",
+        "team": "Backend Engineer",
+        "delivery": "Feature-complete"
+      },
+      "links": [
+        { "label": "Technical Details", "href": "#credentials" },
+        { "label": "Discuss Your Project", "href": "#contact" }
+      ]
+    },
+    "seoSoft": {
+      "category": "Enterprise • Partnership",
+      "title": "SeoSoft Portfolio",
+      "tagline": "Enterprise solutions delivery partnership",
+      "badges": {
+        "status": "Ongoing",
+        "year": "2024 — Present",
+        "tech": "Enterprise"
+      },
+      "client": "SeoSoft ApS (DK)",
+      "overview": "Long-term engineering partnership delivering enterprise-grade solutions including OrtoDOC document workflows, SMS Reminder automation, CyberLearn education platform, and BatchVision specialized systems.",
+      "impact": [
+        {
+          "metric": "Projects",
+          "value": "12+",
+          "desc": "production systems"
+        },
+        {
+          "metric": "Uptime",
+          "value": "99.9%",
+          "desc": "platform reliability"
+        },
+        {
+          "metric": "Partnership",
+          "value": "2+ years",
+          "desc": "active collaboration"
+        }
+      ],
+      "capabilities": [
+        "Enterprise architecture and system design",
+        "Multi-tenant SaaS platform development",
+        "Legacy system modernization and migration",
+        "Ongoing maintenance and feature development"
+      ],
+      "techStack": [
+        {
+          "category": "Backend",
+          "items": ["ASP.NET Core", "Microservices", "Event-Driven"]
+        },
+        {
+          "category": "Frontend",
+          "items": ["Angular", "React", "Modern CSS"]
+        },
+        {
+          "category": "Practices",
+          "items": ["Clean Architecture", "TDD", "SOLID"]
+        },
+        {
+          "category": "Cloud",
+          "items": ["Azure", "DevOps Pipelines", "Monitoring"]
+        }
+      ],
+      "projectDetails": {
+        "timeline": "Ongoing",
+        "team": "Senior Partner",
+        "delivery": "Continuous releases"
+      },
+      "links": [
+        { "label": "Visit SeoSoft", "href": "https://seosoft.dk/" },
+        { "label": "Partnership Details", "href": "#credentials" }
+      ]
+    }
   }
 }
 }

@@ -1,171 +1,120 @@
 ---
-/**
- * WORK SECTION — Next-generation professional showcase
- * - Beautiful badge designs with icons
- * - Organized content with meaningful hierarchy
- * - Stunning glassmorphism cards
- */
+interface Props {
+  lang?: string;
+}
+
+const { lang = "en" } = Astro.props;
+
+import enTranslations from '../translations/en.json';
+import daTranslations from '../translations/da.json';
+import frTranslations from '../translations/fr.json';
+import svTranslations from '../translations/sv.json';
+import nlTranslations from '../translations/nl.json';
+
+// Get the right translations based on lang prop
+const translations = {
+  en: enTranslations,
+  da: daTranslations,
+  fr: frTranslations,
+  sv: svTranslations,
+  nl: nlTranslations
+}[lang] || enTranslations;
+
+// Get work-specific translations
+const t = translations.work;
 
 const projects = [
   {
     id: "a-survey",
-    category: "AI • Mental Health",
-    title: "A-Survey",
-    tagline: "AI-powered mental health assessment platform",
+    category: t.projects.aSurvey.category,
+    title: t.projects.aSurvey.title,
+    tagline: t.projects.aSurvey.tagline,
     badges: [
-      { type: "status", label: "Production", color: "green" },
-      { type: "year", label: "2025", color: "default" },
-      { type: "tech", label: "AI-Powered", color: "blue" }
+      { type: "status", label: t.projects.aSurvey.badges.status, color: "green" },
+      { type: "year", label: t.projects.aSurvey.badges.year, color: "default" },
+      { type: "tech", label: t.projects.aSurvey.badges.tech, color: "blue" }
     ],
-    client: "Healthcare Sector (DK)",
-    overview:
-      "A sophisticated mental health questionnaire platform leveraging AI to enhance question clarity, support structured assessment flows, and generate actionable analytics for healthcare professionals.",
-    impact: [
-      { metric: "Response Quality", value: "+40%", desc: "improvement through AI assistance" },
-      { metric: "Processing Time", value: "-60%", desc: "reduction in report generation" },
-      { metric: "Clinical Insights", value: "Real-time", desc: "analytics dashboard" }
-    ],
-    capabilities: [
-      "AI-powered question refinement and tone optimization",
-      "Dynamic questionnaire builder with conditional logic",
-      "Advanced analytics engine with clinical reporting",
-      "GDPR-compliant data handling and encryption"
-    ],
-    techStack: [
-      { category: "Backend", items: ["ASP.NET Core 8", "Web API", "SQL Server", "Azure AI"] },
-      { category: "Frontend", items: ["Blazor", "Tailwind CSS", "Chart.js"] },
-      { category: "AI/ML", items: ["OpenAI GPT-4", "Azure Cognitive", "ML.NET"] },
-      { category: "Cloud", items: ["Azure App Service", "Azure SQL", "Key Vault"] }
-    ],
-    projectDetails: {
-      timeline: "12 weeks",
-      team: "Lead Engineer",
-      delivery: "Production-ready system"
-    },
-    links: [
-      { label: "View Case Study", href: "#credentials" },
-      { label: "Contact for Demo", href: "#contact" }
-    ]
+    client: t.projects.aSurvey.client,
+    overview: t.projects.aSurvey.overview,
+    impact: t.projects.aSurvey.impact.map((item: any) => ({
+      metric: item.metric,
+      value: item.value,
+      desc: item.desc,
+      chartType: item === t.projects.aSurvey.impact[0] ? "doughnut" : item === t.projects.aSurvey.impact[1] ? "bar" : "line"
+    })),
+    capabilities: t.projects.aSurvey.capabilities,
+    techStack: t.projects.aSurvey.techStack,
+    projectDetails: t.projects.aSurvey.projectDetails,
+    links: t.projects.aSurvey.links
   },
   {
     id: "tasksync",
-    category: "AI • Product",
-    title: "TaskSync AI",
-    tagline: "Intelligent project delivery insights platform",
+    category: t.projects.taskSync.category,
+    title: t.projects.taskSync.title,
+    tagline: t.projects.taskSync.tagline,
     badges: [
-      { type: "status", label: "Active", color: "blue" },
-      { type: "year", label: "2025", color: "default" },
-      { type: "tech", label: "ML-Driven", color: "purple" }
+      { type: "status", label: t.projects.taskSync.badges.status, color: "blue" },
+      { type: "year", label: t.projects.taskSync.badges.year, color: "default" },
+      { type: "tech", label: t.projects.taskSync.badges.tech, color: "purple" }
     ],
-    client: "TaskSync AI (FR)",
-    overview:
-      "An AI-powered dashboard that transforms project management by providing delivery clarity through intelligent insights, ticket quality scoring, PR risk signals, and sprint health monitoring across engineering teams.",
-    impact: [
-      { metric: "Delivery Clarity", value: "+55%", desc: "sprint predictability boost" },
-      { metric: "Risk Detection", value: "Early", desc: "blocker identification" },
-      { metric: "Team Velocity", value: "+35%", desc: "productivity increase" }
-    ],
-    capabilities: [
-      "AI-generated clarity scores for tickets and PRs",
-      "Secure OAuth integrations with Jira and GitHub",
-      "Predictive sprint health analytics",
-      "Automated QA suggestions and test recommendations"
-    ],
-    techStack: [
-      { category: "Backend", items: ["ASP.NET Core 8", "Clean Architecture", "MediatR"] },
-      { category: "Frontend", items: ["Angular 18", "TypeScript", "RxJS", "Tailwind"] },
-      { category: "AI/ML", items: ["Custom ML Models", "Azure OpenAI", "Semantic Analysis"] },
-      { category: "Cloud", items: ["Docker", "Azure Kubernetes", "Redis Cache"] }
-    ],
-    projectDetails: {
-      timeline: "16 weeks",
-      team: "Product Engineer",
-      delivery: "Active development"
-    },
-    links: [
-      { label: "Visit Website", href: "https://tasksync.ai/" },
-      { label: "View Collaboration", href: "#credentials" }
-    ]
+    client: t.projects.taskSync.client,
+    overview: t.projects.taskSync.overview,
+    impact: t.projects.taskSync.impact.map((item: any, idx: number) => ({
+      metric: item.metric,
+      value: item.value,
+      desc: item.desc,
+      chartType: idx === 0 ? "radar" : idx === 1 ? "polarArea" : "line"
+    })),
+    capabilities: t.projects.taskSync.capabilities,
+    techStack: t.projects.taskSync.techStack,
+    projectDetails: t.projects.taskSync.projectDetails,
+    links: t.projects.taskSync.links
   },
   {
     id: "invoice-studio",
-    category: "AI • Finance",
-    title: "Invoice Studio",
-    tagline: "Smart invoicing with AI assistance",
+    category: t.projects.invoiceStudio.category,
+    title: t.projects.invoiceStudio.title,
+    tagline: t.projects.invoiceStudio.tagline,
     badges: [
-      { type: "status", label: "Active", color: "blue" },
-      { type: "year", label: "2025", color: "default" },
-      { type: "tech", label: "AI-Enhanced", color: "blue" }
+      { type: "status", label: t.projects.invoiceStudio.badges.status, color: "blue" },
+      { type: "year", label: t.projects.invoiceStudio.badges.year, color: "default" },
+      { type: "tech", label: t.projects.invoiceStudio.badges.tech, color: "blue" }
     ],
-    client: "Financial Services (EU)",
-    overview:
-      "An intelligent invoicing system that accelerates invoice creation through AI-powered line item suggestions, template-based generation, and automation-ready export formats for European financial workflows.",
-    impact: [
-      { metric: "Creation Speed", value: "3x", desc: "faster invoice generation" },
-      { metric: "Data Accuracy", value: "99.2%", desc: "with AI validation" },
-      { metric: "EU Compliance", value: "100%", desc: "format compatibility" }
-    ],
-    capabilities: [
-      "AI-powered invoice item and description suggestions",
-      "Smart template engine with customization",
-      "Multi-currency support with live exchange rates",
-      "Automated export to accounting systems"
-    ],
-    techStack: [
-      { category: "Backend", items: ["ASP.NET Core 8", "Entity Framework", "SQL Server"] },
-      { category: "Frontend", items: ["Blazor Server", "MudBlazor", "SignalR"] },
-      { category: "AI/ML", items: ["GPT-4", "Pattern Recognition"] },
-      { category: "Cloud", items: ["Azure App Service", "Azure Functions", "Blob Storage"] }
-    ],
-    projectDetails: {
-      timeline: "8 weeks",
-      team: "Backend Engineer",
-      delivery: "Feature-complete"
-    },
-    links: [
-      { label: "Technical Details", href: "#credentials" },
-      { label: "Discuss Your Project", href: "#contact" }
-    ]
+    client: t.projects.invoiceStudio.client,
+    overview: t.projects.invoiceStudio.overview,
+    impact: t.projects.invoiceStudio.impact.map((item: any, idx: number) => ({
+      metric: item.metric,
+      value: item.value,
+      desc: item.desc,
+      chartType: idx === 0 ? "bar" : idx === 1 ? "doughnut" : "line"
+    })),
+    capabilities: t.projects.invoiceStudio.capabilities,
+    techStack: t.projects.invoiceStudio.techStack,
+    projectDetails: t.projects.invoiceStudio.projectDetails,
+    links: t.projects.invoiceStudio.links
   },
   {
     id: "seosoft",
-    category: "Enterprise • Partnership",
-    title: "SeoSoft Portfolio",
-    tagline: "Enterprise solutions delivery partnership",
+    category: t.projects.seoSoft.category,
+    title: t.projects.seoSoft.title,
+    tagline: t.projects.seoSoft.tagline,
     badges: [
-      { type: "status", label: "Ongoing", color: "green" },
-      { type: "year", label: "2024 — Present", color: "default" },
-      { type: "tech", label: "Enterprise", color: "orange" }
+      { type: "status", label: t.projects.seoSoft.badges.status, color: "green" },
+      { type: "year", label: t.projects.seoSoft.badges.year, color: "default" },
+      { type: "tech", label: t.projects.seoSoft.badges.tech, color: "orange" }
     ],
-    client: "SeoSoft ApS (DK)",
-    overview:
-      "Long-term engineering partnership delivering enterprise-grade solutions including OrtoDOC document workflows, SMS Reminder automation, CyberLearn education platform, and BatchVision specialized systems.",
-    impact: [
-      { metric: "Projects", value: "12+", desc: "production systems" },
-      { metric: "Uptime", value: "99.9%", desc: "platform reliability" },
-      { metric: "Partnership", value: "2+ years", desc: "active collaboration" }
-    ],
-    capabilities: [
-      "Enterprise architecture and system design",
-      "Multi-tenant SaaS platform development",
-      "Legacy system modernization and migration",
-      "Ongoing maintenance and feature development"
-    ],
-    techStack: [
-      { category: "Backend", items: ["ASP.NET Core", "Microservices", "Event-Driven"] },
-      { category: "Frontend", items: ["Angular", "React", "Modern CSS"] },
-      { category: "Practices", items: ["Clean Architecture", "TDD", "SOLID"] },
-      { category: "Cloud", items: ["Azure", "DevOps Pipelines", "Monitoring"] }
-    ],
-    projectDetails: {
-      timeline: "Ongoing",
-      team: "Senior Partner",
-      delivery: "Continuous releases"
-    },
-    links: [
-      { label: "Visit SeoSoft", href: "https://seosoft.dk/" },
-      { label: "Partnership Details", href: "#credentials" }
-    ]
+    client: t.projects.seoSoft.client,
+    overview: t.projects.seoSoft.overview,
+    impact: t.projects.seoSoft.impact.map((item: any, idx: number) => ({
+      metric: item.metric,
+      value: item.value,
+      desc: item.desc,
+      chartType: idx === 0 ? "bar" : idx === 1 ? "doughnut" : "line"
+    })),
+    capabilities: t.projects.seoSoft.capabilities,
+    techStack: t.projects.seoSoft.techStack,
+    projectDetails: t.projects.seoSoft.projectDetails,
+    links: t.projects.seoSoft.links
   }
 ];
 
@@ -173,6 +122,7 @@ const defaultProject = projects[0];
 const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(obj));
 ---
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <section id="work" class="work-section">
   <div class="work-container">
     <!-- Section Header -->
@@ -182,11 +132,11 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
           <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
           <line x1="9" y1="3" x2="9" y2="21" />
         </svg>
-        <span>Featured Projects</span>
+        <span>{t.badge}</span>
       </div>
-      <h2 class="section-title">Building the Future</h2>
+      <h2 class="section-title">{t.title}</h2>
       <p class="section-description">
-        Production-grade systems combining clean architecture, AI capabilities, and enterprise reliability
+        {t.subtitle}
       </p>
     </div>
 
@@ -233,23 +183,32 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
             id={`showcase-${project.id}`}
             style={idx === 0 ? "display: block;" : "display: none;"}
           >
-            <!-- Header Section -->
+            <!-- Header Section with Charts -->
             <div class="showcase-header">
-              <div class="header-meta">
-                <span class="meta-category">{project.category}</span>
-                <span class="meta-separator">•</span>
-                <span class="meta-client">{project.client}</span>
-              </div>
+              <div class="header-content">
+                <div class="header-text">
+                  <div class="header-meta">
+                    <span class="meta-category">{project.category}</span>
+                    <span class="meta-separator">•</span>
+                    <span class="meta-client">{project.client}</span>
+                  </div>
 
-              <h3 class="header-title">{project.title}</h3>
-              <p class="header-tagline">{project.tagline}</p>
+                  <h3 class="header-title">{project.title}</h3>
+                  <p class="header-tagline">{project.tagline}</p>
 
-              <div class="header-badges-row">
-                {project.badges.map((badge) => (
-                  <span class:list={["badge-pill", `badge-pill--${badge.color}`]}>
-                    {badge.label}
-                  </span>
-                ))}
+                  <div class="header-badges-row">
+                    {project.badges.map((badge) => (
+                      <span class:list={["badge-pill", `badge-pill--${badge.color}`]}>
+                        {badge.label}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <!-- Single Prominent Chart -->
+                <div class="header-chart-showcase">
+                  <canvas id={`chart-showcase-${project.id}`} class="showcase-canvas"></canvas>
+                </div>
               </div>
             </div>
 
@@ -260,7 +219,7 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
                   <circle cx="12" cy="12" r="10" />
                   <path d="M12 16v-4M12 8h.01" />
                 </svg>
-                <span>Project Overview</span>
+                <span>{t.labels.overview}</span>
               </div>
               <p class="section-text">{project.overview}</p>
             </div>
@@ -272,11 +231,14 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
                   <path d="M3 3v18h18" />
                   <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" />
                 </svg>
-                <span>Key Impact</span>
+                <span>{t.labels.impact}</span>
               </div>
               <div class="metrics-grid">
-                {project.impact.map((item) => (
+                {project.impact.map((item, metricIdx) => (
                   <div class="metric-card">
+                    <div class="metric-chart-container">
+                      <canvas id={`chart-${project.id}-${metricIdx}`} class="metric-chart"></canvas>
+                    </div>
                     <div class="metric-value">{item.value}</div>
                     <div class="metric-label">{item.metric}</div>
                     <div class="metric-desc">{item.desc}</div>
@@ -293,7 +255,7 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
-                  <span>Core Capabilities</span>
+                  <span>{t.labels.capabilities}</span>
                 </div>
                 <ul class="capabilities-list">
                   {project.capabilities.map((cap) => (
@@ -323,19 +285,19 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
                     <line x1="8" y1="2" x2="8" y2="6" />
                     <line x1="3" y1="10" x2="21" y2="10" />
                   </svg>
-                  <span>Project Details</span>
+                  <span>{t.labels.details}</span>
                 </div>
                 <div class="details-grid">
                   <div class="detail-item">
-                    <div class="detail-label">Timeline</div>
+                    <div class="detail-label">{t.labels.timeline}</div>
                     <div class="detail-value">{project.projectDetails.timeline}</div>
                   </div>
                   <div class="detail-item">
-                    <div class="detail-label">Role</div>
+                    <div class="detail-label">{t.labels.role}</div>
                     <div class="detail-value">{project.projectDetails.team}</div>
                   </div>
                   <div class="detail-item">
-                    <div class="detail-label">Status</div>
+                    <div class="detail-label">{t.labels.status}</div>
                     <div class="detail-value">{project.projectDetails.delivery}</div>
                   </div>
                 </div>
@@ -350,7 +312,7 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
                   <line x1="8" y1="21" x2="16" y2="21" />
                   <line x1="12" y1="17" x2="12" y2="21" />
                 </svg>
-                <span>Technology Stack</span>
+                <span>{t.labels.techStack}</span>
               </div>
               <div class="tech-grid">
                 {project.techStack.map((group) => (
@@ -414,12 +376,10 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
     let currentShowcase = document.getElementById("showcase-a-survey");
 
     const fadeTransition = async (newShowcase) => {
-      // Fade out current
       currentShowcase.style.opacity = "0.3";
       currentShowcase.style.transform = "translateY(12px)";
       await new Promise((r) => setTimeout(r, 200));
 
-      // Hide current, show new
       currentShowcase.style.display = "none";
       newShowcase.style.display = "block";
       newShowcase.style.opacity = "0.3";
@@ -427,7 +387,6 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
 
       await new Promise((r) => setTimeout(r, 50));
 
-      // Fade in new
       newShowcase.style.opacity = "1";
       newShowcase.style.transform = "translateY(0)";
 
@@ -446,7 +405,557 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
         }
       });
     });
+
+    function initCharts() {
+      if (typeof window.Chart === 'undefined') {
+        setTimeout(initCharts, 100);
+        return;
+      }
+
+      const Chart = window.Chart;
+
+      const showcaseCharts = {
+        'a-survey': {
+          type: 'bar',
+          data: {
+            labels: ['Response Quality', 'Processing Time', 'User Satisfaction', 'Data Accuracy', 'Clinical Insights'],
+            datasets: [{
+              label: 'Improvement %',
+              data: [40, 60, 55, 45, 75],
+              backgroundColor: [
+                'rgba(59, 130, 246, 0.8)',
+                'rgba(16, 163, 74, 0.8)',
+                'rgba(139, 92, 246, 0.8)',
+                'rgba(249, 115, 22, 0.8)',
+                'rgba(236, 72, 153, 0.8)'
+              ],
+              borderRadius: 8,
+              borderWidth: 0
+            }]
+          },
+          options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: true,
+            animation: {
+              duration: 2000,
+              easing: 'easeInOutQuart'
+            },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                enabled: true,
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                padding: 12,
+                titleColor: '#fff',
+                bodyColor: '#fff',
+                callbacks: {
+                  label: function(context) {
+                    return '+' + context.parsed.x + '% improvement';
+                  }
+                }
+              }
+            },
+            scales: {
+              x: {
+                grid: {
+                  color: 'rgba(255, 255, 255, 0.05)',
+                  drawBorder: false
+                },
+                ticks: {
+                  color: 'rgba(255, 255, 255, 0.5)',
+                  font: { size: 11 },
+                  callback: function(value) {
+                    return '+' + value + '%';
+                  }
+                }
+              },
+              y: {
+                grid: { display: false },
+                ticks: {
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  font: { size: 11, weight: '600' }
+                }
+              }
+            }
+          }
+        },
+        'tasksync': {
+          type: 'radar',
+          data: {
+            labels: ['Sprint Planning', 'Code Quality', 'Velocity', 'Risk Detection', 'Team Clarity', 'Delivery Time'],
+            datasets: [
+              {
+                label: 'Before AI',
+                data: [45, 50, 40, 35, 42, 48],
+                backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                borderColor: 'rgba(239, 68, 68, 0.8)',
+                borderWidth: 2,
+                pointBackgroundColor: 'rgba(239, 68, 68, 0.8)',
+                pointRadius: 4
+              },
+              {
+                label: 'With AI',
+                data: [85, 90, 75, 88, 92, 80],
+                backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                borderColor: 'rgba(59, 130, 246, 0.9)',
+                borderWidth: 3,
+                pointBackgroundColor: 'rgba(59, 130, 246, 0.9)',
+                pointRadius: 5
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            animation: {
+              duration: 2000,
+              easing: 'easeInOutQuart'
+            },
+            plugins: {
+              legend: {
+                display: true,
+                position: 'top',
+                labels: {
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  font: { size: 12, weight: '600' },
+                  padding: 15
+                }
+              },
+              tooltip: {
+                enabled: true,
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                padding: 12
+              }
+            },
+            scales: {
+              r: {
+                beginAtZero: true,
+                max: 100,
+                ticks: {
+                  color: 'rgba(255, 255, 255, 0.4)',
+                  backdropColor: 'transparent',
+                  font: { size: 10 }
+                },
+                grid: {
+                  color: 'rgba(255, 255, 255, 0.1)'
+                },
+                pointLabels: {
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  font: { size: 11, weight: '600' }
+                }
+              }
+            }
+          }
+        },
+        'invoice-studio': {
+          type: 'line',
+          data: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 8'],
+            datasets: [
+              {
+                label: 'Manual Processing',
+                data: [100, 98, 95, 93, 90, 88, 85, 83],
+                borderColor: 'rgba(239, 68, 68, 0.8)',
+                backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4,
+                pointRadius: 4,
+                pointBackgroundColor: 'rgba(239, 68, 68, 0.8)'
+              },
+              {
+                label: 'AI-Assisted',
+                data: [100, 150, 200, 240, 270, 290, 300, 305],
+                borderColor: 'rgba(16, 163, 74, 0.9)',
+                backgroundColor: 'rgba(16, 163, 74, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointRadius: 5,
+                pointBackgroundColor: 'rgba(16, 163, 74, 0.9)'
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            animation: {
+              duration: 2000,
+              easing: 'easeInOutQuart'
+            },
+            plugins: {
+              legend: {
+                display: true,
+                position: 'top',
+                labels: {
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  font: { size: 12, weight: '600' },
+                  padding: 15
+                }
+              },
+              tooltip: {
+                enabled: true,
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                padding: 12
+              }
+            },
+            scales: {
+              x: {
+                grid: {
+                  color: 'rgba(255, 255, 255, 0.05)',
+                  drawBorder: false
+                },
+                ticks: {
+                  color: 'rgba(255, 255, 255, 0.5)',
+                  font: { size: 11 }
+                }
+              },
+              y: {
+                beginAtZero: true,
+                grid: {
+                  color: 'rgba(255, 255, 255, 0.05)',
+                  drawBorder: false
+                },
+                ticks: {
+                  color: 'rgba(255, 255, 255, 0.5)',
+                  font: { size: 11 },
+                  callback: function(value) {
+                    return value + ' invoices';
+                  }
+                }
+              }
+            }
+          }
+        },
+        'seosoft': {
+          type: 'doughnut',
+          data: {
+            labels: ['Production Systems', 'In Development', 'Maintenance', 'Completed'],
+            datasets: [{
+              data: [12, 3, 8, 15],
+              backgroundColor: [
+                'rgba(59, 130, 246, 0.9)',
+                'rgba(139, 92, 246, 0.9)',
+                'rgba(249, 115, 22, 0.9)',
+                'rgba(16, 163, 74, 0.9)'
+              ],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            animation: {
+              duration: 2000,
+              easing: 'easeInOutQuart'
+            },
+            plugins: {
+              legend: {
+                display: true,
+                position: 'right',
+                labels: {
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  font: { size: 12, weight: '600' },
+                  padding: 15,
+                  generateLabels: function(chart) {
+                    const data = chart.data;
+                    return data.labels.map((label, i) => ({
+                      text: label + ': ' + data.datasets[0].data[i],
+                      fillStyle: data.datasets[0].backgroundColor[i],
+                      hidden: false,
+                      index: i
+                    }));
+                  }
+                }
+              },
+              tooltip: {
+                enabled: true,
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                padding: 12,
+                callbacks: {
+                  label: function(context) {
+                    return context.label + ': ' + context.parsed + ' projects';
+                  }
+                }
+              }
+            },
+            cutout: '60%'
+          }
+        }
+      };
+
+      Object.keys(showcaseCharts).forEach(projectId => {
+        const ctx = document.getElementById(`chart-showcase-${projectId}`);
+        if (ctx) {
+          const config = showcaseCharts[projectId];
+          new Chart(ctx, {
+            type: config.type,
+            data: config.data,
+            options: config.options
+          });
+        }
+      });
+
+      const projects = [
+        {
+          id: "a-survey",
+          charts: [
+            { 
+              type: "doughnut", 
+              data: [40, 60], 
+              colors: ['rgba(59, 130, 246, 0.9)', 'rgba(59, 130, 246, 0.1)'],
+              title: "+40% Response Quality"
+            },
+            { 
+              type: "bar", 
+              data: [100, 40], 
+              colors: ['rgba(239, 68, 68, 0.3)', 'rgba(16, 163, 74, 0.9)'],
+              labels: ['Before', 'After'],
+              title: "-60% Processing Time"
+            },
+            { 
+              type: "line", 
+              data: [20, 35, 45, 60, 75, 85, 100], 
+              color: 'rgba(139, 92, 246, 0.9)',
+              title: "Real-time Growth"
+            }
+          ]
+        },
+        {
+          id: "tasksync",
+          charts: [
+            { 
+              type: "radar", 
+              data: [55, 65, 70, 60, 75], 
+              color: 'rgba(59, 130, 246, 0.7)',
+              title: "+55% Delivery Clarity"
+            },
+            { 
+              type: "polarArea", 
+              data: [70, 80, 65, 75, 85], 
+              colors: [
+                'rgba(168, 85, 247, 0.9)',
+                'rgba(168, 85, 247, 0.7)',
+                'rgba(168, 85, 247, 0.8)',
+                'rgba(168, 85, 247, 0.6)',
+                'rgba(168, 85, 247, 0.95)'
+              ],
+              title: "Early Risk Detection"
+            },
+            { 
+              type: "line", 
+              data: [20, 30, 35, 40, 45, 52, 55], 
+              color: 'rgba(16, 163, 74, 0.9)',
+              title: "+35% Team Velocity"
+            }
+          ]
+        },
+        {
+          id: "invoice-studio",
+          charts: [
+            { 
+              type: "bar", 
+              data: [100, 300], 
+              colors: ['rgba(239, 68, 68, 0.3)', 'rgba(59, 130, 246, 0.9)'],
+              labels: ['Before', 'After'],
+              title: "3x Faster Creation"
+            },
+            { 
+              type: "doughnut", 
+              data: [99.2, 0.8], 
+              colors: ['rgba(16, 163, 74, 0.9)', 'rgba(239, 68, 68, 0.2)'],
+              title: "99.2% Accuracy"
+            },
+            { 
+              type: "line", 
+              data: [80, 85, 92, 95, 98, 99.5, 100], 
+              color: 'rgba(139, 92, 246, 0.9)',
+              title: "100% EU Compliance"
+            }
+          ]
+        },
+        {
+          id: "seosoft",
+          charts: [
+            { 
+              type: "bar", 
+              data: [0, 12], 
+              colors: ['rgba(59, 130, 246, 0.2)', 'rgba(59, 130, 246, 0.9)'],
+              labels: ['Start', 'Now'],
+              title: "12+ Projects"
+            },
+            { 
+              type: "doughnut", 
+              data: [99.9, 0.1], 
+              colors: ['rgba(16, 163, 74, 0.9)', 'rgba(239, 68, 68, 0.2)'],
+              title: "99.9% Uptime"
+            },
+            { 
+              type: "line", 
+              data: [6, 10, 14, 18, 20, 22, 24], 
+              color: 'rgba(139, 92, 246, 0.9)',
+              title: "2+ Years Growth"
+            }
+          ]
+        }
+      ];
+
+      const commonOptions = {
+        responsive: true,
+        maintainAspectRatio: true,
+        animation: {
+          duration: 2000,
+          easing: 'easeInOutQuart'
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: false }
+        }
+      };
+
+      function createChart(ctx, chartConfig, isHeader = false) {
+        if (!ctx) return;
+
+        switch(chartConfig.type) {
+          case "doughnut":
+            new Chart(ctx, {
+              type: 'doughnut',
+              data: {
+                datasets: [{
+                  data: chartConfig.data,
+                  backgroundColor: chartConfig.colors,
+                  borderWidth: 0,
+                  circumference: isHeader ? 270 : 180,
+                  rotation: isHeader ? 225 : 270
+                }]
+              },
+              options: {
+                ...commonOptions,
+                aspectRatio: isHeader ? 1 : 2,
+                cutout: '70%'
+              }
+            });
+            break;
+
+          case "bar":
+            new Chart(ctx, {
+              type: 'bar',
+              data: {
+                labels: chartConfig.labels || ['A', 'B'],
+                datasets: [{
+                  data: chartConfig.data,
+                  backgroundColor: chartConfig.colors,
+                  borderRadius: 8,
+                  borderWidth: 0,
+                  barThickness: isHeader ? 24 : 16
+                }]
+              },
+              options: {
+                ...commonOptions,
+                indexAxis: 'y',
+                aspectRatio: isHeader ? 1 : 2.5,
+                scales: {
+                  x: { display: false },
+                  y: { display: false }
+                }
+              }
+            });
+            break;
+
+          case "line":
+            new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: Array(chartConfig.data.length).fill(''),
+                datasets: [{
+                  data: chartConfig.data,
+                  borderColor: chartConfig.color,
+                  backgroundColor: chartConfig.color.replace('0.9)', '0.15)'),
+                  borderWidth: isHeader ? 3 : 2,
+                  fill: true,
+                  tension: 0.4,
+                  pointRadius: 0,
+                  pointHoverRadius: 0
+                }]
+              },
+              options: {
+                ...commonOptions,
+                aspectRatio: isHeader ? 1 : 2.5,
+                scales: {
+                  x: { display: false },
+                  y: { display: false }
+                }
+              }
+            });
+            break;
+
+          case "radar":
+            new Chart(ctx, {
+              type: 'radar',
+              data: {
+                labels: ['Sprint 1', 'Sprint 2', 'Sprint 3', 'Sprint 4', 'Sprint 5'],
+                datasets: [{
+                  data: chartConfig.data,
+                  backgroundColor: chartConfig.color.replace('0.7)', '0.2)'),
+                  borderColor: chartConfig.color,
+                  borderWidth: 2,
+                  pointRadius: isHeader ? 3 : 0,
+                  pointBackgroundColor: chartConfig.color
+                }]
+              },
+              options: {
+                ...commonOptions,
+                aspectRatio: isHeader ? 1 : 2,
+                scales: {
+                  r: {
+                    display: false,
+                    beginAtZero: true,
+                    max: 100
+                  }
+                }
+              }
+            });
+            break;
+
+          case "polarArea":
+            new Chart(ctx, {
+              type: 'polarArea',
+              data: {
+                labels: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5'],
+                datasets: [{
+                  data: chartConfig.data,
+                  backgroundColor: chartConfig.colors,
+                  borderWidth: 0
+                }]
+              },
+              options: {
+                ...commonOptions,
+                aspectRatio: isHeader ? 1 : 2,
+                scales: {
+                  r: { display: false }
+                }
+              }
+            });
+            break;
+        }
+      }
+
+      projects.forEach(project => {
+        project.charts.forEach((chartConfig, idx) => {
+          const metricsCtx = document.getElementById(`chart-${project.id}-${idx}`);
+          createChart(metricsCtx, chartConfig, false);
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCharts);
+    } else {
+      initCharts();
+    }
   </script>
+</section>
 
   <style>
     .work-section {
@@ -461,7 +970,7 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
     .work-container {
       max-width: 1400px;
       margin: 0 auto;
-      padding: 0 1.5rem;
+      padding: 0 1rem;
     }
 
     /* Section Header */
@@ -530,12 +1039,11 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
       }
     }
 
-    /* Project Selector (MAKE STICKY — design unchanged) */
+    /* Project Selector */
     .project-selector {
       display: grid;
       gap: 1rem;
       height: fit-content;
-
       position: sticky;
       top: 6rem;
       align-self: start;
@@ -700,7 +1208,8 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
     /* Showcase */
     .showcase {
       padding: 2.5rem;
-      background: rgba(255, 255, 255, 0.02);
+     
+      
       border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: 24px;
       backdrop-filter: blur(20px);
@@ -725,6 +1234,24 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
       border-bottom-color: rgba(0, 0, 0, 0.08);
     }
 
+    .header-content {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    @media (min-width: 1024px) {
+      .header-content {
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+      }
+    }
+
+    .header-text {
+      /* Text content stays on the left */
+    }
+
     .header-meta {
       display: flex;
       align-items: center;
@@ -737,10 +1264,6 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
       font-weight: 700;
       color: #3b82f6;
       letter-spacing: 0.02em;
-    }
-
-    :global(.light) .meta-category {
-      color: #3b82f6;
     }
 
     .meta-separator {
@@ -795,7 +1318,66 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
       align-items: center;
       gap: 0.75rem;
       flex-wrap: wrap;
-      margin-top: 0;
+    }
+
+    /* Single Prominent Header Chart */
+    .header-chart-showcase {
+      position: relative;
+     
+      min-height: 250px;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .header-chart-showcase::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .header-chart-showcase:hover {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(59, 130, 246, 0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4),
+                  0 0 40px rgba(59, 130, 246, 0.15);
+    }
+
+    .header-chart-showcase:hover::before {
+      opacity: 1;
+    }
+
+    :global(.light) .header-chart-showcase {
+      background: rgba(0, 0, 0, 0.02);
+      border-color: rgba(0, 0, 0, 0.08);
+    }
+
+    :global(.light) .header-chart-showcase:hover {
+      background: rgba(0, 0, 0, 0.04);
+      border-color: rgba(59, 130, 246, 0.4);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12),
+                  0 0 40px rgba(59, 130, 246, 0.15);
+    }
+
+    .showcase-canvas {
+      position: relative;
+      z-index: 1;
+      max-width: 100%;
+      max-height: 280px;
     }
 
     .badge-pill {
@@ -849,7 +1431,7 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
 
     /* Content Sections */
     .content-section {
-      padding: 1.5rem;
+      padding: 1rem;
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: 14px;
@@ -898,7 +1480,7 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
 
     /* Metrics */
     .metrics-section {
-      padding: 1.5rem;
+      padding: 1rem;
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: 14px;
@@ -913,7 +1495,7 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
     .metrics-grid {
       display: grid;
       gap: 1rem;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     }
 
     .metric-card {
@@ -923,6 +1505,9 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
       border-radius: 14px;
       text-align: center;
       transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .metric-card:hover {
@@ -939,6 +1524,17 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
     :global(.light) .metric-card:hover {
       background: rgba(0, 0, 0, 0.04);
       border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    .metric-chart-container {
+      width: 100%;
+      max-width: 150px;
+      margin-bottom: 1rem;
+    }
+
+    .metric-chart {
+      width: 100% !important;
+      height: auto !important;
     }
 
     .metric-value {
@@ -1060,7 +1656,7 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
 
     /* Tech Stack */
     .tech-section {
-      padding: 1.5rem;
+      padding: 1rem;
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: 14px;
@@ -1076,10 +1672,6 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
       display: grid;
       gap: 1.25rem;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    }
-
-    .tech-group {
-      /* No additional styles needed, inherits from parent */
     }
 
     .tech-category {
@@ -1207,7 +1799,12 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
       }
 
       .showcase {
-        padding: 1.75rem;
+        padding: 1.3rem;
+      }
+
+      .header-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
       }
 
       .header-title {
@@ -1223,6 +1820,16 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
         font-size: 0.75rem;
       }
 
+      .header-chart-showcase {
+        min-height: 240px;
+        
+        
+      }
+
+      .showcase-canvas {
+        max-height: 200px;
+      }
+
       .metric-value {
         font-size: 1.75rem;
       }
@@ -1235,12 +1842,16 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
         grid-template-columns: 1fr;
       }
 
+      .metric-chart-container {
+        max-width: 120px;
+      }
+
       .tech-grid {
         grid-template-columns: 1fr;
       }
 
       .actions-section {
-        flex-direction: column;
+        flex-direction: row;
       }
 
       .action-btn {
@@ -1248,7 +1859,6 @@ const encode = (obj: typeof projects[0]) => encodeURIComponent(JSON.stringify(ob
         justify-content: center;
       }
 
-      /* Sticky off on mobile (prevents weird jumps) */
       .project-selector {
         position: static;
         top: auto;
