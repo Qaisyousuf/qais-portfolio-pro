@@ -19,18 +19,25 @@
 }
 
 .light {
-  --bg-primary: #f8fafc;
-  --bg-secondary: #ffffff;
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
+  /* Warm backgrounds with better contrast */
+  --bg-primary: #faf8f5;
+  --bg-secondary: #fffcf9;
+
+  /* High contrast text with warmer tones */
+  --text-primary: #1a1410;
+  --text-secondary: #3d3834;
+  --text-muted: #6b6661;
+
+  /* Warmer, vibrant accents */
   --accent: #2563eb;
   --accent-secondary: #7c3aed;
-  --accent-glow: rgba(37, 99, 235, 0.35);
-  --accent-subtle: rgba(37, 99, 235, 0.12);
+  --accent-glow: rgba(37, 99, 235, 0.4);
+  --accent-subtle: rgba(37, 99, 235, 0.15);
+
+  /* Warmer success colors */
   --success: #16a34a;
-  --success-subtle: rgba(22, 163, 74, 0.12);
-  --success-border: rgba(22, 163, 74, 0.25);
+  --success-subtle: rgba(22, 163, 74, 0.15);
+  --success-border: rgba(22, 163, 74, 0.3);
 }
 
 * {
