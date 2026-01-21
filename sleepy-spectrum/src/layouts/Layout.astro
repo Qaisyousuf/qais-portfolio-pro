@@ -13,9 +13,8 @@ const {
 
 const url = Astro.url.href;
 
-// Use absolute www URL to avoid redirect/crawler issues.
-// Bump v=2 -> v=3 whenever you update the image.
-const ogImage = "https://www.getrok.com/og-image.png?v=2";
+// IMPORTANT: cache-bust for LinkedIn
+const ogImage = `https://www.getrok.com/og-image.png?v=3`;
 ---
 
 <!DOCTYPE html>
@@ -25,15 +24,12 @@ const ogImage = "https://www.getrok.com/og-image.png?v=2";
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
 
-    <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    <!-- Canonical -->
     <link rel="canonical" href={url} />
 
-    <!-- Open Graph / LinkedIn / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="GetRok" />
     <meta property="og:url" content={url} />
@@ -45,29 +41,18 @@ const ogImage = "https://www.getrok.com/og-image.png?v=2";
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
 
-    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content={url} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
-
     <title>{title}</title>
   </head>
 
   <body>
     <slot />
-
     <script>
-      // Theme toggle script
       function initTheme() {
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'light') {
@@ -88,5 +73,5 @@ const ogImage = "https://www.getrok.com/og-image.png?v=2";
 </html>
 
 <style>
-  @import '../styles/global.css';
+  @import "../styles/global.css";
 </style>
