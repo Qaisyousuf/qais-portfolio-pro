@@ -7,9 +7,13 @@ interface Props {
 
 const { 
   title, 
-  description = "Senior Full-stack .NET Engineer with 8+ years building enterprise systems.", 
+  description = "AI-powered solutions for modern businesses. Built with .NET.", 
   lang = "en" 
 } = Astro.props;
+
+const url = Astro.url.href;
+const origin = Astro.url.origin;
+const ogImage = `${origin}/og-image.png`;
 ---
 
 <!DOCTYPE html>
@@ -24,21 +28,26 @@ const {
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   
+  <!-- Canonical -->
+  <link rel="canonical" href={url} />
+  
   <!-- Open Graph / LinkedIn / Facebook -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://getrok.com/" />
-  <meta property="og:title" content="GetRok - Try the AI" />
-  <meta property="og:description" content="AI-powered solutions for modern businesses. Built with .NET." />
-  <meta property="og:image" content="https://getrok.com/og-image.png" />
+  <meta property="og:url" content={url} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:image:secure_url" content={ogImage} />
+  <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content="https://getrok.com/" />
-  <meta name="twitter:title" content="GetRok - Try the AI" />
-  <meta name="twitter:description" content="AI-powered solutions for modern businesses. Built with .NET." />
-  <meta name="twitter:image" content="https://getrok.com/og-image.png" />
+  <meta name="twitter:url" content={url} />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
   
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
