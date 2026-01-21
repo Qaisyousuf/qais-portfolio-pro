@@ -13,8 +13,11 @@ const {
 
 const url = Astro.url.href;
 
-// IMPORTANT: cache-bust for LinkedIn
-const ogImage = `https://www.getrok.com/og-image.png?v=3`;
+// Canonical should NOT include query params
+const canonical = `${Astro.url.origin}${Astro.url.pathname}`;
+
+// Make OG image absolute + cache-busted
+const ogImage = "https://www.getrok.com/og-image.png?v=6";
 ---
 
 <!DOCTYPE html>
@@ -28,7 +31,7 @@ const ogImage = `https://www.getrok.com/og-image.png?v=3`;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    <link rel="canonical" href={url} />
+    <link rel="canonical" href={canonical} />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="GetRok" />
@@ -52,23 +55,6 @@ const ogImage = `https://www.getrok.com/og-image.png?v=3`;
 
   <body>
     <slot />
-    <script>
-      function initTheme() {
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'light') {
-          document.documentElement.classList.remove('dark');
-          document.documentElement.classList.add('light');
-        }
-      }
-      initTheme();
-
-      window.toggleTheme = function () {
-        document.documentElement.classList.toggle('light');
-        document.documentElement.classList.toggle('dark');
-        const isLight = document.documentElement.classList.contains('light');
-        localStorage.setItem('theme', isLight ? 'light' : 'dark');
-      };
-    </script>
   </body>
 </html>
 
