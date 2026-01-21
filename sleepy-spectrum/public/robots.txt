@@ -6,7 +6,7 @@ Allow: /
 Disallow: /api/
 
 # Sitemap location
-Sitemap: https://getrok.com/sitemap.xml
+Sitemap: https://www.getrok.com/sitemap.xml
 
 # Crawl delay (optional, helps prevent rate limiting)
 Crawl-delay: 1
