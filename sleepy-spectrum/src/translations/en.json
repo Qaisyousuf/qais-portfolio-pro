@@ -452,7 +452,357 @@
       ]
     }
   }
+},
+
+
+"services": {
+  "badge": "AVAILABLE FOR PROJECTS",
+  "sidebarTitle": "Build Your",
+  "sidebarTitleAccent": "Perfect Solution",
+  "sidebarDescription": "Fixed-scope projects with clear deliverables and predictable timelines. No hourly rates, just results.",
+  "sidebarFooter": "All projects include documentation, testing, and deployment support.",
+  "terminalPath": "/services",
+  "terminalStatus": "live",
+  "terminalLabel": "WHAT YOU GET",
+  "highlights": [
+    "Fixed-scope pricing",
+    "Predictable timelines",
+    "Production-grade quality",
+    "Complete documentation",
+    "Clean architecture",
+    "Direct communication"
+  ],
+  "buttons": {
+    "startProject": "Start Project",
+    "viewWork": "View Work",
+    "viewPricing": "View Pricing"
+  },
+  "labels": {
+    "whatWeDo": "WHAT WE DO",
+    "youGet": "YOU GET",
+    "stack": "Stack:",
+    "investment": "Investment:",
+    "popular": "Popular"
+  },
+  "statusBar": {
+    "message": "Need something custom? Let's discuss your specific requirements and build a tailored solution.",
+    "system": "system: ready",
+    "response": "response: 24h"
+  },
+  "servicesList": {
+    "apiDevelopment": {
+      "id": "01",
+      "title": "API Development",
+      "blurb": "Production-ready RESTful & GraphQL endpoints with complete documentation and testing.",
+      "bullets": [
+        "JWT Authentication",
+        "Swagger/OpenAPI docs",
+        "Rate limiting & caching"
+      ],
+      "outputs": [
+        "Deployed API",
+        "Complete docs",
+        "Test suite",
+        "CI/CD pipeline"
+      ],
+      "timeline": "1-3 weeks",
+      "price": "€2.5K - €5K",
+      "tech": ["ASP.NET Core", "Entity Framework", "SQL Server"]
+    },
+    "webApplications": {
+      "id": "02",
+      "title": "Web Applications",
+      "blurb": "Full-stack solutions with modern UI, real-time features, and scalable architecture.",
+      "bullets": [
+        "Angular or Blazor frontend",
+        "Real-time with SignalR",
+        "Role-based access control"
+      ],
+      "outputs": [
+        "Live application",
+        "Source code",
+        "User docs",
+        "Admin training"
+      ],
+      "timeline": "2-6 weeks",
+      "price": "€5K - €15K",
+      "tech": ["Angular", "Blazor", "ASP.NET Core"]
+    },
+    "databaseDesign": {
+      "id": "03",
+      "title": "Database Design & Optimization",
+      "blurb": "Scalable database architecture with performance tuning and migration strategies.",
+      "bullets": [
+        "Schema design & normalization",
+        "Query optimization",
+        "Indexing strategies"
+      ],
+      "outputs": [
+        "Database schema",
+        "Migration scripts",
+        "Performance report",
+        "Backup strategy"
+      ],
+      "timeline": "1-2 weeks",
+      "price": "€1.5K - €4K",
+      "tech": ["SQL Server", "PostgreSQL", "Entity Framework"]
+    },
+    "uiuxDesign": {
+      "id": "04",
+      "title": "UI/UX Design",
+      "blurb": "User-centered design with modern interfaces, prototypes, and complete design systems.",
+      "bullets": [
+        "User research & wireframes",
+        "High-fidelity mockups",
+        "Design system creation"
+      ],
+      "outputs": [
+        "Figma designs",
+        "Prototype",
+        "Design system",
+        "Style guide"
+      ],
+      "timeline": "2-4 weeks",
+      "price": "€3K - €7K",
+      "tech": ["Figma", "Adobe XD", "Design Systems"]
+    },
+    "aiIntegration": {
+      "id": "05",
+      "title": "AI Integration",
+      "blurb": "Add intelligence to your systems with OpenAI, Azure AI, or custom ML models.",
+      "bullets": [
+        "OpenAI/Azure AI setup",
+        "Custom integrations",
+        "Cost optimization"
+      ],
+      "outputs": [
+        "AI-powered features",
+        "Integration docs",
+        "Usage monitoring"
+      ],
+      "timeline": "2-4 weeks",
+      "price": "€3K - €8K",
+      "tech": ["OpenAI", "Azure AI", "ML.NET"]
+    },
+    "mobileApp": {
+      "id": "06",
+      "title": "Mobile App Development",
+      "blurb": "Cross-platform mobile applications with native performance and seamless user experience.",
+      "bullets": [
+        "iOS & Android apps",
+        "Native performance",
+        "Offline-first architecture"
+      ],
+      "outputs": [
+        "Published apps",
+        "Source code",
+        "Documentation",
+        "App store assets"
+      ],
+      "timeline": "4-8 weeks",
+      "price": "€8K - €20K",
+      "tech": [".NET MAUI", "Xamarin", "React Native"]
+    },
+    "ecommerce": {
+      "id": "07",
+      "title": "E-commerce Solutions",
+      "blurb": "Complete online store with payment integration, inventory management, and analytics.",
+      "bullets": [
+        "Product catalog & cart",
+        "Payment processing",
+        "Order management"
+      ],
+      "outputs": [
+        "Live store",
+        "Admin dashboard",
+        "Payment setup",
+        "Analytics"
+      ],
+      "timeline": "4-6 weeks",
+      "price": "€7K - €15K",
+      "tech": ["ASP.NET Core", "Stripe", "Azure"]
+    },
+    "maintenance": {
+      "id": "08",
+      "title": "Maintenance & Support",
+      "blurb": "Keep your systems secure, fast, and up-to-date with proactive monitoring.",
+      "bullets": [
+        "Security patches",
+        "Performance tuning",
+        "24-hour response time"
+      ],
+      "outputs": [
+        "Monthly reports",
+        "Priority bug fixes",
+        "Performance optimization"
+      ],
+      "timeline": "Ongoing",
+      "price": "€800 - €2K/mo",
+      "tech": [".NET", "Azure", "DevOps"]
+    }
+  }
+},
+
+
+
+"process": {
+  "badge": "HOW I WORK",
+  "title": "From Idea to Production",
+  "subtitle": "A proven 6-step process that turns unclear problems into clean, reliable products you can trust.",
+  "steps": {
+    "discovery": {
+      "title": "Discovery",
+      "subtitle": "Understand the problem",
+      "description": "Deep dive into your business needs, technical challenges, and success metrics through detailed stakeholder interviews.",
+      "bullets": [
+        "Requirements gathering",
+        "Technical feasibility analysis",
+        "Timeline & budget planning"
+      ],
+      "duration": "1-2 weeks"
+    },
+    "planning": {
+      "title": "Planning",
+      "subtitle": "Define the roadmap",
+      "description": "Break down the project into clear milestones, prioritize features, and define sprint goals.",
+      "bullets": [
+        "User stories & priorities",
+        "Sprint planning",
+        "Resource allocation"
+      ],
+      "duration": "1 week"
+    },
+    "architecture": {
+      "title": "Architecture",
+      "subtitle": "Design the system",
+      "description": "Clean architecture design with scalability, security, and maintainability in mind.",
+      "bullets": [
+        "System design",
+        "Technology stack",
+        "Security & scalability"
+      ],
+      "duration": "1-2 weeks"
+    },
+    "development": {
+      "title": "Development",
+      "subtitle": "Build with quality",
+      "description": "Agile development with 2-week sprints, TDD approach, and continuous code reviews.",
+      "bullets": [
+        "Clean code principles",
+        "TDD development",
+        "Code reviews"
+      ],
+      "duration": "4-12 weeks"
+    },
+    "testing": {
+      "title": "Testing",
+      "subtitle": "Ensure reliability",
+      "description": "Comprehensive testing strategy including unit, integration, and performance testing.",
+      "bullets": [
+        "Unit & integration tests",
+        "Performance testing",
+        "Bug fixes & optimization"
+      ],
+      "duration": "1-2 weeks"
+    },
+    "launch": {
+      "title": "Launch",
+      "subtitle": "Deploy & support",
+      "description": "Production deployment with monitoring, documentation, and ongoing support options.",
+      "bullets": [
+        "Production deployment",
+        "Documentation & training",
+        "Ongoing support"
+      ],
+      "duration": "1 week + support"
+    }
+  }
+},
+
+
+"team": {
+  "title": "The Team",
+  "subtitle": "30+ years building enterprise solutions",
+  "chartTitle": "Problems We Solve",
+  "visitSite": "Visit Site",
+  "members": {
+    "qais": {
+      "name": "Qais Yousuf",
+      "role": "Senior .NET Engineer",
+      "company": "TaskSync AI",
+      "location": "France",
+      "bio": "8+ years building scalable .NET systems and AI integrations for European clients.",
+      "tags": ["ASP.NET Core", "Angular", "Azure", "AI", "Clean Architecture"],
+      "problemsData": {
+        "labels": ["API Development", "Web Apps", "AI Integration", "Cloud Solutions", "Mobile Apps"]
+      }
+    },
+    "soren": {
+      "name": "Søren Eggert",
+      "role": "Founder & CEO",
+      "company": "SeoSoft ApS",
+      "location": "Denmark",
+      "bio": "25+ years mastering Dynamics AX and .NET. Quality isn't what you say—it's what you deliver.",
+      "tags": ["Dynamics AX", ".NET Core", "SQL Server", "Performance", "Enterprise"],
+      "problemsData": {
+        "labels": ["Dynamics AX", "Enterprise Apps", "Database Optimization", "Legacy Systems", "Integration"]
+      }
+    }
+  }
+},
+
+"footer": {
+  "tagline": "Building scalable .NET systems and AI integrations",
+  "copyright": "All rights reserved.",
+  "privacy": "Privacy Policy",
+  "social": {
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "email": "Email"
+  }
+},
+
+
+"privacy": {
+  "title": "Privacy Policy",
+  "lastUpdated": "Last Updated: January 2025",
+  "sections": {
+    "intro": {
+      "title": "Introduction",
+      "content": "This Privacy Policy explains how we collect, use, and protect your information when you use our AI chat feature on getrok.com."
+    },
+    "dataCollection": {
+      "title": "What Data We Collect",
+      "content": "When you use our AI chat, we collect and store the following data in Google Sheets: your chat messages (questions and AI responses), conversation timestamps (date and time), session ID (to track conversation flow), and approximate location (country/region based on IP). We do NOT collect: your name, email, phone number, or any personal identifying information unless you voluntarily provide it in the chat."
+    },
+    "dataUsage": {
+      "title": "How We Use Your Data",
+      "content": "Chat logs are analyzed to: understand what topics interest potential clients, improve our AI response quality, identify common questions and pain points, generate insights for business development, and evaluate the effectiveness of our chat system. We never sell or share your data with third parties."
+    },
+    "dataStorage": {
+      "title": "Where We Store Your Data",
+      "content": "All chat logs are stored in Google Sheets (Google Cloud infrastructure). Google Sheets provides: encrypted data transmission (HTTPS), secure cloud storage with Google's security measures, and access controls (only authorized personnel can view logs). Data is stored temporarily for analysis purposes only."
+    },
+    "userRights": {
+      "title": "Your Rights Under GDPR",
+      "content": "You have the right to: access your chat data (request a copy), request correction of inaccurate data, request deletion of your data (right to be forgotten), object to data processing, and withdraw consent at any time. To exercise these rights, email us at qais@seosoft.dk with your session ID or conversation details."
+    },
+    "retention": {
+      "title": "How Long We Keep Your Data",
+      "content": "Chat logs are retained for up to 12 months for analysis and service improvement. After this period, data may be anonymized or deleted. You can request immediate deletion of your data at any time by contacting qais@seosoft.dk."
+    },
+    "cookies": {
+      "title": "Cookies & Tracking",
+      "content": "We do NOT use: tracking cookies, analytics cookies (e.g., Google Analytics), advertising cookies, or third-party tracking. We only use essential browser session storage to maintain your chat conversation during your visit. This data is cleared when you close your browser."
+    },
+    "contact": {
+      "title": "Questions or Concerns",
+      "content": "If you have any questions about this Privacy Policy or how we handle your data, please contact: Qais Yousuf at qais@seosoft.dk. We typically respond within 24 hours."
+    }
+  },
+  "closeButton": "Close"
 }
+
 }
 
 

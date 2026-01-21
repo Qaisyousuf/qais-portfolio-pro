@@ -436,5 +436,357 @@
       ]
     }
   }
+},
+
+"services": {
+  "badge": "DISPONIBLE POUR PROJETS",
+  "sidebarTitle": "Construisez Votre",
+  "sidebarTitleAccent": "Solution Parfaite",
+  "sidebarDescription": "Projets à périmètre fixe avec des livrables clairs et des délais prévisibles. Pas de tarifs horaires, juste des résultats.",
+  "sidebarFooter": "Tous les projets incluent documentation, tests et support de déploiement.",
+  "terminalPath": "/services",
+  "terminalStatus": "en ligne",
+  "terminalLabel": "CE QUE VOUS OBTENEZ",
+  "highlights": [
+    "Tarification à périmètre fixe",
+    "Délais prévisibles",
+    "Qualité production",
+    "Documentation complète",
+    "Architecture propre",
+    "Communication directe"
+  ],
+  "buttons": {
+    "startProject": "Démarrer le Projet",
+    "viewWork": "Voir le Travail",
+    "viewPricing": "Voir les Tarifs"
+  },
+  "labels": {
+    "whatWeDo": "CE QUE NOUS FAISONS",
+    "youGet": "VOUS OBTENEZ",
+    "stack": "Stack:",
+    "investment": "Investissement:",
+    "popular": "Populaire"
+  },
+  "statusBar": {
+    "message": "Besoin de quelque chose de personnalisé? Discutons de vos besoins spécifiques et construisons une solution sur mesure.",
+    "system": "système: prêt",
+    "response": "réponse: 24h"
+  },
+  "servicesList": {
+    "apiDevelopment": {
+      "id": "01",
+      "title": "Développement d'API",
+      "blurb": "Endpoints RESTful & GraphQL prêts pour la production avec documentation et tests complets.",
+      "bullets": [
+        "Authentification JWT",
+        "Docs Swagger/OpenAPI",
+        "Limitation de débit & cache"
+      ],
+      "outputs": [
+        "API déployée",
+        "Documentation complète",
+        "Suite de tests",
+        "Pipeline CI/CD"
+      ],
+      "timeline": "1-3 semaines",
+      "price": "€2.5K - €5K",
+      "tech": ["ASP.NET Core", "Entity Framework", "SQL Server"]
+    },
+    "webApplications": {
+      "id": "02",
+      "title": "Applications Web",
+      "blurb": "Solutions full-stack avec UI moderne, fonctionnalités temps réel et architecture évolutive.",
+      "bullets": [
+        "Frontend Angular ou Blazor",
+        "Temps réel avec SignalR",
+        "Contrôle d'accès basé sur les rôles"
+      ],
+      "outputs": [
+        "Application en ligne",
+        "Code source",
+        "Documentation utilisateur",
+        "Formation admin"
+      ],
+      "timeline": "2-6 semaines",
+      "price": "€5K - €15K",
+      "tech": ["Angular", "Blazor", "ASP.NET Core"]
+    },
+    "databaseDesign": {
+      "id": "03",
+      "title": "Conception & Optimisation de Base de Données",
+      "blurb": "Architecture de base de données évolutive avec optimisation des performances et stratégies de migration.",
+      "bullets": [
+        "Conception de schéma & normalisation",
+        "Optimisation des requêtes",
+        "Stratégies d'indexation"
+      ],
+      "outputs": [
+        "Schéma de base de données",
+        "Scripts de migration",
+        "Rapport de performance",
+        "Stratégie de sauvegarde"
+      ],
+      "timeline": "1-2 semaines",
+      "price": "€1.5K - €4K",
+      "tech": ["SQL Server", "PostgreSQL", "Entity Framework"]
+    },
+    "uiuxDesign": {
+      "id": "04",
+      "title": "Design UI/UX",
+      "blurb": "Design centré utilisateur avec interfaces modernes, prototypes et systèmes de design complets.",
+      "bullets": [
+        "Recherche utilisateur & wireframes",
+        "Maquettes haute fidélité",
+        "Création de système de design"
+      ],
+      "outputs": [
+        "Designs Figma",
+        "Prototype",
+        "Système de design",
+        "Guide de style"
+      ],
+      "timeline": "2-4 semaines",
+      "price": "€3K - €7K",
+      "tech": ["Figma", "Adobe XD", "Systèmes de Design"]
+    },
+    "aiIntegration": {
+      "id": "05",
+      "title": "Intégration IA",
+      "blurb": "Ajoutez de l'intelligence à vos systèmes avec OpenAI, Azure AI ou des modèles ML personnalisés.",
+      "bullets": [
+        "Configuration OpenAI/Azure AI",
+        "Intégrations personnalisées",
+        "Optimisation des coûts"
+      ],
+      "outputs": [
+        "Fonctionnalités alimentées par l'IA",
+        "Documentation d'intégration",
+        "Surveillance d'utilisation"
+      ],
+      "timeline": "2-4 semaines",
+      "price": "€3K - €8K",
+      "tech": ["OpenAI", "Azure AI", "ML.NET"]
+    },
+    "mobileApp": {
+      "id": "06",
+      "title": "Développement d'Applications Mobiles",
+      "blurb": "Applications mobiles multiplateformes avec performances natives et expérience utilisateur fluide.",
+      "bullets": [
+        "Applications iOS & Android",
+        "Performance native",
+        "Architecture offline-first"
+      ],
+      "outputs": [
+        "Applications publiées",
+        "Code source",
+        "Documentation",
+        "Ressources app store"
+      ],
+      "timeline": "4-8 semaines",
+      "price": "€8K - €20K",
+      "tech": [".NET MAUI", "Xamarin", "React Native"]
+    },
+    "ecommerce": {
+      "id": "07",
+      "title": "Solutions E-commerce",
+      "blurb": "Boutique en ligne complète avec intégration de paiement, gestion des stocks et analyses.",
+      "bullets": [
+        "Catalogue produits & panier",
+        "Traitement des paiements",
+        "Gestion des commandes"
+      ],
+      "outputs": [
+        "Boutique en ligne",
+        "Tableau de bord admin",
+        "Configuration paiement",
+        "Analyses"
+      ],
+      "timeline": "4-6 semaines",
+      "price": "€7K - €15K",
+      "tech": ["ASP.NET Core", "Stripe", "Azure"]
+    },
+    "maintenance": {
+      "id": "08",
+      "title": "Maintenance & Support",
+      "blurb": "Gardez vos systèmes sécurisés, rapides et à jour avec surveillance proactive.",
+      "bullets": [
+        "Correctifs de sécurité",
+        "Optimisation des performances",
+        "Temps de réponse 24 heures"
+      ],
+      "outputs": [
+        "Rapports mensuels",
+        "Corrections de bugs prioritaires",
+        "Optimisation des performances"
+      ],
+      "timeline": "Continue",
+      "price": "€800 - €2K/mois",
+      "tech": [".NET", "Azure", "DevOps"]
+    }
+  }
+},
+
+
+
+"process": {
+  "badge": "COMMENT JE TRAVAILLE",
+  "title": "De l'Idée à la Production",
+  "subtitle": "Un processus éprouvé en 6 étapes qui transforme des problèmes flous en produits propres et fiables auxquels vous pouvez faire confiance.",
+  "steps": {
+    "discovery": {
+      "title": "Découverte",
+      "subtitle": "Comprendre le problème",
+      "description": "Plongée approfondie dans vos besoins commerciaux, défis techniques et métriques de succès grâce à des entretiens détaillés avec les parties prenantes.",
+      "bullets": [
+        "Collecte des exigences",
+        "Analyse de faisabilité technique",
+        "Planification des délais et du budget"
+      ],
+      "duration": "1-2 semaines"
+    },
+    "planning": {
+      "title": "Planification",
+      "subtitle": "Définir la feuille de route",
+      "description": "Décomposer le projet en jalons clairs, prioriser les fonctionnalités et définir les objectifs des sprints.",
+      "bullets": [
+        "User stories & priorités",
+        "Planification des sprints",
+        "Allocation des ressources"
+      ],
+      "duration": "1 semaine"
+    },
+    "architecture": {
+      "title": "Architecture",
+      "subtitle": "Concevoir le système",
+      "description": "Conception d'architecture propre avec l'évolutivité, la sécurité et la maintenabilité à l'esprit.",
+      "bullets": [
+        "Conception du système",
+        "Stack technologique",
+        "Sécurité & évolutivité"
+      ],
+      "duration": "1-2 semaines"
+    },
+    "development": {
+      "title": "Développement",
+      "subtitle": "Construire avec qualité",
+      "description": "Développement agile avec des sprints de 2 semaines, approche TDD et revues de code continues.",
+      "bullets": [
+        "Principes de code propre",
+        "Développement TDD",
+        "Revues de code"
+      ],
+      "duration": "4-12 semaines"
+    },
+    "testing": {
+      "title": "Tests",
+      "subtitle": "Assurer la fiabilité",
+      "description": "Stratégie de test complète incluant les tests unitaires, d'intégration et de performance.",
+      "bullets": [
+        "Tests unitaires & d'intégration",
+        "Tests de performance",
+        "Corrections de bugs & optimisation"
+      ],
+      "duration": "1-2 semaines"
+    },
+    "launch": {
+      "title": "Lancement",
+      "subtitle": "Déployer & supporter",
+      "description": "Déploiement en production avec surveillance, documentation et options de support continu.",
+      "bullets": [
+        "Déploiement en production",
+        "Documentation & formation",
+        "Support continu"
+      ],
+      "duration": "1 semaine + support"
+    }
+  }
+},
+
+
+"team": {
+  "title": "L'Équipe",
+  "subtitle": "30+ ans à construire des solutions d'entreprise",
+  "chartTitle": "Problèmes Que Nous Résolvons",
+  "visitSite": "Visiter le Site",
+  "members": {
+    "qais": {
+      "name": "Qais Yousuf",
+      "role": "Ingénieur .NET Senior",
+      "company": "TaskSync AI",
+      "location": "France",
+      "bio": "8+ ans à construire des systèmes .NET évolutifs et des intégrations IA pour des clients européens.",
+      "tags": ["ASP.NET Core", "Angular", "Azure", "IA", "Architecture Propre"],
+      "problemsData": {
+        "labels": ["Développement API", "Applications Web", "Intégration IA", "Solutions Cloud", "Applications Mobiles"]
+      }
+    },
+    "soren": {
+      "name": "Søren Eggert",
+      "role": "Fondateur & PDG",
+      "company": "SeoSoft ApS",
+      "location": "Danemark",
+      "bio": "25+ ans à maîtriser Dynamics AX et .NET. La qualité n'est pas ce que vous dites—c'est ce que vous livrez.",
+      "tags": ["Dynamics AX", ".NET Core", "SQL Server", "Performance", "Entreprise"],
+      "problemsData": {
+        "labels": ["Dynamics AX", "Applications d'Entreprise", "Optimisation de Base de Données", "Systèmes Hérités", "Intégration"]
+      }
+    }
+  }
+},
+
+
+"footer": {
+  "tagline": "Création de systèmes .NET évolutifs et d'intégrations IA",
+  "copyright": "Tous droits réservés.",
+  "privacy": "Politique de Confidentialité",
+  "social": {
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "email": "E-mail"
+  }
+},
+
+
+"privacy": {
+  "title": "Politique de Confidentialité",
+  "lastUpdated": "Dernière mise à jour : Janvier 2025",
+  "sections": {
+    "intro": {
+      "title": "Introduction",
+      "content": "Cette politique de confidentialité explique comment nous collectons, utilisons et protégeons vos informations lorsque vous utilisez notre fonction de chat IA sur getrok.com."
+    },
+    "dataCollection": {
+      "title": "Quelles Données Nous Collectons",
+      "content": "Lorsque vous utilisez notre chat IA, nous collectons et stockons les données suivantes dans Google Sheets : vos messages de chat (questions et réponses IA), horodatages de conversation (date et heure), ID de session (pour suivre le flux de conversation), et localisation approximative (pays/région basée sur l'IP). Nous ne collectons PAS : votre nom, e-mail, numéro de téléphone ou toute information personnellement identifiable, sauf si vous la fournissez volontairement dans le chat."
+    },
+    "dataUsage": {
+      "title": "Comment Nous Utilisons Vos Données",
+      "content": "Les journaux de chat sont analysés pour : comprendre les sujets qui intéressent les clients potentiels, améliorer la qualité de nos réponses IA, identifier les questions et points de friction courants, générer des insights pour le développement commercial, et évaluer l'efficacité de notre système de chat. Nous ne vendons ni ne partageons jamais vos données avec des tiers."
+    },
+    "dataStorage": {
+      "title": "Où Nous Stockons Vos Données",
+      "content": "Tous les journaux de chat sont stockés dans Google Sheets (infrastructure Google Cloud). Google Sheets fournit : transmission de données cryptée (HTTPS), stockage cloud sécurisé avec les mesures de sécurité de Google, et contrôles d'accès (seul le personnel autorisé peut consulter les journaux). Les données sont stockées temporairement uniquement à des fins d'analyse."
+    },
+    "userRights": {
+      "title": "Vos Droits Selon le RGPD",
+      "content": "Vous avez le droit de : accéder à vos données de chat (demander une copie), demander la correction de données inexactes, demander la suppression de vos données (droit à l'oubli), vous opposer au traitement des données, et retirer votre consentement à tout moment. Pour exercer ces droits, envoyez un e-mail à qais@seosoft.dk avec votre ID de session ou les détails de la conversation."
+    },
+    "retention": {
+      "title": "Durée de Conservation de Vos Données",
+      "content": "Les journaux de chat sont conservés jusqu'à 12 mois pour l'analyse et l'amélioration du service. Après cette période, les données peuvent être anonymisées ou supprimées. Vous pouvez demander la suppression immédiate de vos données à tout moment en contactant qais@seosoft.dk."
+    },
+    "cookies": {
+      "title": "Cookies et Suivi",
+      "content": "Nous n'utilisons PAS : cookies de suivi, cookies analytiques (par ex. Google Analytics), cookies publicitaires, ou suivi tiers. Nous utilisons uniquement le stockage de session de navigateur essentiel pour maintenir votre conversation de chat pendant votre visite. Ces données sont effacées lorsque vous fermez votre navigateur."
+    },
+    "contact": {
+      "title": "Questions ou Préoccupations",
+      "content": "Si vous avez des questions sur cette politique de confidentialité ou sur la façon dont nous traitons vos données, veuillez contacter : Qais Yousuf à qais@seosoft.dk. Nous répondons généralement dans les 24 heures."
+    }
+  },
+  "closeButton": "Fermer"
 }
+
+
+
 }

@@ -438,5 +438,351 @@
       ]
     }
   }
+},
+
+"services": {
+  "badge": "BESCHIKBAAR VOOR PROJECTEN",
+  "sidebarTitle": "Bouw Uw",
+  "sidebarTitleAccent": "Perfecte Oplossing",
+  "sidebarDescription": "Projecten met vaste omvang met duidelijke deliverables en voorspelbare tijdlijnen. Geen uurtarieven, alleen resultaten.",
+  "sidebarFooter": "Alle projecten omvatten documentatie, testen en implementatieondersteuning.",
+  "terminalPath": "/diensten",
+  "terminalStatus": "live",
+  "terminalLabel": "WAT U KRIJGT",
+  "highlights": [
+    "Vaste omvang prijsstelling",
+    "Voorspelbare tijdlijnen",
+    "Productiekwaliteit",
+    "Volledige documentatie",
+    "Schone architectuur",
+    "Directe communicatie"
+  ],
+  "buttons": {
+    "startProject": "Start Project",
+    "viewWork": "Bekijk Werk",
+    "viewPricing": "Bekijk Prijzen"
+  },
+  "labels": {
+    "whatWeDo": "WAT WIJ DOEN",
+    "youGet": "U KRIJGT",
+    "stack": "Stack:",
+    "investment": "Investering:",
+    "popular": "Populair"
+  },
+  "statusBar": {
+    "message": "Heeft u iets op maat nodig? Laten we uw specifieke vereisten bespreken en een oplossing op maat bouwen.",
+    "system": "systeem: gereed",
+    "response": "respons: 24u"
+  },
+  "servicesList": {
+    "apiDevelopment": {
+      "id": "01",
+      "title": "API-Ontwikkeling",
+      "blurb": "Productieklare RESTful & GraphQL endpoints met volledige documentatie en testen.",
+      "bullets": [
+        "JWT-Authenticatie",
+        "Swagger/OpenAPI-documentatie",
+        "Snelheidsbeperking & caching"
+      ],
+      "outputs": [
+        "Geïmplementeerde API",
+        "Volledige documentatie",
+        "Testsuite",
+        "CI/CD-pipeline"
+      ],
+      "timeline": "1-3 weken",
+      "price": "€2.5K - €5K",
+      "tech": ["ASP.NET Core", "Entity Framework", "SQL Server"]
+    },
+    "webApplications": {
+      "id": "02",
+      "title": "Webapplicaties",
+      "blurb": "Full-stack oplossingen met moderne UI, realtime functies en schaalbare architectuur.",
+      "bullets": [
+        "Angular of Blazor frontend",
+        "Realtime met SignalR",
+        "Op rollen gebaseerde toegangscontrole"
+      ],
+      "outputs": [
+        "Live applicatie",
+        "Broncode",
+        "Gebruikersdocumentatie",
+        "Admin training"
+      ],
+      "timeline": "2-6 weken",
+      "price": "€5K - €15K",
+      "tech": ["Angular", "Blazor", "ASP.NET Core"]
+    },
+    "databaseDesign": {
+      "id": "03",
+      "title": "Database Ontwerp & Optimalisatie",
+      "blurb": "Schaalbare database-architectuur met prestatieoptimalisatie en migratiestrategieën.",
+      "bullets": [
+        "Schema-ontwerp & normalisatie",
+        "Query-optimalisatie",
+        "Indexeringsstrategieën"
+      ],
+      "outputs": [
+        "Databaseschema",
+        "Migratiescripts",
+        "Prestatierapport",
+        "Backupstrategie"
+      ],
+      "timeline": "1-2 weken",
+      "price": "€1.5K - €4K",
+      "tech": ["SQL Server", "PostgreSQL", "Entity Framework"]
+    },
+    "uiuxDesign": {
+      "id": "04",
+      "title": "UI/UX-Design",
+      "blurb": "Gebruiksgericht ontwerp met moderne interfaces, prototypes en complete ontwerpsystemen.",
+      "bullets": [
+        "Gebruikersonderzoek & wireframes",
+        "High-fidelity mockups",
+        "Creatie van ontwerpsysteem"
+      ],
+      "outputs": [
+        "Figma-ontwerpen",
+        "Prototype",
+        "Ontwerpsysteem",
+        "Stijlgids"
+      ],
+      "timeline": "2-4 weken",
+      "price": "€3K - €7K",
+      "tech": ["Figma", "Adobe XD", "Ontwerpsystemen"]
+    },
+    "aiIntegration": {
+      "id": "05",
+      "title": "AI-Integratie",
+      "blurb": "Voeg intelligentie toe aan uw systemen met OpenAI, Azure AI of aangepaste ML-modellen.",
+      "bullets": [
+        "OpenAI/Azure AI-setup",
+        "Aangepaste integraties",
+        "Kostenoptimalisatie"
+      ],
+      "outputs": [
+        "AI-aangedreven functies",
+        "Integratiedocumentatie",
+        "Gebruiksmonitoring"
+      ],
+      "timeline": "2-4 weken",
+      "price": "€3K - €8K",
+      "tech": ["OpenAI", "Azure AI", "ML.NET"]
+    },
+    "mobileApp": {
+      "id": "06",
+      "title": "Mobiele App-Ontwikkeling",
+      "blurb": "Cross-platform mobiele applicaties met native prestaties en naadloze gebruikerservaring.",
+      "bullets": [
+        "iOS & Android apps",
+        "Native prestaties",
+        "Offline-first architectuur"
+      ],
+      "outputs": [
+        "Gepubliceerde apps",
+        "Broncode",
+        "Documentatie",
+        "App store assets"
+      ],
+      "timeline": "4-8 weken",
+      "price": "€8K - €20K",
+      "tech": [".NET MAUI", "Xamarin", "React Native"]
+    },
+    "ecommerce": {
+      "id": "07",
+      "title": "E-commerce Oplossingen",
+      "blurb": "Complete online winkel met betalingsintegratie, voorraadbeheer en analyses.",
+      "bullets": [
+        "Productcatalogus & winkelwagen",
+        "Betalingsverwerking",
+        "Orderbeheer"
+      ],
+      "outputs": [
+        "Live winkel",
+        "Admin dashboard",
+        "Betalingsinstellingen",
+        "Analyses"
+      ],
+      "timeline": "4-6 weken",
+      "price": "€7K - €15K",
+      "tech": ["ASP.NET Core", "Stripe", "Azure"]
+    },
+    "maintenance": {
+      "id": "08",
+      "title": "Onderhoud & Support",
+      "blurb": "Houd uw systemen veilig, snel en up-to-date met proactieve monitoring.",
+      "bullets": [
+        "Beveiligingspatches",
+        "Prestatieoptimalisatie",
+        "24-uurs responstijd"
+      ],
+      "outputs": [
+        "Maandelijkse rapporten",
+        "Prioriteit bugfixes",
+        "Prestatieoptimalisatie"
+      ],
+      "timeline": "Doorlopend",
+      "price": "€800 - €2K/mnd",
+      "tech": [".NET", "Azure", "DevOps"]
+    }
+  }
+},
+
+"process": {
+  "badge": "HOE IK WERK",
+  "title": "Van Idee naar Productie",
+  "subtitle": "Een bewezen 6-stappenproces dat onduidelijke problemen omzet in schone, betrouwbare producten waarop u kunt vertrouwen.",
+  "steps": {
+    "discovery": {
+      "title": "Ontdekking",
+      "subtitle": "Begrijp het probleem",
+      "description": "Diepgaande duik in uw zakelijke behoeften, technische uitdagingen en succesmaatstaven via gedetailleerde stakeholder-interviews.",
+      "bullets": [
+        "Verzamelen van vereisten",
+        "Technische haalbaarheidsanalyse",
+        "Tijdlijn & budgetplanning"
+      ],
+      "duration": "1-2 weken"
+    },
+    "planning": {
+      "title": "Planning",
+      "subtitle": "Definieer de routekaart",
+      "description": "Verdeel het project in duidelijke mijlpalen, prioriteer functies en definieer sprint-doelen.",
+      "bullets": [
+        "User stories & prioriteiten",
+        "Sprint planning",
+        "Resource allocatie"
+      ],
+      "duration": "1 week"
+    },
+    "architecture": {
+      "title": "Architectuur",
+      "subtitle": "Ontwerp het systeem",
+      "description": "Schone architectuurontwerp met schaalbaarheid, beveiliging en onderhoudbaarheid in gedachten.",
+      "bullets": [
+        "Systeemontwerp",
+        "Technologiestack",
+        "Beveiliging & schaalbaarheid"
+      ],
+      "duration": "1-2 weken"
+    },
+    "development": {
+      "title": "Ontwikkeling",
+      "subtitle": "Bouw met kwaliteit",
+      "description": "Agile ontwikkeling met 2-wekelijkse sprints, TDD-aanpak en continue code reviews.",
+      "bullets": [
+        "Schone code principes",
+        "TDD ontwikkeling",
+        "Code reviews"
+      ],
+      "duration": "4-12 weken"
+    },
+    "testing": {
+      "title": "Testen",
+      "subtitle": "Verzeker betrouwbaarheid",
+      "description": "Uitgebreide teststrategie inclusief unit-, integratie- en prestatietesten.",
+      "bullets": [
+        "Unit & integratietesten",
+        "Prestatietesten",
+        "Bugfixes & optimalisatie"
+      ],
+      "duration": "1-2 weken"
+    },
+    "launch": {
+      "title": "Lancering",
+      "subtitle": "Implementeer & ondersteun",
+      "description": "Productie-implementatie met monitoring, documentatie en doorlopende supportopties.",
+      "bullets": [
+        "Productie-implementatie",
+        "Documentatie & training",
+        "Doorlopende ondersteuning"
+      ],
+      "duration": "1 week + support"
+    }
+  }
+},
+
+
+"team": {
+  "title": "Het Team",
+  "subtitle": "30+ jaar ervaring met het bouwen van bedrijfsoplossingen",
+  "chartTitle": "Problemen Die We Oplossen",
+  "visitSite": "Bezoek Website",
+  "members": {
+    "qais": {
+      "name": "Qais Yousuf",
+      "role": "Senior .NET Engineer",
+      "company": "TaskSync AI",
+      "location": "Frankrijk",
+      "bio": "8+ jaar ervaring met het bouwen van schaalbare .NET-systemen en AI-integraties voor Europese klanten.",
+      "tags": ["ASP.NET Core", "Angular", "Azure", "AI", "Schone Architectuur"],
+      "problemsData": {
+        "labels": ["API-Ontwikkeling", "Web Apps", "AI-Integratie", "Cloudoplossingen", "Mobiele Apps"]
+      }
+    },
+    "soren": {
+      "name": "Søren Eggert",
+      "role": "Oprichter & CEO",
+      "company": "SeoSoft ApS",
+      "location": "Denemarken",
+      "bio": "25+ jaar ervaring met Dynamics AX en .NET. Kwaliteit is niet wat je zegt—het is wat je levert.",
+      "tags": ["Dynamics AX", ".NET Core", "SQL Server", "Prestaties", "Onderneming"],
+      "problemsData": {
+        "labels": ["Dynamics AX", "Bedrijfsapps", "Database Optimalisatie", "Legacy Systemen", "Integratie"]
+      }
+    }
+  }
+},
+
+"footer": {
+  "tagline": "Bouw schaalbare .NET-systemen en AI-integraties",
+  "copyright": "Alle rechten voorbehouden.",
+  "privacy": "Privacybeleid",
+  "social": {
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "email": "E-mail"
+  }
+},
+
+
+"privacy": {
+  "title": "Privacybeleid",
+  "lastUpdated": "Laatst bijgewerkt: Januari 2025",
+  "sections": {
+    "intro": {
+      "title": "Inleiding",
+      "content": "Dit privacybeleid legt uit hoe we uw informatie verzamelen, gebruiken en beschermen wanneer u onze AI-chatfunctie op getrok.com gebruikt."
+    },
+    "dataCollection": {
+      "title": "Welke Gegevens We Verzamelen",
+      "content": "Wanneer u onze AI-chat gebruikt, verzamelen en bewaren we de volgende gegevens in Google Sheets: uw chatberichten (vragen en AI-antwoorden), conversatietijdstempels (datum en tijd), sessie-ID (om het conversatietraject te volgen), en geschatte locatie (land/regio op basis van IP). We verzamelen NIET: uw naam, e-mail, telefoonnummer of andere persoonlijk identificeerbare informatie, tenzij u deze vrijwillig verstrekt in de chat."
+    },
+    "dataUsage": {
+      "title": "Hoe We Uw Gegevens Gebruiken",
+      "content": "Chatlogs worden geanalyseerd om: te begrijpen welke onderwerpen potentiële klanten interesseren, onze AI-antwoordkwaliteit te verbeteren, veelgestelde vragen en pijnpunten te identificeren, inzichten te genereren voor bedrijfsontwikkeling, en de effectiviteit van ons chatsysteem te evalueren. We verkopen of delen uw gegevens nooit met derden."
+    },
+    "dataStorage": {
+      "title": "Waar We Uw Gegevens Bewaren",
+      "content": "Alle chatlogs worden opgeslagen in Google Sheets (Google Cloud-infrastructuur). Google Sheets biedt: versleutelde gegevensoverdracht (HTTPS), veilige cloudopslag met Google's beveiligingsmaatregelen, en toegangscontroles (alleen geautoriseerd personeel kan logs bekijken). Gegevens worden tijdelijk alleen voor analysedoeleinden opgeslagen."
+    },
+    "userRights": {
+      "title": "Uw Rechten Onder AVG",
+      "content": "U heeft het recht om: toegang te krijgen tot uw chatgegevens (een kopie aanvragen), correctie van onjuiste gegevens aan te vragen, verwijdering van uw gegevens aan te vragen (recht om vergeten te worden), bezwaar te maken tegen gegevensverwerking, en toestemming op elk moment in te trekken. Om deze rechten uit te oefenen, stuur een e-mail naar qais@seosoft.dk met uw sessie-ID of conversatiegegevens."
+    },
+    "retention": {
+      "title": "Hoe Lang We Uw Gegevens Bewaren",
+      "content": "Chatlogs worden tot 12 maanden bewaard voor analyse en serviceverbetering. Na deze periode kunnen gegevens geanonimiseerd of verwijderd worden. U kunt op elk moment onmiddellijke verwijdering van uw gegevens aanvragen door contact op te nemen met qais@seosoft.dk."
+    },
+    "cookies": {
+      "title": "Cookies en Tracking",
+      "content": "We gebruiken GEEN: trackingcookies, analytische cookies (bijv. Google Analytics), advertentiecookies, of tracking door derden. We gebruiken alleen essentiële browsersessieopslag om uw chatgesprek tijdens uw bezoek te onderhouden. Deze gegevens worden gewist wanneer u uw browser sluit."
+    },
+    "contact": {
+      "title": "Vragen of Zorgen",
+      "content": "Als u vragen heeft over dit privacybeleid of hoe we uw gegevens behandelen, neem dan contact op met: Qais Yousuf op qais@seosoft.dk. We reageren doorgaans binnen 24 uur."
+    }
+  },
+  "closeButton": "Sluiten"
 }
 }

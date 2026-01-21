@@ -5,78 +5,96 @@ interface Props {
 
 const { lang = "en" } = Astro.props;
 
+import enTranslations from '../translations/en.json';
+import daTranslations from '../translations/da.json';
+import frTranslations from '../translations/fr.json';
+import svTranslations from '../translations/sv.json';
+import nlTranslations from '../translations/nl.json';
+
+// Get the right translations based on lang prop
+const translations = {
+  en: enTranslations,
+  da: daTranslations,
+  fr: frTranslations,
+  sv: svTranslations,
+  nl: nlTranslations
+}[lang] || enTranslations;
+
+// Get process-specific translations
+const t = translations.process;
+
 const steps = [
   {
     key: "discovery",
-    title: "Discovery",
+    title: t.steps.discovery.title,
     icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <circle cx="11" cy="11" r="8"/>
       <path d="M21 21l-4.35-4.35"/>
     </svg>`,
-    subtitle: "Understand the problem",
-    description: "Deep dive into your business needs, technical challenges, and success metrics through detailed stakeholder interviews.",
-    bullets: ["Requirements gathering", "Technical feasibility analysis", "Timeline & budget planning"],
-    duration: "1-2 weeks"
+    subtitle: t.steps.discovery.subtitle,
+    description: t.steps.discovery.description,
+    bullets: t.steps.discovery.bullets,
+    duration: t.steps.discovery.duration
   },
   {
     key: "planning",
-    title: "Planning",
+    title: t.steps.planning.title,
     icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
     </svg>`,
-    subtitle: "Define the roadmap",
-    description: "Break down the project into clear milestones, prioritize features, and define sprint goals.",
-    bullets: ["User stories & priorities", "Sprint planning", "Resource allocation"],
-    duration: "1 week"
+    subtitle: t.steps.planning.subtitle,
+    description: t.steps.planning.description,
+    bullets: t.steps.planning.bullets,
+    duration: t.steps.planning.duration
   },
   {
     key: "architecture",
-    title: "Architecture",
+    title: t.steps.architecture.title,
     icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path d="M12 2L2 7l10 5 10-5-10-5z"/>
       <path d="M2 17l10 5 10-5"/>
       <path d="M2 12l10 5 10-5"/>
     </svg>`,
-    subtitle: "Design the system",
-    description: "Clean architecture design with scalability, security, and maintainability in mind.",
-    bullets: ["System design", "Technology stack", "Security & scalability"],
-    duration: "1-2 weeks"
+    subtitle: t.steps.architecture.subtitle,
+    description: t.steps.architecture.description,
+    bullets: t.steps.architecture.bullets,
+    duration: t.steps.architecture.duration
   },
   {
     key: "development",
-    title: "Development",
+    title: t.steps.development.title,
     icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <polyline points="16 18 22 12 16 6"/>
       <polyline points="8 6 2 12 8 18"/>
     </svg>`,
-    subtitle: "Build with quality",
-    description: "Agile development with 2-week sprints, TDD approach, and continuous code reviews.",
-    bullets: ["Clean code principles", "TDD development", "Code reviews"],
-    duration: "4-12 weeks"
+    subtitle: t.steps.development.subtitle,
+    description: t.steps.development.description,
+    bullets: t.steps.development.bullets,
+    duration: t.steps.development.duration
   },
   {
     key: "testing",
-    title: "Testing",
+    title: t.steps.testing.title,
     icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path d="M9 11l3 3L22 4"/>
       <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
     </svg>`,
-    subtitle: "Ensure reliability",
-    description: "Comprehensive testing strategy including unit, integration, and performance testing.",
-    bullets: ["Unit & integration tests", "Performance testing", "Bug fixes & optimization"],
-    duration: "1-2 weeks"
+    subtitle: t.steps.testing.subtitle,
+    description: t.steps.testing.description,
+    bullets: t.steps.testing.bullets,
+    duration: t.steps.testing.duration
   },
   {
     key: "launch",
-    title: "Launch",
+    title: t.steps.launch.title,
     icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path d="M12 2L2 7l10 5 10-5-10-5z"/>
       <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
     </svg>`,
-    subtitle: "Deploy & support",
-    description: "Production deployment with monitoring, documentation, and ongoing support options.",
-    bullets: ["Production deployment", "Documentation & training", "Ongoing support"],
-    duration: "1 week + support"
+    subtitle: t.steps.launch.subtitle,
+    description: t.steps.launch.description,
+    bullets: t.steps.launch.bullets,
+    duration: t.steps.launch.duration
   }
 ];
 ---
@@ -87,11 +105,11 @@ const steps = [
     <div class="process__header">
       <div class="process__badge">
         <span class="badge-pulse"></span>
-        HOW I WORK
+        {t.badge}
       </div>
-      <h2 class="process__title">From Idea to Production</h2>
+      <h2 class="process__title">{t.title}</h2>
       <p class="process__subtitle">
-        A proven 6-step process that turns unclear problems into clean, reliable products you can trust.
+        {t.subtitle}
       </p>
     </div>
 
@@ -155,7 +173,7 @@ const steps = [
 <style>
   .process {
     min-height: 100vh;
-    padding: 6rem 2rem;
+    padding: 0rem 2rem;
     background: transparent;
     position: relative;
   }
