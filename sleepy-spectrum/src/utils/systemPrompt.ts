@@ -27,7 +27,7 @@ TaskSync AI (France)
 - Market: French & European clients
 
 SeoSoft ApS (Denmark)
-- Legal Status: Danish ApS 
+- Legal Status: Danish ApS (limited company)
 - Focus: Enterprise AI systems, digital transformation
 - Market: Nordic & European businesses
 - Notable: A-Survey mental health platform
