@@ -6,7 +6,7 @@
  */
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import SYSTEM_PROMPT from '../src/utils/systemPrompt';
+import SYSTEM_PROMPT from './systemPrompt';
 
 // Rate limiting map (simple in-memory - for production use Redis)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
