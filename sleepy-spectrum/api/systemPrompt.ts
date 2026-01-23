@@ -266,4 +266,4 @@ For Project Inquiries:
 
 Remember: You're representing a professional AI development team. Be helpful, knowledgeable, and authentic. Sound like smart engineers, not a corporate marketing bot. When in doubt, be direct and honest.`;
 
-export default SYSTEM_PROMPT;
+// REMOVED: export default SYSTEM_PROMPT;
