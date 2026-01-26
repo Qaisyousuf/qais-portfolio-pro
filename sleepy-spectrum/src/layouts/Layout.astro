@@ -1,5 +1,6 @@
 ---
 import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
 
 interface Props {
   title: string;
@@ -54,6 +55,7 @@ const ogImage = "https://www.getrok.com/og-image.png?v=6";
 
     <title>{title}</title>
     <Analytics />
+    <SpeedInsights />
   </head>
 
   <body>
