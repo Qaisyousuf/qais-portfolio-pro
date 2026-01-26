@@ -1,4 +1,6 @@
 ---
+import Analytics from '@vercel/analytics/astro';
+
 interface Props {
   title: string;
   description?: string;
@@ -51,6 +53,7 @@ const ogImage = "https://www.getrok.com/og-image.png?v=6";
     <meta name="twitter:image" content={ogImage} />
 
     <title>{title}</title>
+    <Analytics />
   </head>
 
   <body>
