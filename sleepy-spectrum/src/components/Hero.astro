@@ -722,44 +722,60 @@ logConversation(question: string, response: string) {
       }
     }
 
-    addMessage(text: string, role: 'user' | 'ai', typewriter = false) {
-      if (!this.messagesContainer) return;
+addMessage(text: string, role: 'user' | 'ai', typewriter = false) {
+  if (!this.messagesContainer) return;
 
-      const messageDiv = document.createElement('div');
-      messageDiv.className = `message message--${role}`;
-      
-      const avatar = document.createElement('div');
-      avatar.className = 'message-avatar';
-      avatar.innerHTML = role === 'ai' 
-        ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-             <circle cx="12" cy="12" r="10"/>
-             <circle cx="12" cy="12" r="3"/>
-           </svg>`
-        : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-             <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-             <circle cx="12" cy="7" r="4"/>
-           </svg>`;
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `message message--${role}`;
+  
+  // FORCE user message styling with inline styles
+  if (role === 'user') {
+    messageDiv.style.display = 'flex';
+    messageDiv.style.flexDirection = 'column';
+    messageDiv.style.justifyContent = 'space-around';
+    messageDiv.style.width = '100%';
+    messageDiv.style.marginLeft = 'auto';
+    messageDiv.style.alignItems = 'flex-end';
+  }
+  
+  const avatar = document.createElement('div');
+  avatar.className = 'message-avatar';
+  avatar.innerHTML = role === 'ai' 
+    ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+         <circle cx="12" cy="12" r="10"/>
+         <circle cx="12" cy="12" r="3"/>
+       </svg>`
+    : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+         <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+         <circle cx="12" cy="7" r="4"/>
+       </svg>`;
 
-      const content = document.createElement('div');
-      content.className = 'message-content';
-      
-      const bubble = document.createElement('div');
-      bubble.className = 'message-bubble';
-      
-      if (typewriter) {
-        this.typewriterEffect(bubble, text);
-      } else {
-        bubble.textContent = text;
-      }
+  const content = document.createElement('div');
+  content.className = 'message-content';
+  
+  // FORCE content alignment for user messages
+  if (role === 'user') {
+    content.style.alignItems = 'flex-end';
+    content.style.display = 'flex';
+    content.style.flexDirection = 'column';
+  }
+  
+  const bubble = document.createElement('div');
+  bubble.className = 'message-bubble';
+  
+  if (typewriter) {
+    this.typewriterEffect(bubble, text);
+  } else {
+    bubble.textContent = text;
+  }
 
-      content.appendChild(bubble);
-      messageDiv.appendChild(avatar);
-      messageDiv.appendChild(content);
-      this.messagesContainer.appendChild(messageDiv);
-      
-      this.scrollToBottom();
-    }
-
+  content.appendChild(bubble);
+  messageDiv.appendChild(avatar);
+  messageDiv.appendChild(content);
+  this.messagesContainer.appendChild(messageDiv);
+  
+  this.scrollToBottom();
+}
     typewriterEffect(element: HTMLElement, text: string, formatFn?: (txt: string) => string) {
       let index = 0;
       const speed = 15;
@@ -1257,21 +1273,42 @@ logConversation(question: string, response: string) {
     background-clip: padding-box;
   }
 
-  .message {
-    display: flex;
-    gap: 0.75rem;
-    align-items: flex-start;
-    width: 100%;
-    text-align: left;
-    position: relative;
-  }
+.message {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  width: 100%;
+  text-align: left;
+  position: relative;
+}
 
+/* CRITICAL FIX - Force user messages to RIGHT side */
+#chatMessages .message.message--user {
+  display: flex !important;
+  flex-direction: row-reverse !important;
+  margin-left: auto !important;
+  width: 100% !important;
+  justify-content: flex-start !important;
+}
+
+#chatMessages .message.message--user .message-content {
+  align-items: flex-end !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+#chatMessages .message.message--user .message-bubble {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+}
   /* Conversation Separator */
-  .message--user {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    flex-direction: row-reverse;
-  }
+.message--user {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  flex-direction: row-reverse !important;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
 
   .message--user::before {
     content: '';
@@ -1328,10 +1365,11 @@ logConversation(question: string, response: string) {
     text-align: left;
   }
 
-  .message--user .message-content {
-    align-items: flex-end;
-    text-align: right;
-  }
+.message--user .message-content {
+  align-items: flex-end !important;
+  text-align: right;
+  margin-left: auto;
+}
 
   .message-bubble {
     display: block;
@@ -1359,18 +1397,20 @@ logConversation(question: string, response: string) {
     box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
   }
 
-  .message--user .message-bubble {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.08) 0%,
-      rgba(255, 255, 255, 0.04) 100%
-    );
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-primary);
-    border-top-right-radius: 4px;
-    text-align: left !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
+ .message--user .message-bubble {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border-top-right-radius: 4px;
+  text-align: left !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-left: auto;
+  margin-right: 0;
+}
 
   :global(.light) .message--ai .message-bubble {
     background: rgba(59, 130, 246, 0.08);
