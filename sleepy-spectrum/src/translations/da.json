@@ -1,12 +1,12 @@
 {
   "hero": {
-    "title": "Byg pålidelige",
-    "titleAccent1": "API'er",
-    "titleMid": ", moderne",
-    "titleAccent2": "web apps",
-    "titleEnd": "&",
-    "titleAccent3": "AI løsninger",
-    "subtitle": "Senior .NET udvikler hjælper europæiske teams med at bygge skalerbare systemer og integrere AI. Ren arkitektur, forudsigelig levering.",
+    "title": "",
+  "titleAccent1": "Softwareudvikling",
+  "titleMid": " og ",
+  "titleAccent2": "AI Integration",
+  "titleEnd": "",
+  "titleAccent3": "",
+  "subtitle": "Udvikling af skalerbare API'er, moderne webapplikationer og intelligente systemer.",
     "chatHeader": {
       "title": "Spørg mig om noget",
       "subtitle": "Om tjenester, erfaring eller priser",

@@ -1,12 +1,12 @@
 {
   "hero": {
-    "title": "Créer des",
-    "titleAccent1": "APIs",
-    "titleMid": "fiables, des",
-    "titleAccent2": "applications web",
-    "titleEnd": "modernes &",
-    "titleAccent3": "solutions IA",
-    "subtitle": "Ingénieur .NET senior aidant les équipes européennes à construire des systèmes évolutifs et intégrer l'IA. Architecture propre, livraison prévisible.",
+    "title": "",
+  "titleAccent1": "Développement logiciel",
+  "titleMid": " et ",
+  "titleAccent2": "Intégration IA",
+  "titleEnd": "",
+  "titleAccent3": "",
+  "subtitle": "Développement d'API évolutives, d'applications web modernes et de systèmes intelligents.",
     "chatHeader": {
       "title": "Posez-moi n'importe quoi",
       "subtitle": "À propos des services, de l'expérience ou des tarifs",

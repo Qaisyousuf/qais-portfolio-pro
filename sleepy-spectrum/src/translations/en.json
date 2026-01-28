@@ -1,12 +1,12 @@
 {
   "hero": {
-    "title": "Build reliable",
-    "titleAccent1": "APIs",
-    "titleMid": ", modern",
-    "titleAccent2": "web apps",
-    "titleEnd": "&",
-    "titleAccent3": "AI solutions",
-    "subtitle": "Senior .NET engineer helping European teams build scalable systems and integrate AI. Clean architecture, predictable delivery.",
+   "title": "",
+  "titleAccent1": "Software Development",
+  "titleMid": " and ",
+  "titleAccent2": "AI Integration",
+  "titleEnd": "",
+  "titleAccent3": "",
+  "subtitle": "Building scalable APIs, modern web applications, and intelligent systems.",
     "chatHeader": {
       "title": "Ask me anything",
       "subtitle": "About services, experience, or pricing",

@@ -1,12 +1,12 @@
 {
   "hero": {
-    "title": "Bouw betrouwbare",
-    "titleAccent1": "API's",
-    "titleMid": ", moderne",
-    "titleAccent2": "web apps",
-    "titleEnd": "&",
-    "titleAccent3": "AI-oplossingen",
-    "subtitle": "Senior .NET-engineer die Europese teams helpt schaalbare systemen te bouwen en AI te integreren. Schone architectuur, voorspelbare oplevering.",
+    "title": "",
+  "titleAccent1": "Softwareontwikkeling",
+  "titleMid": " en ",
+  "titleAccent2": "AI-integratie",
+  "titleEnd": "",
+  "titleAccent3": "",
+  "subtitle": "Bouwen van schaalbare API's, moderne webapplicaties en intelligente systemen.",
     "chatHeader": {
       "title": "Vraag me wat dan ook",
       "subtitle": "Over diensten, ervaring of prijzen",

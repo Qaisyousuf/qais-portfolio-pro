@@ -1,12 +1,12 @@
 {
   "hero": {
-    "title": "Bygg pålitliga",
-    "titleAccent1": "API:er",
-    "titleMid": ", moderna",
-    "titleAccent2": "webbappar",
-    "titleEnd": "&",
-    "titleAccent3": "AI-lösningar",
-    "subtitle": "Senior .NET-ingenjör som hjälper europeiska team att bygga skalbara system och integrera AI. Ren arkitektur, förutsägbar leverans.",
+    "title": "",
+  "titleAccent1": "Mjukvaruutveckling",
+  "titleMid": " och ",
+  "titleAccent2": "AI-integration",
+  "titleEnd": "",
+  "titleAccent3": "",
+  "subtitle": "Utveckling av skalbara API:er, moderna webbapplikationer och intelligenta system.",
     "chatHeader": {
       "title": "Fråga mig vad som helst",
       "subtitle": "Om tjänster, erfarenhet eller priser",
