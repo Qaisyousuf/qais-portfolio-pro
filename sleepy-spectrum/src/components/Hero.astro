@@ -1362,6 +1362,7 @@ const suggestions = [
     white-space: pre-wrap;
     text-align: left !important;
     width: fit-content;
+    margin: 0;
   }
 
   /* Force all text inside bubbles to align left */
@@ -1378,6 +1379,8 @@ const suggestions = [
     border: 1px solid rgba(59, 130, 246, 0.15);
     color: var(--text-primary);
     border-top-left-radius: 4px;
+    margin-left: 0 !important;
+    margin-right: auto !important;
   }
 
   .message--user .message-bubble {
@@ -1389,6 +1392,8 @@ const suggestions = [
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: var(--text-primary);
     border-top-right-radius: 4px;
+    margin-left: auto !important;
+    margin-right: 0 !important;
   }
 
   :global(.light) .message--ai .message-bubble {
