@@ -259,6 +259,7 @@ const suggestions = [
 </section>
 
 <!-- Delete Confirmation Modal -->
+<!-- Delete Confirmation Modal -->
 <div id="deleteModal" class="modal-overlay">
   <div class="modal-content">
     <div class="modal-icon">
@@ -302,7 +303,7 @@ const suggestions = [
       this.maxMessagesPerSession = 20;
       this.isListening = false;
       this.isSpeaking = false;
-      this.voiceEnabled = true;
+      this.voiceEnabled = true; // Voice ON by default
       this.currentAudio = null;
       
       this.messagesContainer = document.getElementById('chatMessages');
@@ -317,10 +318,12 @@ const suggestions = [
       this.init();
       this.loadChatHistory();
       
+      // Set initial speaker button state to OFF
       this.updateSpeakerButtonState();
     }
 
     setupVoiceRecognition() {
+      // Check if browser supports speech recognition
       const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
       
       if (!SpeechRecognition) {
@@ -394,6 +397,7 @@ const suggestions = [
       this.voiceEnabled = !this.voiceEnabled;
       this.updateSpeakerButtonState();
       
+      // Stop any current speech if muting
       if (!this.voiceEnabled && this.isSpeaking) {
         this.stopSpeaking();
       }
@@ -417,10 +421,12 @@ const suggestions = [
     speak(text: string) {
       if (!this.voiceEnabled) return;
 
+      // Show speaking indicator and stop button
       this.speakerButton?.classList.add('speaking');
       this.isSpeaking = true;
       if (this.stopButton) this.stopButton.style.display = 'flex';
 
+      // Call our Google TTS API
       fetch('/api/tts', {
         method: 'POST',
         headers: {
@@ -431,6 +437,7 @@ const suggestions = [
         .then(response => response.json())
         .then(data => {
           if (data.audioContent) {
+            // Convert base64 audio to blob and play
             const audioBlob = this.base64ToBlob(data.audioContent, 'audio/mp3');
             const audioUrl = URL.createObjectURL(audioBlob);
             this.currentAudio = new Audio(audioUrl);
@@ -493,14 +500,23 @@ const suggestions = [
     }
 
     init() {
+      // Send button click
       this.sendButton?.addEventListener('click', () => this.sendMessage());
+
+      // Voice button click
       this.voiceButton?.addEventListener('click', () => this.toggleVoiceRecognition());
+
+      // Speaker button click
       this.speakerButton?.addEventListener('click', () => this.toggleSpeaker());
+
+      // Stop button click
       this.stopButton?.addEventListener('click', () => this.stopSpeaking());
 
+      // Clear chat button
       const clearButton = document.getElementById('clearChat');
       clearButton?.addEventListener('click', () => this.clearChat());
 
+      // Modal buttons
       const cancelBtn = document.getElementById('cancelDelete');
       const confirmBtn = document.getElementById('confirmDelete');
       const modalOverlay = document.getElementById('deleteModal');
@@ -513,6 +529,7 @@ const suggestions = [
         }
       });
 
+      // Enter key to send (Shift+Enter for new line)
       this.input?.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
           e.preventDefault();
@@ -520,6 +537,7 @@ const suggestions = [
         }
       });
 
+      // Auto-resize textarea
       this.input?.addEventListener('input', (e) => {
         const target = e.target as HTMLTextAreaElement;
         if (target) {
@@ -533,6 +551,7 @@ const suggestions = [
         }
       });
 
+      // Suggestion chips
       document.querySelectorAll('.suggestion-chip').forEach(chip => {
         chip.addEventListener('click', (e) => {
           const suggestion = (e.currentTarget as HTMLElement).getAttribute('data-suggestion');
@@ -552,6 +571,7 @@ const suggestions = [
           this.messages = history.messages || [];
           this.messageCount = history.messageCount || 0;
           
+          // Restore messages in UI
           if (history.messages && history.messages.length > 0) {
             history.messages.forEach((msg: any) => {
               if (msg.role === 'user') {
@@ -578,45 +598,44 @@ const suggestions = [
         console.error('Failed to save chat history:', error);
       }
     }
+logConversation(question: string, response: string) {
+  try {
+    const sessionId = sessionStorage.getItem('chatSessionId') || 
+      (sessionStorage.setItem('chatSessionId', crypto.randomUUID()), 
+       sessionStorage.getItem('chatSessionId'));
 
-    logConversation(question: string, response: string) {
-      try {
-        const sessionId = sessionStorage.getItem('chatSessionId') || 
-          (sessionStorage.setItem('chatSessionId', crypto.randomUUID()), 
-           sessionStorage.getItem('chatSessionId'));
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const countryMap: Record<string, string> = {
+      'Europe/Paris': 'France',
+      'Europe/Copenhagen': 'Denmark',
+      'Europe/Stockholm': 'Sweden',
+      'Europe/Amsterdam': 'Netherlands',
+      'Europe/London': 'UK',
+      'Europe/Berlin': 'Germany',
+      'America/New_York': 'USA (East)',
+      'America/Los_Angeles': 'USA (West)'
+    };
 
-        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        const countryMap: Record<string, string> = {
-          'Europe/Paris': 'France',
-          'Europe/Copenhagen': 'Denmark',
-          'Europe/Stockholm': 'Sweden',
-          'Europe/Amsterdam': 'Netherlands',
-          'Europe/London': 'UK',
-          'Europe/Berlin': 'Germany',
-          'America/New_York': 'USA (East)',
-          'America/Los_Angeles': 'USA (West)'
-        };
-
-        fetch('/api/log', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            question: question,
-            response: response,
-            sessionId: sessionId,
-            page: window.location.pathname,
-            referrer: document.referrer || 'direct',
-            device: /Mobile|Android|iPhone/i.test(navigator.userAgent) ? 'mobile' : 'desktop',
-            language: navigator.language,
-            country: countryMap[timezone] || timezone,
-            screenSize: `${window.innerWidth}x${window.innerHeight}`,
-            conversationLength: this.messages.length / 2
-          })
-        }).catch(() => {});
-      } catch {
-      }
-    }
-
+    fetch('/api/log', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        question: question,
+        response: response,
+        sessionId: sessionId,
+        page: window.location.pathname,
+        referrer: document.referrer || 'direct',
+        device: /Mobile|Android|iPhone/i.test(navigator.userAgent) ? 'mobile' : 'desktop',
+        language: navigator.language,
+        country: countryMap[timezone] || timezone,
+        screenSize: `${window.innerWidth}x${window.innerHeight}`,
+        conversationLength: this.messages.length / 2
+      })
+    }).catch(() => {}); // Fail silently
+  } catch {
+    // Never block chat for logging errors
+  }
+}
     showDeleteModal() {
       const modal = document.getElementById('deleteModal');
       if (modal) {
@@ -640,19 +659,24 @@ const suggestions = [
     confirmClearChat() {
       this.hideDeleteModal();
       
+      // Clear UI completely
       if (this.messagesContainer) {
         this.messagesContainer.innerHTML = '';
       }
       
+      // Reset state
       this.messages = [];
       this.messageCount = 0;
       
+      // Clear localStorage
       localStorage.removeItem('chatHistory');
 
+      // Show suggestions again
       if (this.suggestions) {
         this.suggestions.style.display = 'flex';
       }
 
+      // Show success feedback (temporary)
       const tempMessage = document.createElement('div');
       tempMessage.className = 'message message--ai';
       tempMessage.innerHTML = `
@@ -671,6 +695,7 @@ const suggestions = [
       
       this.messagesContainer?.appendChild(tempMessage);
       
+      // Remove success message after 2 seconds
       setTimeout(() => {
         tempMessage.remove();
       }, 2000);
@@ -697,81 +722,65 @@ const suggestions = [
       }
     }
 
-    addMessage(text: string, role: 'user' | 'ai', typewriter = false) {
-      if (!this.messagesContainer) return;
+addMessage(text: string, role: 'user' | 'ai', typewriter = false) {
+  if (!this.messagesContainer) return;
 
-      const messageDiv = document.createElement('div');
-      messageDiv.className = `message message--${role}`;
-      
-      // FORCE user message styling with inline styles
-      if (role === 'user') {
-        messageDiv.style.display = 'flex';
-        messageDiv.style.flexDirection = 'column';
-        messageDiv.style.justifyContent = 'space-around';
-        messageDiv.style.width = '100%';
-        messageDiv.style.marginLeft = 'auto';
-        messageDiv.style.alignItems = 'flex-end';
-      }
-      
-      // FORCE AI message styling to LEFT side with VERTICAL stacking
-      if (role === 'ai') {
-        messageDiv.style.display = 'flex';
-        messageDiv.style.flexDirection = 'column'; // Stack vertically
-        messageDiv.style.justifyContent = 'flex-start';
-        messageDiv.style.alignItems = 'flex-start'; // Align to LEFT
-        messageDiv.style.width = '100%';
-      }
-      
-      const avatar = document.createElement('div');
-      avatar.className = 'message-avatar';
-      avatar.innerHTML = role === 'ai' 
-        ? `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-             <rect x="2" y="2" width="20" height="20" rx="5" fill="#3B82F6" class="avatar-bg"/>
-             <text x="12" y="17" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="white" text-anchor="middle" class="avatar-letter">G</text>
-           </svg>`
-        : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-             <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-             <circle cx="12" cy="7" r="4"/>
-           </svg>`;
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `message message--${role}`;
+  
+  // FORCE user message styling with inline styles
+  if (role === 'user') {
+    messageDiv.style.display = 'flex';
+    messageDiv.style.flexDirection = 'column';
+    messageDiv.style.justifyContent = 'space-around';
+    messageDiv.style.width = '100%';
+    messageDiv.style.marginLeft = 'auto';
+    messageDiv.style.alignItems = 'flex-end';
+  }
+  
+  const avatar = document.createElement('div');
+  avatar.className = 'message-avatar';
+  avatar.innerHTML = role === 'ai' 
+    ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+         <circle cx="12" cy="12" r="10"/>
+         <circle cx="12" cy="12" r="3"/>
+       </svg>`
+    : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+         <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+         <circle cx="12" cy="7" r="4"/>
+       </svg>`;
 
-      const content = document.createElement('div');
-      content.className = 'message-content';
-      
-      // FORCE content alignment for user messages
-      if (role === 'user') {
-        content.style.alignItems = 'flex-end';
-        content.style.display = 'flex';
-        content.style.flexDirection = 'column';
-      }
-      
-      // FORCE content alignment for AI messages
-      if (role === 'ai') {
-        content.style.alignItems = 'flex-start';
-        content.style.display = 'flex';
-        content.style.flexDirection = 'column';
-      }
-      
-      const bubble = document.createElement('div');
-      bubble.className = 'message-bubble';
-      
-      if (typewriter) {
-        this.typewriterEffect(bubble, text);
-      } else {
-        bubble.textContent = text;
-      }
+  const content = document.createElement('div');
+  content.className = 'message-content';
+  
+  // FORCE content alignment for user messages
+  if (role === 'user') {
+    content.style.alignItems = 'flex-end';
+    content.style.display = 'flex';
+    content.style.flexDirection = 'column';
+  }
+  
+  const bubble = document.createElement('div');
+  bubble.className = 'message-bubble';
+  
+  if (typewriter) {
+    this.typewriterEffect(bubble, text);
+  } else {
+    bubble.textContent = text;
+  }
 
-      content.appendChild(bubble);
-      messageDiv.appendChild(avatar);
-      messageDiv.appendChild(content);
-      this.messagesContainer.appendChild(messageDiv);
-      
-      this.scrollToBottom();
-    }
-
-    typewriterEffect(element: HTMLElement, text: string) {
+  content.appendChild(bubble);
+  messageDiv.appendChild(avatar);
+  messageDiv.appendChild(content);
+  this.messagesContainer.appendChild(messageDiv);
+  
+  this.scrollToBottom();
+}
+    typewriterEffect(element: HTMLElement, text: string, formatFn?: (txt: string) => string) {
       let index = 0;
       const speed = 15;
       
+      // Start voice immediately if enabled (not after typing)
       if (this.voiceEnabled) {
         this.speak(text);
       }
@@ -795,22 +804,15 @@ const suggestions = [
       thinkingDiv.className = 'message message--ai';
       thinkingDiv.id = 'thinkingIndicator';
       
-      // FORCE LEFT alignment with VERTICAL stacking for thinking indicator
-      thinkingDiv.style.display = 'flex';
-      thinkingDiv.style.flexDirection = 'column'; // Stack vertically
-      thinkingDiv.style.justifyContent = 'flex-start';
-      thinkingDiv.style.alignItems = 'flex-start'; // Align to LEFT
-      thinkingDiv.style.width = '100%';
-      
       thinkingDiv.innerHTML = `
         <div class="message-avatar">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2" y="2" width="20" height="20" rx="5" fill="#3B82F6" class="avatar-bg"/>
-            <text x="12" y="17" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="white" text-anchor="middle" class="avatar-letter">G</text>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <circle cx="12" cy="12" r="3"/>
           </svg>
         </div>
-        <div class="message-content" style="align-items: flex-start; display: flex; flex-direction: column;">
-          <div class="thinking-indicator" style="margin-left: 0; margin-right: auto;">
+        <div class="message-content">
+          <div class="thinking-indicator">
             <div class="spinner-loader"></div>
             <span>Thinking...</span>
           </div>
@@ -833,22 +835,15 @@ const suggestions = [
       typingDiv.className = 'message message--ai typing-indicator';
       typingDiv.id = 'typingIndicator';
       
-      // FORCE LEFT alignment with VERTICAL stacking for typing indicator
-      typingDiv.style.display = 'flex';
-      typingDiv.style.flexDirection = 'column'; // Stack vertically
-      typingDiv.style.justifyContent = 'flex-start';
-      typingDiv.style.alignItems = 'flex-start'; // Align to LEFT
-      typingDiv.style.width = '100%';
-      
       typingDiv.innerHTML = `
         <div class="message-avatar">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2" y="2" width="20" height="20" rx="5" fill="#3B82F6" class="avatar-bg"/>
-            <text x="12" y="17" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="white" text-anchor="middle" class="avatar-letter">G</text>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <circle cx="12" cy="12" r="3"/>
           </svg>
         </div>
-        <div class="message-content" style="align-items: flex-start; display: flex; flex-direction: column;">
-          <div class="message-bubble" style="margin-left: 0; margin-right: auto;">
+        <div class="message-content">
+          <div class="message-bubble">
             <div class="typing-dots">
               <span></span>
               <span></span>
@@ -877,6 +872,7 @@ const suggestions = [
       const text = this.input?.value.trim();
       if (!text || this.isTyping) return;
 
+      // Check rate limit
       if (this.messageCount >= this.maxMessagesPerSession) {
         this.addMessage(
           `You've reached the limit of ${this.maxMessagesPerSession} messages for this session. For more help, email qais@seosoft.dk directly!`,
@@ -885,6 +881,7 @@ const suggestions = [
         return;
       }
 
+      // Disable send button
       this.isTyping = true;
       if (this.sendButton) {
         this.sendButton.style.opacity = '0.5';
@@ -892,6 +889,7 @@ const suggestions = [
         this.sendButton.style.pointerEvents = 'none';
       }
 
+      // Add user message
       this.addMessage(text, 'user');
       if (this.input) {
         this.input.value = '';
@@ -901,11 +899,12 @@ const suggestions = [
 
       this.messageCount++;
 
-      // Show thinking indicator for 5-8 seconds (more realistic)
+      // Show thinking indicator for longer (3-5 seconds)
       this.showThinking();
-      await new Promise(resolve => setTimeout(resolve, 5000 + Math.random() * 3000));
+      await new Promise(resolve => setTimeout(resolve, 3000 + Math.random() * 2000));
       this.hideThinking();
       
+      // Show typing indicator
       this.showTyping();
 
       try {
@@ -930,19 +929,20 @@ const suggestions = [
         
         this.hideTyping();
 
-        if (data.content && data.content[0]) {
-          const aiMessage = data.content[0].text;
-          this.addMessage(aiMessage, 'ai', true);
-          
-          this.messages.push(
-            { role: 'user', content: text },
-            { role: 'assistant', content: aiMessage }
-          );
+       if (data.content && data.content[0]) {
+  const aiMessage = data.content[0].text;
+  this.addMessage(aiMessage, 'ai', true);
+  
+  this.messages.push(
+    { role: 'user', content: text },
+    { role: 'assistant', content: aiMessage }
+  );
 
-          this.logConversation(text, aiMessage);
+  // Log conversation to Google Sheets
+  this.logConversation(text, aiMessage);
 
-          this.saveChatHistory();
-        }
+  this.saveChatHistory();
+}
         else {
           throw new Error('Invalid response');
         }
@@ -954,6 +954,7 @@ const suggestions = [
           'ai'
         );
       } finally {
+        // Re-enable send button
         this.isTyping = false;
         if (this.sendButton) {
           this.sendButton.style.opacity = '1';
@@ -964,17 +965,19 @@ const suggestions = [
     }
   }
 
+  // Declare window property for TypeScript
   declare global {
     interface Window {
       chatInitialized?: boolean;
     }
   }
 
+  // Initialize chat when DOM is ready
   if (!window.chatInitialized) {
     window.chatInitialized = true;
     document.addEventListener('DOMContentLoaded', () => {
       const chat = new ChatInterface();
-      chat.clearOldHistory();
+      chat.clearOldHistory(); // Clear history older than 24 hours
     });
   }
 </script>
@@ -1019,9 +1022,10 @@ const suggestions = [
     animation: fadeInUp 0.6s ease 0.1s both;
   }
 
+  /* Chat Container */
   .chat-container {
     width: 100%;
-    max-width: 850px;
+    
     margin: 0 auto 2rem;
     background: rgba(19, 18, 18, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -1043,6 +1047,7 @@ const suggestions = [
                 inset 0 1px 0 rgba(255, 255, 255, 0.8);
   }
 
+  /* Chat Header */
   .chat-header {
     display: flex;
     align-items: center;
@@ -1090,11 +1095,21 @@ const suggestions = [
     transform: translateY(-1px);
   }
 
+  .clear-chat-button:active {
+    transform: translateY(0);
+  }
+
   :global(.light) .clear-chat-button {
     background: rgba(0, 0, 0, 0.04);
     border-color: rgba(0, 0, 0, 0.1);
   }
 
+  :global(.light) .clear-chat-button:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+  }
+
+  /* Speaker Button */
   .speaker-button {
     width: 36px;
     height: 36px;
@@ -1107,11 +1122,14 @@ const suggestions = [
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
   }
 
   .speaker-button:hover {
     background: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.15);
+    color: var(--text-secondary);
+    transform: translateY(-1px);
   }
 
   .speaker-button.active {
@@ -1131,6 +1149,21 @@ const suggestions = [
     50% {
       box-shadow: 0 0 0 8px rgba(34, 197, 94, 0);
     }
+  }
+
+  :global(.light) .speaker-button {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  :global(.light) .speaker-button:hover {
+    background: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.15);
+  }
+
+  :global(.light) .speaker-button.active {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.3);
   }
 
   .chat-avatar {
@@ -1183,27 +1216,27 @@ const suggestions = [
     animation: pulse-dot 2s ease-in-out infinite;
   }
 
+  /* Chat Messages */
   .chat-messages {
-    height: 260px;
+    height: 250px;
     overflow-y: auto;
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     gap: 1rem;
     scroll-behavior: smooth;
+    text-align: left;
   }
 
-  /* Force all direct children to align left */
-  .chat-messages > * {
-    align-self: flex-start;
-    width: 100%;
+  .chat-messages * {
+    text-align: left;
   }
 
   :global(.light) .chat-messages {
     background: rgba(0, 0, 0, 0.02);
   }
 
+  /* Custom Scrollbar */
   .chat-messages::-webkit-scrollbar {
     width: 8px;
   }
@@ -1217,30 +1250,70 @@ const suggestions = [
   .chat-messages::-webkit-scrollbar-thumb {
     background: rgba(59, 130, 246, 0.3);
     border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
   }
 
-  /* CRITICAL FIX: Message alignment */
-  .message {
-    display: flex;
-    gap: 0.75rem;
-    align-items: flex-start;
-    width: 100%;
-    position: relative;
+  .chat-messages::-webkit-scrollbar-thumb:hover {
+    background: rgba(59, 130, 246, 0.5);
+    background-clip: padding-box;
   }
 
-  /* Force user messages to RIGHT side */
-  .message--user {
-    flex-direction: row-reverse !important;
-    margin-left: auto !important;
-    margin-right: 0 !important;
-    justify-content: flex-start !important;
-    align-self: flex-end !important;
+  :global(.light) .chat-messages::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.04);
   }
+
+  :global(.light) .chat-messages::-webkit-scrollbar-thumb {
+    background: rgba(59, 130, 246, 0.4);
+    background-clip: padding-box;
+  }
+
+  :global(.light) .chat-messages::-webkit-scrollbar-thumb:hover {
+    background: rgba(59, 130, 246, 0.6);
+    background-clip: padding-box;
+  }
+
+.message {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  width: 100%;
+  text-align: left;
+  position: relative;
+}
+
+/* CRITICAL FIX - Force user messages to RIGHT side */
+#chatMessages .message.message--user {
+  display: flex !important;
+  flex-direction: row-reverse !important;
+  margin-left: auto !important;
+  width: 100% !important;
+  justify-content: flex-start !important;
+}
+
+#chatMessages .message.message--user .message-content {
+  align-items: flex-end !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+#chatMessages .message.message--user .message-bubble {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+}
+  /* Conversation Separator */
+.message--user {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  flex-direction: row-reverse !important;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
 
   .message--user::before {
     content: '';
     position: absolute;
-    top: -0.75rem;
+    top: 0;
     left: 0;
     right: 0;
     height: 1px;
@@ -1250,6 +1323,11 @@ const suggestions = [
       rgba(59, 130, 246, 0.3) 50%,
       transparent
     );
+  }
+
+  .message--user:first-child {
+    margin-top: 0;
+    padding-top: 0;
   }
 
   .message--user:first-child::before {
@@ -1270,67 +1348,6 @@ const suggestions = [
     background: rgba(59, 130, 246, 0.1);
     border: 1px solid rgba(59, 130, 246, 0.2);
     color: var(--accent);
-    position: relative;
-    overflow: visible;
-  }
-
-  /* Subtle glow effect around avatar */
-  .message--ai .message-avatar::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: rgba(59, 130, 246, 0.2);
-    border-radius: 10px;
-    opacity: 0;
-    animation: avatar-glow 1.5s ease-in-out infinite;
-    z-index: -1;
-  }
-
-  @keyframes avatar-glow {
-    0%, 100% {
-      opacity: 0;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 0.7;
-      transform: scale(1.2);
-    }
-  }
-
-  /* GetRok Avatar Animation - Beautiful breathing effect */
-  .message--ai .message-avatar svg .avatar-bg {
-    animation: bg-pulse 2s ease-in-out infinite;
-    transform-origin: center;
-  }
-
-  .message--ai .message-avatar svg .avatar-letter {
-    animation: letter-breathe 2s ease-in-out infinite;
-    transform-origin: center;
-  }
-
-  @keyframes bg-pulse {
-    0%, 100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 0.75;
-      transform: scale(1.15);
-    }
-  }
-
-  @keyframes letter-breathe {
-    0%, 100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 0.85;
-      transform: scale(1.2);
-    }
   }
 
   .message--user .message-avatar {
@@ -1345,15 +1362,19 @@ const suggestions = [
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    text-align: left;
   }
 
-  .message--user .message-content {
-    align-items: flex-end !important;
-  }
+.message--user .message-content {
+  align-items: flex-end !important;
+  text-align: right;
+  margin-left: auto;
+}
 
   .message-bubble {
     display: block;
-    max-width: 85%;
+    width: 100%;
+    max-width: 90%;
     padding: 0.875rem 1.125rem;
     border-radius: 16px;
     font-size: 14.5px;
@@ -1361,13 +1382,7 @@ const suggestions = [
     word-wrap: break-word;
     white-space: pre-wrap;
     text-align: left !important;
-    width: fit-content;
-    margin: 0;
-  }
-
-  /* Force all text inside bubbles to align left */
-  .message-bubble * {
-    text-align: left !important;
+    position: relative;
   }
 
   .message--ai .message-bubble {
@@ -1379,22 +1394,23 @@ const suggestions = [
     border: 1px solid rgba(59, 130, 246, 0.15);
     color: var(--text-primary);
     border-top-left-radius: 4px;
-    margin-left: 0 !important;
-    margin-right: auto !important;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
   }
 
-  .message--user .message-bubble {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.08) 0%,
-      rgba(255, 255, 255, 0.04) 100%
-    );
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-primary);
-    border-top-right-radius: 4px;
-    margin-left: auto !important;
-    margin-right: 0 !important;
-  }
+ .message--user .message-bubble {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border-top-right-radius: 4px;
+  text-align: left !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-left: auto;
+  margin-right: 0;
+}
 
   :global(.light) .message--ai .message-bubble {
     background: rgba(59, 130, 246, 0.08);
@@ -1406,6 +1422,7 @@ const suggestions = [
     border-color: rgba(0, 0, 0, 0.1);
   }
 
+  /* Typing Indicator */
   .typing-dots {
     display: flex;
     gap: 4px;
@@ -1439,6 +1456,7 @@ const suggestions = [
     }
   }
 
+  /* Thinking Indicator */
   .thinking-indicator {
     display: flex;
     align-items: center;
@@ -1462,6 +1480,32 @@ const suggestions = [
     100% { transform: rotate(360deg); }
   }
 
+  .thinking-dot {
+    width: 4px;
+    height: 4px;
+    background: var(--text-muted);
+    border-radius: 50%;
+    animation: thinking 1.5s infinite;
+  }
+
+  .thinking-dot:nth-child(2) {
+    animation-delay: 0.3s;
+  }
+
+  .thinking-dot:nth-child(3) {
+    animation-delay: 0.6s;
+  }
+
+  @keyframes thinking {
+    0%, 60%, 100% {
+      opacity: 0.2;
+    }
+    30% {
+      opacity: 1;
+    }
+  }
+
+  /* Suggestions */
   .chat-suggestions {
     padding: 0 1.5rem 1rem;
     display: grid;
@@ -1484,12 +1528,14 @@ const suggestions = [
     flex-direction: column;
     align-items: center;
     gap: 0.375rem;
+    width: 100%;
   }
 
   .suggestion-chip:hover {
     background: rgba(255, 255, 255, 0.06);
     border-color: rgba(59, 130, 246, 0.3);
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
 
   .suggestion-icon {
@@ -1497,6 +1543,7 @@ const suggestions = [
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
   }
 
   .suggestion-text {
@@ -1505,12 +1552,43 @@ const suggestions = [
     font-weight: 600;
   }
 
+  :global(.light) .suggestion-chip {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  :global(.light) .suggestion-chip:hover {
+    background: rgba(0, 0, 0, 0.08);
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  @media (max-width: 768px) {
+    .chat-suggestions {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .chat-suggestions {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* Chat Input */
   .chat-input-wrapper {
     display: flex;
     flex-direction: row;
     align-items: flex-end;
     gap: 0.625rem;
     padding: 1rem 1.25rem 1.25rem;
+    background: transparent;
+    border-top: none;
+  }
+
+  :global(.light) .chat-input-wrapper {
+    background: transparent;
+    border-top: none;
   }
 
   .chat-input {
@@ -1523,25 +1601,55 @@ const suggestions = [
     font-size: 14px;
     font-family: inherit;
     resize: none;
+   
     max-height: 120px;
     line-height: 1.5;
-    transition: all 0.25s ease;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    overflow-y: hidden;
+  }
+
+  .chat-input:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.12);
   }
 
   .chat-input:focus {
     outline: none;
+    background: rgba(255, 255, 255, 0.08);
     border-color: rgba(59, 130, 246, 0.5);
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12),
+                0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
   }
 
   .chat-input::placeholder {
     color: var(--text-muted);
   }
 
+  :global(.light) .chat-input {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+
+  :global(.light) .chat-input:hover {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.12);
+  }
+
+  :global(.light) .chat-input:focus {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.08),
+                0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
   .chat-input-actions {
     display: flex;
     gap: 0.625rem;
     align-items: center;
+    flex-shrink: 0;
   }
 
   .chat-send-button {
@@ -1552,17 +1660,28 @@ const suggestions = [
     border-radius: 14px;
     color: var(--accent);
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
 
   .chat-send-button:hover {
     background: linear-gradient(135deg, rgba(59, 130, 246, 0.35), rgba(59, 130, 246, 0.25));
-    transform: translateY(-2px);
+    border-color: rgba(59, 130, 246, 0.5);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4),
+                0 0 0 4px rgba(59, 130, 246, 0.1);
   }
 
+  .chat-send-button:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  /* Voice Button */
   .voice-button {
     width: 48px;
     height: 48px;
@@ -1571,27 +1690,41 @@ const suggestions = [
     border-radius: 14px;
     color: var(--text-muted);
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
 
   .voice-button:hover {
     background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--text-secondary);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .voice-button:active {
+    transform: translateY(0) scale(0.98);
   }
 
   .voice-button.listening {
     background: linear-gradient(135deg, rgba(239, 68, 68, 0.25), rgba(239, 68, 68, 0.18));
     border-color: rgba(239, 68, 68, 0.35);
     color: #ef4444;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
   }
 
   .voice-listening {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    height: 100%;
   }
 
   .voice-pulse {
@@ -1613,6 +1746,17 @@ const suggestions = [
     }
   }
 
+  :global(.light) .voice-button {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  :global(.light) .voice-button:hover {
+    background: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.15);
+  }
+
+  /* Stop Button */
   .stop-button {
     width: 48px;
     height: 48px;
@@ -1621,27 +1765,133 @@ const suggestions = [
     border-radius: 14px;
     color: #ef4444;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
 
   .stop-button:hover {
     background: linear-gradient(135deg, rgba(239, 68, 68, 0.35), rgba(239, 68, 68, 0.25));
-    transform: translateY(-2px);
+    border-color: rgba(239, 68, 68, 0.5);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4),
+                0 0 0 4px rgba(239, 68, 68, 0.1);
   }
 
+  .stop-button:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  :global(.light) .stop-button {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.12));
+    border-color: rgba(239, 68, 68, 0.3);
+  }
+
+  :global(.light) .stop-button:hover {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(239, 68, 68, 0.2));
+    border-color: rgba(239, 68, 68, 0.4);
+  }
+
+  /* CTA Buttons */
   .hero__cta {
     display: flex;
     flex-wrap: wrap;
     gap: 0.625rem;
     justify-content: center;
     margin-bottom: 3rem;
+    animation: fadeInUp 0.6s ease 0.2s both;
   }
 
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.125rem;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .btn:hover svg {
+    transform: scale(1.1);
+  }
+
+  .btn--primary {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(59, 130, 246, 0.15));
+    color: var(--accent);
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .btn--primary:hover {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(59, 130, 246, 0.2));
+    border-color: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3),
+                0 0 24px rgba(59, 130, 246, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .btn--primary:active {
+    transform: translateY(0);
+  }
+
+  .btn--secondary {
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-secondary);
+    border-color: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .btn--secondary:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .btn--ghost {
+    background: transparent;
+    color: var(--text-muted);
+    border-color: rgba(255, 255, 255, 0.06);
+  }
+
+  .btn--ghost:hover {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-secondary);
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+
+  /* Contract Section */
   .contract-section {
     width: 100%;
+    animation: fadeInUp 0.6s ease 0.3s both;
   }
 
   .contract-header {
@@ -1654,6 +1904,7 @@ const suggestions = [
     font-weight: 700;
     color: var(--text-primary);
     margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
   }
 
   .contract-subtitle {
@@ -1666,13 +1917,15 @@ const suggestions = [
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1rem;
+    width: 100%;
   }
 
   .contract-card {
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 12px;
-    transition: all 0.3s ease;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
   }
 
@@ -1680,6 +1933,23 @@ const suggestions = [
     background: rgba(255, 255, 255, 0.04);
     border-color: rgba(59, 130, 246, 0.4);
     transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3),
+                0 0 12px rgba(59, 130, 246, 0.1);
+  }
+
+  :global(.light) .contract-card {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04),
+                0 1px 2px rgba(0, 0, 0, 0.02);
+  }
+
+  :global(.light) .contract-card:hover {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08),
+                0 4px 12px rgba(0, 0, 0, 0.04),
+                0 0 12px rgba(59, 130, 246, 0.1);
   }
 
   .contract-card-inner {
@@ -1697,6 +1967,13 @@ const suggestions = [
     border-radius: 8px;
     margin-bottom: 1rem;
     color: var(--accent);
+    transition: all 0.3s ease;
+  }
+
+  .contract-card:hover .contract-icon {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.3);
+    transform: scale(1.05);
   }
 
   .contract-content {
@@ -1708,6 +1985,7 @@ const suggestions = [
     font-weight: 600;
     color: var(--text-primary);
     margin: 0 0 0.375rem 0;
+    letter-spacing: -0.01em;
   }
 
   .contract-duration {
@@ -1750,6 +2028,136 @@ const suggestions = [
     }
   }
 
+  /* Mobile */
+  @media (max-width: 768px) {
+    .hero {
+      padding: 5rem 1rem 2rem;
+    }
+
+    .hero__title {
+      font-size: 1.875rem;
+    }
+
+    .chat-messages {
+      height: 300px;
+    }
+
+    .chat-input-wrapper {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.75rem;
+      padding: 0.875rem 1rem 1rem;
+    }
+
+    .chat-input {
+      font-size: 15px;
+      padding: 0.625rem 0.875rem;
+      height: 46px;
+      border-radius: 13px;
+      line-height: 1.5;
+    }
+
+    .chat-input-actions {
+      gap: 0.5rem;
+      justify-content: flex-end;
+    }
+
+    .chat-send-button,
+    .voice-button,
+    .stop-button {
+      width: 46px;
+      height: 46px;
+      border-radius: 13px;
+    }
+
+    .voice-button svg,
+    .stop-button svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    .chat-send-button svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .chat-header {
+      padding: 0.875rem 1rem;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.75rem;
+    }
+
+    .chat-header-left {
+      width: 100%;
+      flex: none;
+    }
+
+    .chat-header-right {
+      width: 100%;
+      justify-content: space-between;
+      gap: 0.625rem;
+    }
+
+    .chat-header-badge {
+      order: 3;
+      flex: none;
+      margin-left: auto;
+    }
+
+    .chat-suggestions {
+      padding: 0 1rem 1rem;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.625rem;
+    }
+
+    .suggestion-chip {
+      padding: 0.75rem 0.5rem;
+    }
+
+    .hero__cta {
+      gap: 0.5rem;
+      max-width: 100%;
+    }
+
+    .btn {
+      flex: 1 1 calc(50% - 0.25rem);
+      min-width: 0;
+      padding: 0.625rem 0.875rem;
+      font-size: 12px;
+    }
+
+    .btn svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .btn--ghost {
+      flex: 1 1 100%;
+    }
+
+    .contract-grid {
+      grid-template-columns: 1fr;
+      gap: 0.875rem;
+    }
+
+    .contract-card-inner {
+      padding: 1rem;
+    }
+
+    .contract-title {
+      font-size: 1.25rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .btn {
+      font-size: 11px;
+      padding: 0.5rem 0.75rem;
+    }
+  }
+
+  /* Delete Confirmation Modal */
   .modal-overlay {
     position: fixed;
     top: 0;
@@ -1758,6 +2166,7 @@ const suggestions = [
     bottom: 0;
     background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     display: none;
     align-items: center;
     justify-content: center;
@@ -1778,12 +2187,19 @@ const suggestions = [
     max-width: 420px;
     width: 90%;
     text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
     transform: scale(0.9);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .modal-overlay.show .modal-content {
     transform: scale(1);
+  }
+
+  :global(.light) .modal-content {
+    background: rgba(255, 255, 255, 0.98);
+    border-color: rgba(0, 0, 0, 0.1);
   }
 
   .modal-icon {
@@ -1804,6 +2220,7 @@ const suggestions = [
     font-weight: 700;
     color: var(--text-primary);
     margin: 0 0 0.75rem 0;
+    letter-spacing: -0.02em;
   }
 
   .modal-message {
@@ -1837,6 +2254,7 @@ const suggestions = [
 
   .modal-btn--cancel:hover {
     background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
     transform: translateY(-2px);
   }
 
@@ -1848,30 +2266,22 @@ const suggestions = [
 
   .modal-btn--confirm:hover {
     background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(239, 68, 68, 0.2));
+    border-color: rgba(239, 68, 68, 0.5);
     transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
   }
 
-  @media (max-width: 768px) {
-    .hero {
-      padding: 5rem 1rem 2rem;
-    }
-
-    .chat-messages {
-      height: 300px;
-    }
-
-    .chat-suggestions {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    .contract-grid {
-      grid-template-columns: 1fr;
-    }
+  .modal-btn:active {
+    transform: translateY(0);
   }
 
-  @media (max-width: 480px) {
-    .chat-suggestions {
-      grid-template-columns: repeat(2, 1fr);
-    }
+  :global(.light) .modal-btn--cancel {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  :global(.light) .modal-btn--cancel:hover {
+    background: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.15);
   }
 </style>
