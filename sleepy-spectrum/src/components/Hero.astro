@@ -810,7 +810,7 @@ const suggestions = [
           </svg>
         </div>
         <div class="message-content" style="align-items: flex-start; display: flex; flex-direction: column;">
-          <div class="thinking-indicator">
+          <div class="thinking-indicator" style="margin-left: 0; margin-right: auto;">
             <div class="spinner-loader"></div>
             <span>Thinking...</span>
           </div>
@@ -848,7 +848,7 @@ const suggestions = [
           </svg>
         </div>
         <div class="message-content" style="align-items: flex-start; display: flex; flex-direction: column;">
-          <div class="message-bubble">
+          <div class="message-bubble" style="margin-left: 0; margin-right: auto;">
             <div class="typing-dots">
               <span></span>
               <span></span>
@@ -1292,12 +1292,14 @@ const suggestions = [
   }
 
   /* GetRok Avatar Animation - Enhanced Claude-style pulse */
-  .message--ai .message-avatar .avatar-bg {
-    animation: avatar-pulse 1.5s ease-in-out infinite;
+  .message--ai .message-avatar svg .avatar-bg {
+    animation: avatar-pulse 1.5s ease-in-out infinite !important;
+    transform-origin: center center;
   }
 
-  .message--ai .message-avatar .avatar-letter {
-    animation: letter-pulse 1.5s ease-in-out infinite;
+  .message--ai .message-avatar svg .avatar-letter {
+    animation: letter-pulse 1.5s ease-in-out infinite !important;
+    transform-origin: center center;
   }
 
   @keyframes avatar-pulse {
@@ -1306,8 +1308,8 @@ const suggestions = [
       transform: scale(1);
     }
     50% {
-      opacity: 0.7;
-      transform: scale(1.08);
+      opacity: 0.75;
+      transform: scale(1.1);
     }
   }
 
@@ -1318,13 +1320,13 @@ const suggestions = [
     }
     50% {
       opacity: 0.85;
-      transform: scale(1.05);
+      transform: scale(1.08);
     }
   }
 
-  .message--ai .message-avatar:hover .avatar-bg {
-    fill: #2563eb;
-    animation: avatar-pulse-fast 0.8s ease-in-out infinite;
+  .message--ai .message-avatar:hover svg .avatar-bg {
+    fill: #2563eb !important;
+    animation: avatar-pulse-fast 0.8s ease-in-out infinite !important;
   }
 
   @keyframes avatar-pulse-fast {
@@ -1334,7 +1336,7 @@ const suggestions = [
     }
     50% {
       opacity: 0.8;
-      transform: scale(1.12);
+      transform: scale(1.15);
     }
   }
 
