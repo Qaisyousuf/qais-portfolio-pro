@@ -731,8 +731,8 @@ logConversation(question: string, response: string) {
   // FORCE user message styling with inline styles
   if (role === 'user') {
     messageDiv.style.display = 'flex';
-    messageDiv.style.flexDirection = 'row-reverse';
-    messageDiv.style.justifyContent = 'flex-start';
+    messageDiv.style.flexDirection = 'column';
+    messageDiv.style.alignItems = 'flex-end';
     messageDiv.style.width = '100%';
     messageDiv.style.marginLeft = 'auto';
   }
