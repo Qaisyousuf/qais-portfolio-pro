@@ -1286,57 +1286,41 @@ const suggestions = [
       transform: scale(1);
     }
     50% {
-      opacity: 0.4;
-      transform: scale(1.15);
+      opacity: 0.7;
+      transform: scale(1.2);
     }
   }
 
-  /* GetRok Avatar Animation - Enhanced Claude-style pulse */
+  /* GetRok Avatar Animation - Beautiful breathing effect */
   .message--ai .message-avatar svg .avatar-bg {
-    animation: avatar-pulse 1.5s ease-in-out infinite !important;
-    transform-origin: center center;
+    animation: bg-pulse 2s ease-in-out infinite;
+    transform-origin: center;
   }
 
   .message--ai .message-avatar svg .avatar-letter {
-    animation: letter-pulse 1.5s ease-in-out infinite !important;
-    transform-origin: center center;
+    animation: letter-breathe 2s ease-in-out infinite;
+    transform-origin: center;
   }
 
-  @keyframes avatar-pulse {
+  @keyframes bg-pulse {
     0%, 100% {
       opacity: 1;
       transform: scale(1);
     }
     50% {
       opacity: 0.75;
-      transform: scale(1.1);
+      transform: scale(1.15);
     }
   }
 
-  @keyframes letter-pulse {
+  @keyframes letter-breathe {
     0%, 100% {
       opacity: 1;
       transform: scale(1);
     }
     50% {
       opacity: 0.85;
-      transform: scale(1.08);
-    }
-  }
-
-  .message--ai .message-avatar:hover svg .avatar-bg {
-    fill: #2563eb !important;
-    animation: avatar-pulse-fast 0.8s ease-in-out infinite !important;
-  }
-
-  @keyframes avatar-pulse-fast {
-    0%, 100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 0.8;
-      transform: scale(1.15);
+      transform: scale(1.2);
     }
   }
 
@@ -1359,7 +1343,7 @@ const suggestions = [
   }
 
   .message-bubble {
-    display: inline-block;
+    display: block;
     max-width: 85%;
     padding: 0.875rem 1.125rem;
     border-radius: 16px;
@@ -1367,7 +1351,13 @@ const suggestions = [
     line-height: 1.65;
     word-wrap: break-word;
     white-space: pre-wrap;
-    text-align: left;
+    text-align: left !important;
+    width: fit-content;
+  }
+
+  /* Force all text inside bubbles to align left */
+  .message-bubble * {
+    text-align: left !important;
   }
 
   .message--ai .message-bubble {
