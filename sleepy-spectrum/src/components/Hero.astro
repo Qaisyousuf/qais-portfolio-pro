@@ -1189,8 +1189,15 @@ const suggestions = [
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     gap: 1rem;
     scroll-behavior: smooth;
+  }
+
+  /* Force all direct children to align left */
+  .chat-messages > * {
+    align-self: flex-start;
+    width: 100%;
   }
 
   :global(.light) .chat-messages {
@@ -1225,7 +1232,9 @@ const suggestions = [
   .message--user {
     flex-direction: row-reverse !important;
     margin-left: auto !important;
+    margin-right: 0 !important;
     justify-content: flex-start !important;
+    align-self: flex-end !important;
   }
 
   .message--user::before {
