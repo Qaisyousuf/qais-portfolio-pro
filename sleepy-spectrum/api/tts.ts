@@ -77,35 +77,34 @@ const FEMALE_VOICES: Record<string, VoiceConfig> = {
 
 // ============================================
 // FORCE LANGUAGE NORMALIZATION
-// (helps if frontend sends "en-US", "en-GB", etc.)
+// (accepts "en-US", "en-GB", etc.)
 // ============================================
 
 function normalizeForceLanguage(lang?: string): string | undefined {
   if (!lang) return undefined;
   const l = String(lang).trim().toLowerCase();
 
-  // accept common formats
   if (l === 'en-us' || l === 'en_us') return 'en_us';
   if (l === 'en-gb' || l === 'en_gb' || l === 'en') return 'en';
+
   if (l === 'da-dk' || l === 'da') return 'da';
   if (l === 'fr-fr' || l === 'fr') return 'fr';
   if (l === 'sv-se' || l === 'sv') return 'sv';
   if (l === 'nl-nl' || l === 'nl') return 'nl';
 
-  // if it's some unknown value, ignore it (fallback to detection)
   return undefined;
 }
 
 // ============================================
 // LANGUAGE DETECTION (EN, DA, FR, SV, NL)
-// Important: Detect EN before NL to avoid "is/in" collisions.
+// Key fix: DO NOT classify Danish by "å" (shared with Swedish/Norwegian)
 // ============================================
 
 function detectLanguage(text: string): string {
   const lower = text.toLowerCase();
 
-  // 🇩🇰 Danish - special chars + common words
-  if (/[æøå]/.test(text)) return 'da';
+  // 🇩🇰 Danish — ONLY æ / ø are exclusive (NOT å)
+  if (/[æø]/.test(text)) return 'da';
   if (
     /\b(hej|hvad|hvordan|jeg|kan|vil|har|er|det|en|og|til|med|på|af|ikke|som|for|men|om|eller|min|din|vi|dem|os|være|blive|meget|også|efter|før|nu|her|der|hvor|når|tak|goddag|farvel|undskyld|venligst|hjælp|velkommen)\b/.test(
       lower
@@ -114,8 +113,8 @@ function detectLanguage(text: string): string {
     return 'da';
   }
 
-  // 🇫🇷 French - diacritics + common words
-  if (/[éèêëàâçùûüôîï]/.test(text) && !/[æøå]/.test(text)) return 'fr';
+  // 🇫🇷 French
+  if (/[éèêëàâçùûüôîï]/.test(text)) return 'fr';
   if (
     /\b(je|tu|il|elle|nous|vous|ils|elles|le|la|les|un|une|des|et|est|sont|être|avoir|faire|bonjour|merci|oui|non|comment|pourquoi|quoi|quand|où|qui|avec|pour|dans|sur|très|bien|tout)\b/.test(
       lower
@@ -124,8 +123,8 @@ function detectLanguage(text: string): string {
     return 'fr';
   }
 
-  // 🇸🇪 Swedish (check before NL)
-  if (/[äö]/.test(text) && !/[æøå]/.test(text)) return 'sv';
+  // 🇸🇪 Swedish — ä / ö are exclusive
+  if (/[äö]/.test(text)) return 'sv';
   if (
     /\b(jag|du|han|hon|vi|de|och|är|har|kan|ska|vill|att|det|en|ett|som|för|med|på|till|av|inte|om|men|så|bara|eller|när|hur|vad|var|tack|hej)\b/.test(
       lower
@@ -134,7 +133,7 @@ function detectLanguage(text: string): string {
     return 'sv';
   }
 
-  // 🇬🇧 English — MUST be before Dutch to avoid false NL matches
+  // 🇬🇧 English — must be before Dutch to avoid collisions
   if (
     /\b(i|you|he|she|we|they|it|this|that|there|here|what|why|when|where|how|please|thanks|thank|hello|hi|yes|no|good|great|okay|ok|welcome)\b/.test(
       lower
@@ -143,7 +142,7 @@ function detectLanguage(text: string): string {
     return 'en';
   }
 
-  // 🇳🇱 Dutch — require distinctive Dutch words (avoid catching English "is/in")
+  // 🇳🇱 Dutch — require distinctive Dutch words (avoid catching English)
   const nlMatches = lower.match(
     /\b(ik|jij|hij|zij|wij|jullie|niet|wel|ook|maar|omdat|alstublieft|graag|bedankt|dankjewel|goedemorgen|goedenavond|tot|als)\b/g
   );
@@ -203,7 +202,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Normalize/accept values like "en-US", "en-GB", etc.
     const forceLanguage = normalizeForceLanguage(language);
 
-    // Get the right voice for this text
+    // Get voice for this text
     const voiceConfig = getVoiceConfig(text, forceLanguage);
 
     // Call Google Cloud Text-to-Speech API
@@ -215,9 +214,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          input: {
-            text: text,
-          },
+          input: { text },
           voice: {
             languageCode: voiceConfig.languageCode,
             name: voiceConfig.name,
