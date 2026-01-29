@@ -84,9 +84,11 @@ function normalizeForceLanguage(lang?: string): string | undefined {
   if (!lang) return undefined;
   const l = String(lang).trim().toLowerCase();
 
+  // English
   if (l === 'en-us' || l === 'en_us') return 'en_us';
   if (l === 'en-gb' || l === 'en_gb' || l === 'en') return 'en';
 
+  // Other supported languages
   if (l === 'da-dk' || l === 'da') return 'da';
   if (l === 'fr-fr' || l === 'fr') return 'fr';
   if (l === 'sv-se' || l === 'sv') return 'sv';
@@ -97,58 +99,61 @@ function normalizeForceLanguage(lang?: string): string | undefined {
 
 // ============================================
 // LANGUAGE DETECTION (EN, DA, FR, SV, NL)
-// Key fix: DO NOT classify Danish by "å" (shared with Swedish/Norwegian)
+// Key fix:
+// - Detect FR/SV/NL/EN first
+// - Detect Danish LAST and ONLY with strong signals
 // ============================================
 
 function detectLanguage(text: string): string {
   const lower = text.toLowerCase();
 
-  // 🇩🇰 Danish — ONLY æ / ø are exclusive (NOT å)
-  if (/[æø]/.test(text)) return 'da';
-  if (
-    /\b(hej|hvad|hvordan|jeg|kan|vil|har|er|det|en|og|til|med|på|af|ikke|som|for|men|om|eller|min|din|vi|dem|os|være|blive|meget|også|efter|før|nu|her|der|hvor|når|tak|goddag|farvel|undskyld|venligst|hjælp|velkommen)\b/.test(
-      lower
-    )
-  ) {
-    return 'da';
-  }
-
-  // 🇫🇷 French
+  // 🇫🇷 French — strong diacritics + common words
   if (/[éèêëàâçùûüôîï]/.test(text)) return 'fr';
   if (
-    /\b(je|tu|il|elle|nous|vous|ils|elles|le|la|les|un|une|des|et|est|sont|être|avoir|faire|bonjour|merci|oui|non|comment|pourquoi|quoi|quand|où|qui|avec|pour|dans|sur|très|bien|tout)\b/.test(
+    /\b(je|tu|il|elle|nous|vous|ils|elles|bonjour|merci|comment|pourquoi|quoi|quand|où|avec|pour|dans|très|s’il|c’est)\b/.test(
       lower
     )
   ) {
     return 'fr';
   }
 
-  // 🇸🇪 Swedish — ä / ö are exclusive
+  // 🇸🇪 Swedish — ä/ö are exclusive; include distinctive words
   if (/[äö]/.test(text)) return 'sv';
   if (
-    /\b(jag|du|han|hon|vi|de|och|är|har|kan|ska|vill|att|det|en|ett|som|för|med|på|till|av|inte|om|men|så|bara|eller|när|hur|vad|var|tack|hej)\b/.test(
+    /\b(jag|du|han|hon|vi|de|och|är|kan|ska|vill|att|inte|för|tack|hej|hjälpa|vad|varför|när|hur)\b/.test(
       lower
     )
   ) {
     return 'sv';
   }
 
-  // 🇬🇧 English — must be before Dutch to avoid collisions
+  // 🇳🇱 Dutch — require distinctive Dutch words
   if (
-    /\b(i|you|he|she|we|they|it|this|that|there|here|what|why|when|where|how|please|thanks|thank|hello|hi|yes|no|good|great|okay|ok|welcome)\b/.test(
+    /\b(ik|jij|hij|zij|wij|jullie|niet|wel|graag|alstublieft|bedankt|dankjewel|kun|helpen|wat|hoe|waar|wanneer)\b/.test(
+      lower
+    )
+  ) {
+    return 'nl';
+  }
+
+  // 🇬🇧 English — detect before Danish to avoid shared short words
+  if (
+    /\b(i|you|we|they|it|this|that|there|here|what|why|when|where|how|please|thanks|thank|hello|hi|yes|no|good|great|okay|ok|welcome|help|can)\b/.test(
       lower
     )
   ) {
     return 'en';
   }
 
-  // 🇳🇱 Dutch — require distinctive Dutch words (avoid catching English)
-  const nlMatches = lower.match(
-    /\b(ik|jij|hij|zij|wij|jullie|niet|wel|ook|maar|omdat|alstublieft|graag|bedankt|dankjewel|goedemorgen|goedenavond|tot|als)\b/g
-  );
-  if (nlMatches && nlMatches.length >= 1) return 'nl';
+  // 🇩🇰 Danish — LAST, only strong signals
+  // Exclusive letters (NOT å — shared with Swedish)
+  if (/[æø]/.test(text)) return 'da';
+  // Distinctive Danish words (avoid shared ones like "hej", "kan", "har", "det")
+  if (/\b(hvad|hvordan|ikke|gerne|hjælp|velkommen|tak|jeg|dig|jer)\b/.test(lower)) {
+    return 'da';
+  }
 
-  // Default: English (British)
+  // Fallback
   return 'en';
 }
 
@@ -160,7 +165,7 @@ function getVoiceConfig(text: string, forceLanguage?: string): VoiceConfig {
   const language = forceLanguage || detectLanguage(text);
   const voice = FEMALE_VOICES[language] || FEMALE_VOICES['en'];
 
-  console.log(`🎙️ Detected language: ${language.toUpperCase()}`);
+  console.log(`🎙️ Language key: ${language}`);
   console.log(`🎙️ Using voice: ${voice.name}`);
 
   return voice;
@@ -202,7 +207,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Normalize/accept values like "en-US", "en-GB", etc.
     const forceLanguage = normalizeForceLanguage(language);
 
-    // Get voice for this text
+    // Get the right voice
     const voiceConfig = getVoiceConfig(text, forceLanguage);
 
     // Call Google Cloud Text-to-Speech API
@@ -210,9 +215,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`,
       {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           input: { text },
           voice: {
