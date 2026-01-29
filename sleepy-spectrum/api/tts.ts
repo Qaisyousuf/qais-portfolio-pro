@@ -8,8 +8,7 @@ const corsHeaders = {
 };
 
 // ============================================
-// BEST FEMALE VOICES FOR EACH LANGUAGE
-// Selected for warm, friendly, attractive tone
+// FEMALE VOICES (ONLY: EN, DA, FR, SV, NL)
 // ============================================
 
 interface VoiceConfig {
@@ -21,118 +20,55 @@ interface VoiceConfig {
 }
 
 const FEMALE_VOICES: Record<string, VoiceConfig> = {
-  // 🇩🇰 Danish - Warm, professional Danish woman
+  // 🇩🇰 Danish
   da: {
     languageCode: 'da-DK',
-    name: 'da-DK-Wavenet-D',  // Female, most natural Danish voice
+    name: 'da-DK-Wavenet-D',
     ssmlGender: 'FEMALE',
     speakingRate: 1.0,
-    pitch: 1.0,  // Slightly higher for warmth
+    pitch: 1.0,
   },
-  
-  // 🇬🇧 English - Sophisticated British woman
+
+  // 🇬🇧 English (default)
   en: {
     languageCode: 'en-GB',
-    name: 'en-GB-Neural2-C',  // British female, warm and professional
+    name: 'en-GB-Neural2-C',
     ssmlGender: 'FEMALE',
     speakingRate: 1.05,
     pitch: 1.5,
   },
-  
-  // 🇺🇸 English US - Alternative warm American voice
+
+  // 🇺🇸 English US (optional override)
   en_us: {
     languageCode: 'en-US',
-    name: 'en-US-Neural2-F',  // American female, friendly and warm
+    name: 'en-US-Neural2-F',
     ssmlGender: 'FEMALE',
     speakingRate: 1.05,
     pitch: 1.0,
   },
-  
-  // 🇫🇷 French - Elegant Parisian woman
+
+  // 🇫🇷 French
   fr: {
     languageCode: 'fr-FR',
-    name: 'fr-FR-Neural2-A',  // French female, sophisticated
+    name: 'fr-FR-Neural2-A',
     ssmlGender: 'FEMALE',
     speakingRate: 1.0,
     pitch: 1.0,
   },
-  
-  // 🇸🇪 Swedish - Friendly Swedish woman
+
+  // 🇸🇪 Swedish
   sv: {
     languageCode: 'sv-SE',
-    name: 'sv-SE-Wavenet-A',  // Swedish female, clear and friendly
+    name: 'sv-SE-Wavenet-A',
     ssmlGender: 'FEMALE',
     speakingRate: 1.0,
     pitch: 1.0,
   },
-  
-  // 🇳🇱 Dutch - Warm Dutch woman
+
+  // 🇳🇱 Dutch
   nl: {
     languageCode: 'nl-NL',
-    name: 'nl-NL-Wavenet-A',  // Dutch female, friendly
-    ssmlGender: 'FEMALE',
-    speakingRate: 1.0,
-    pitch: 1.0,
-  },
-  
-  // 🇩🇪 German - Professional German woman
-  de: {
-    languageCode: 'de-DE',
-    name: 'de-DE-Neural2-C',  // German female, warm and professional
-    ssmlGender: 'FEMALE',
-    speakingRate: 1.0,
-    pitch: 1.0,
-  },
-  
-  // 🇪🇸 Spanish - Warm Spanish woman
-  es: {
-    languageCode: 'es-ES',
-    name: 'es-ES-Neural2-A',  // Spanish female, friendly
-    ssmlGender: 'FEMALE',
-    speakingRate: 1.0,
-    pitch: 1.0,
-  },
-  
-  // 🇮🇹 Italian - Elegant Italian woman
-  it: {
-    languageCode: 'it-IT',
-    name: 'it-IT-Neural2-A',  // Italian female, warm
-    ssmlGender: 'FEMALE',
-    speakingRate: 1.0,
-    pitch: 1.0,
-  },
-  
-  // 🇵🇱 Polish - Friendly Polish woman
-  pl: {
-    languageCode: 'pl-PL',
-    name: 'pl-PL-Wavenet-A',  // Polish female
-    ssmlGender: 'FEMALE',
-    speakingRate: 1.0,
-    pitch: 1.0,
-  },
-  
-  // 🇵🇹 Portuguese - Warm Portuguese woman
-  pt: {
-    languageCode: 'pt-PT',
-    name: 'pt-PT-Wavenet-A',  // Portuguese female
-    ssmlGender: 'FEMALE',
-    speakingRate: 1.0,
-    pitch: 1.0,
-  },
-  
-  // 🇳🇴 Norwegian - Friendly Norwegian woman
-  no: {
-    languageCode: 'nb-NO',
-    name: 'nb-NO-Wavenet-A',  // Norwegian female
-    ssmlGender: 'FEMALE',
-    speakingRate: 1.0,
-    pitch: 1.0,
-  },
-  
-  // 🇫🇮 Finnish - Clear Finnish woman
-  fi: {
-    languageCode: 'fi-FI',
-    name: 'fi-FI-Wavenet-A',  // Finnish female
+    name: 'nl-NL-Wavenet-A',
     ssmlGender: 'FEMALE',
     speakingRate: 1.0,
     pitch: 1.0,
@@ -140,77 +76,80 @@ const FEMALE_VOICES: Record<string, VoiceConfig> = {
 };
 
 // ============================================
-// LANGUAGE DETECTION
+// FORCE LANGUAGE NORMALIZATION
+// (helps if frontend sends "en-US", "en-GB", etc.)
+// ============================================
+
+function normalizeForceLanguage(lang?: string): string | undefined {
+  if (!lang) return undefined;
+  const l = String(lang).trim().toLowerCase();
+
+  // accept common formats
+  if (l === 'en-us' || l === 'en_us') return 'en_us';
+  if (l === 'en-gb' || l === 'en_gb' || l === 'en') return 'en';
+  if (l === 'da-dk' || l === 'da') return 'da';
+  if (l === 'fr-fr' || l === 'fr') return 'fr';
+  if (l === 'sv-se' || l === 'sv') return 'sv';
+  if (l === 'nl-nl' || l === 'nl') return 'nl';
+
+  // if it's some unknown value, ignore it (fallback to detection)
+  return undefined;
+}
+
+// ============================================
+// LANGUAGE DETECTION (EN, DA, FR, SV, NL)
+// Important: Detect EN before NL to avoid "is/in" collisions.
 // ============================================
 
 function detectLanguage(text: string): string {
   const lower = text.toLowerCase();
-  
-  // 🇩🇰 Danish - Check first (your primary market!)
+
+  // 🇩🇰 Danish - special chars + common words
   if (/[æøå]/.test(text)) return 'da';
-  if (/\b(hej|hvad|hvordan|jeg|kan|vil|har|er|det|en|og|til|med|på|af|ikke|som|for|men|om|eller|min|din|vi|dem|os|være|blive|meget|også|efter|før|nu|her|der|hvor|når|tak|goddag|farvel|undskyld|venligst|hjælp|virksomhed|arbejde|kunde|pris|tilbud|velkommen)\b/.test(lower)) {
+  if (
+    /\b(hej|hvad|hvordan|jeg|kan|vil|har|er|det|en|og|til|med|på|af|ikke|som|for|men|om|eller|min|din|vi|dem|os|være|blive|meget|også|efter|før|nu|her|der|hvor|når|tak|goddag|farvel|undskyld|venligst|hjælp|velkommen)\b/.test(
+      lower
+    )
+  ) {
     return 'da';
   }
-  
-  // 🇫🇷 French
+
+  // 🇫🇷 French - diacritics + common words
   if (/[éèêëàâçùûüôîï]/.test(text) && !/[æøå]/.test(text)) return 'fr';
-  if (/\b(je|tu|il|elle|nous|vous|ils|elles|le|la|les|un|une|des|et|est|sont|être|avoir|faire|bonjour|merci|oui|non|comment|pourquoi|quoi|quand|où|qui|avec|pour|dans|sur|très|bien|tout)\b/.test(lower)) {
+  if (
+    /\b(je|tu|il|elle|nous|vous|ils|elles|le|la|les|un|une|des|et|est|sont|être|avoir|faire|bonjour|merci|oui|non|comment|pourquoi|quoi|quand|où|qui|avec|pour|dans|sur|très|bien|tout)\b/.test(
+      lower
+    )
+  ) {
     return 'fr';
   }
-  
-  // 🇸🇪 Swedish (check before Norwegian - similar)
-  if (/[äö]/.test(text) && !/[æø]/.test(text)) return 'sv';
-  if (/\b(jag|du|han|hon|vi|de|och|är|har|kan|ska|vill|att|det|en|ett|som|för|med|på|till|av|inte|om|men|så|bara|eller|när|hur|vad|var|tack|hej)\b/.test(lower)) {
+
+  // 🇸🇪 Swedish (check before NL)
+  if (/[äö]/.test(text) && !/[æøå]/.test(text)) return 'sv';
+  if (
+    /\b(jag|du|han|hon|vi|de|och|är|har|kan|ska|vill|att|det|en|ett|som|för|med|på|till|av|inte|om|men|så|bara|eller|när|hur|vad|var|tack|hej)\b/.test(
+      lower
+    )
+  ) {
     return 'sv';
   }
-  
-  // 🇳🇴 Norwegian
-  if (/\b(jeg|du|han|hun|vi|dere|og|er|har|kan|skal|vil|at|det|en|ei|som|for|med|på|til|av|ikke|om|men|så|bare|eller|når|hvordan|hva|hvor|takk|hei)\b/.test(lower)) {
-    // Check if more Norwegian than Swedish
-    const noWords = lower.match(/\b(hun|dere|ei|hva|takk)\b/g);
-    if (noWords && noWords.length > 0) return 'no';
+
+  // 🇬🇧 English — MUST be before Dutch to avoid false NL matches
+  if (
+    /\b(i|you|he|she|we|they|it|this|that|there|here|what|why|when|where|how|please|thanks|thank|hello|hi|yes|no|good|great|okay|ok|welcome)\b/.test(
+      lower
+    )
+  ) {
+    return 'en';
   }
-  
-  // 🇳🇱 Dutch
-  if (/\b(ik|jij|hij|zij|wij|jullie|en|is|zijn|hebben|kunnen|zullen|willen|het|een|de|van|voor|met|op|aan|in|dat|die|wat|hoe|waar|wanneer|hallo|bedankt|ja|nee|goed|graag|alstublieft)\b/.test(lower)) {
-    return 'nl';
-  }
-  
-  // 🇩🇪 German
-  if (/ß/.test(text)) return 'de';
-  if (/\b(ich|du|er|sie|wir|ihr|und|ist|sind|haben|können|werden|wollen|das|ein|eine|der|die|von|für|mit|auf|an|in|nicht|auch|aber|oder|wenn|wie|was|wo|wann|hallo|danke|ja|nein|bitte|guten)\b/.test(lower)) {
-    return 'de';
-  }
-  
-  // 🇪🇸 Spanish
-  if (/[ñ¿¡]/.test(text)) return 'es';
-  if (/\b(yo|tú|él|ella|nosotros|ellos|y|es|son|estar|tener|hacer|hola|gracias|sí|no|cómo|qué|dónde|cuándo|con|para|por|muy|bien|todo)\b/.test(lower)) {
-    return 'es';
-  }
-  
-  // 🇮🇹 Italian
-  if (/\b(io|tu|lui|lei|noi|loro|e|è|sono|essere|avere|fare|ciao|grazie|sì|no|come|cosa|dove|quando|con|per|molto|bene|tutto)\b/.test(lower)) {
-    return 'it';
-  }
-  
-  // 🇵🇱 Polish
-  if (/[ąćęłńóśźż]/.test(text)) return 'pl';
-  if (/\b(ja|ty|on|ona|my|oni|i|jest|są|być|mieć|cześć|dziękuję|tak|nie|jak|co|gdzie|kiedy|bardzo|dobrze)\b/.test(lower)) {
-    return 'pl';
-  }
-  
-  // 🇵🇹 Portuguese
-  if (/[ãõ]/.test(text)) return 'pt';
-  if (/\b(eu|tu|ele|ela|nós|eles|e|é|são|estar|ter|fazer|olá|obrigado|sim|não|como|que|onde|quando|com|para|muito|bem|tudo)\b/.test(lower)) {
-    return 'pt';
-  }
-  
-  // 🇫🇮 Finnish
-  if (/\b(minä|sinä|hän|me|he|ja|on|olla|tehdä|hei|kiitos|kyllä|ei|miten|mitä|missä|milloin|kanssa|hyvin)\b/.test(lower)) {
-    return 'fi';
-  }
-  
-  // Default: English (British for European audience)
+
+  // 🇳🇱 Dutch — require distinctive Dutch words (avoid catching English "is/in")
+  const nlMatches = lower.match(
+    /\b(ik|jij|hij|zij|wij|jullie|niet|wel|ook|maar|omdat|alstublieft|graag|bedankt|dankjewel|goedemorgen|goedenavond|tot|als)\b/g
+  );
+  if (nlMatches && nlMatches.length >= 1) return 'nl';
+
+  // Default: English (British)
   return 'en';
 }
 
@@ -221,10 +160,10 @@ function detectLanguage(text: string): string {
 function getVoiceConfig(text: string, forceLanguage?: string): VoiceConfig {
   const language = forceLanguage || detectLanguage(text);
   const voice = FEMALE_VOICES[language] || FEMALE_VOICES['en'];
-  
+
   console.log(`🎙️ Detected language: ${language.toUpperCase()}`);
   console.log(`🎙️ Using voice: ${voice.name}`);
-  
+
   return voice;
 }
 
@@ -248,7 +187,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { text, language: forceLanguage } = req.body;
+    const { text, language } = req.body as { text?: string; language?: string };
 
     if (!text) {
       return res.status(400).json({ error: 'Text is required' });
@@ -260,6 +199,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       console.error('GOOGLE_TTS_API_KEY not found in environment');
       return res.status(500).json({ error: 'Server configuration error' });
     }
+
+    // Normalize/accept values like "en-US", "en-GB", etc.
+    const forceLanguage = normalizeForceLanguage(language);
 
     // Get the right voice for this text
     const voiceConfig = getVoiceConfig(text, forceLanguage);
@@ -285,7 +227,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             audioEncoding: 'MP3',
             speakingRate: voiceConfig.speakingRate,
             pitch: voiceConfig.pitch,
-            // Add effects for richer sound
             effectsProfileId: ['small-bluetooth-speaker-class-device'],
           },
         }),
@@ -295,26 +236,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!response.ok) {
       const error = await response.text();
       console.error('Google TTS API error:', error);
-      return res.status(response.status).json({ 
+      return res.status(response.status).json({
         error: 'Failed to generate speech',
-        details: error 
+        details: error,
       });
     }
 
     const data = await response.json();
 
-    // Return the audio content with language info
     return res.status(200).json({
       audioContent: data.audioContent,
       detectedLanguage: voiceConfig.languageCode,
       voiceUsed: voiceConfig.name,
     });
-
   } catch (error: any) {
     console.error('Text-to-Speech error:', error);
-    return res.status(500).json({ 
+    return res.status(500).json({
       error: 'Internal server error',
-      message: error.message 
+      message: error?.message ?? String(error),
     });
   }
 }
