@@ -169,12 +169,6 @@ Did I ask at least one relevant business question?
 Did I avoid sharing contact details unless asked?
 Does this sound like a helpful senior colleague?
 
-
-If you want, next we can:
-
-Add a strict 2‑sentence cap for TYPE A only
-Tune this specifically for voice responses
-Add automatic handling for “just browsing” users
 `;
 
 // Rate limiting map
