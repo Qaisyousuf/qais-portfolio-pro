@@ -8,7 +8,7 @@ const corsHeaders = {
 };
 
 // ============================================
-// FEMALE VOICES (ONLY: EN, DA, FR, SV, NL)
+// FEMALE VOICES (ONLY: DA, FR, EN)
 // ============================================
 
 interface VoiceConfig {
@@ -19,11 +19,20 @@ interface VoiceConfig {
   pitch: number;
 }
 
-const FEMALE_VOICES: Record<string, VoiceConfig> = {
+const FEMALE_VOICES: Record<'da' | 'fr' | 'en' | 'en_us', VoiceConfig> = {
   // 🇩🇰 Danish
   da: {
     languageCode: 'da-DK',
     name: 'da-DK-Wavenet-D',
+    ssmlGender: 'FEMALE',
+    speakingRate: 1.0,
+    pitch: 1.0,
+  },
+
+  // 🇫🇷 French
+  fr: {
+    languageCode: 'fr-FR',
+    name: 'fr-FR-Neural2-A',
     ssmlGender: 'FEMALE',
     speakingRate: 1.0,
     pitch: 1.0,
@@ -46,66 +55,47 @@ const FEMALE_VOICES: Record<string, VoiceConfig> = {
     speakingRate: 1.05,
     pitch: 1.0,
   },
-
-  // 🇫🇷 French
-  fr: {
-    languageCode: 'fr-FR',
-    name: 'fr-FR-Neural2-A',
-    ssmlGender: 'FEMALE',
-    speakingRate: 1.0,
-    pitch: 1.0,
-  },
-
-  // 🇸🇪 Swedish
-  sv: {
-    languageCode: 'sv-SE',
-    name: 'sv-SE-Wavenet-A',
-    ssmlGender: 'FEMALE',
-    speakingRate: 1.0,
-    pitch: 1.0,
-  },
-
-  // 🇳🇱 Dutch
-  nl: {
-    languageCode: 'nl-NL',
-    name: 'nl-NL-Wavenet-A',
-    ssmlGender: 'FEMALE',
-    speakingRate: 1.0,
-    pitch: 1.0,
-  },
 };
 
 // ============================================
 // FORCE LANGUAGE NORMALIZATION
-// (accepts "en-US", "en-GB", etc.)
+// Accepts: "auto", "en", "en-GB", "en-US", "da", "da-DK", "fr", "fr-FR"
 // ============================================
 
-function normalizeForceLanguage(lang?: string): string | undefined {
+type LangKey = 'da' | 'fr' | 'en' | 'en_us';
+
+function normalizeForceLanguage(lang?: string): LangKey | undefined {
   if (!lang) return undefined;
   const l = String(lang).trim().toLowerCase();
 
-  // English
+  if (l === 'auto') return undefined;
+
   if (l === 'en-us' || l === 'en_us') return 'en_us';
   if (l === 'en-gb' || l === 'en_gb' || l === 'en') return 'en';
 
-  // Other supported languages
   if (l === 'da-dk' || l === 'da') return 'da';
   if (l === 'fr-fr' || l === 'fr') return 'fr';
-  if (l === 'sv-se' || l === 'sv') return 'sv';
-  if (l === 'nl-nl' || l === 'nl') return 'nl';
 
   return undefined;
 }
 
 // ============================================
-// LANGUAGE DETECTION (EN, DA, FR, SV, NL)
-// Key fix:
-// - Detect FR/SV/NL/EN first
-// - Detect Danish LAST and ONLY with strong signals
+// LANGUAGE DETECTION (DA, FR, EN)
+// Notes:
+// - Danish: detect by æ/ø (NOT å, shared with other Nordic languages)
+// - French: detect by French diacritics + common words
+// - Fallback: English
 // ============================================
 
-function detectLanguage(text: string): string {
+function detectLanguage(text: string): LangKey {
   const lower = text.toLowerCase();
+
+  // 🇩🇰 Danish — exclusive letters first
+  if (/[æø]/.test(text)) return 'da';
+  // Distinctive Danish words (avoid super-shared ones)
+  if (/\b(hvad|hvordan|ikke|gerne|hjælp|velkommen|tak|jeg|dig|jer)\b/.test(lower)) {
+    return 'da';
+  }
 
   // 🇫🇷 French — strong diacritics + common words
   if (/[éèêëàâçùûüôîï]/.test(text)) return 'fr';
@@ -117,52 +107,18 @@ function detectLanguage(text: string): string {
     return 'fr';
   }
 
-  // 🇸🇪 Swedish — ä/ö are exclusive; include distinctive words
-  if (/[äö]/.test(text)) return 'sv';
-  if (
-    /\b(jag|du|han|hon|vi|de|och|är|kan|ska|vill|att|inte|för|tack|hej|hjälpa|vad|varför|när|hur)\b/.test(
-      lower
-    )
-  ) {
-    return 'sv';
-  }
-
-  // 🇳🇱 Dutch — require distinctive Dutch words
-  if (
-    /\b(ik|jij|hij|zij|wij|jullie|niet|wel|graag|alstublieft|bedankt|dankjewel|kun|helpen|wat|hoe|waar|wanneer)\b/.test(
-      lower
-    )
-  ) {
-    return 'nl';
-  }
-
-  // 🇬🇧 English — detect before Danish to avoid shared short words
-  if (
-    /\b(i|you|we|they|it|this|that|there|here|what|why|when|where|how|please|thanks|thank|hello|hi|yes|no|good|great|okay|ok|welcome|help|can)\b/.test(
-      lower
-    )
-  ) {
-    return 'en';
-  }
-
-  // 🇩🇰 Danish — LAST, only strong signals
-  // Exclusive letters (NOT å — shared with Swedish)
-  if (/[æø]/.test(text)) return 'da';
-  // Distinctive Danish words (avoid shared ones like "hej", "kan", "har", "det")
-  if (/\b(hvad|hvordan|ikke|gerne|hjælp|velkommen|tak|jeg|dig|jer)\b/.test(lower)) {
-    return 'da';
-  }
-
-  // Fallback
+  // Default: 🇬🇧 English
   return 'en';
 }
 
 // ============================================
 // GET VOICE CONFIG
+// - If language is provided and recognized, it overrides detection
+// - Otherwise detection is used
 // ============================================
 
-function getVoiceConfig(text: string, forceLanguage?: string): VoiceConfig {
-  const language = forceLanguage || detectLanguage(text);
+function getVoiceConfig(text: string, forceLanguage?: LangKey): VoiceConfig {
+  const language: LangKey = forceLanguage || detectLanguage(text);
   const voice = FEMALE_VOICES[language] || FEMALE_VOICES['en'];
 
   console.log(`🎙️ Language key: ${language}`);
@@ -198,19 +154,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const apiKey = process.env.GOOGLE_TTS_API_KEY;
-
     if (!apiKey) {
       console.error('GOOGLE_TTS_API_KEY not found in environment');
       return res.status(500).json({ error: 'Server configuration error' });
     }
 
-    // Normalize/accept values like "en-US", "en-GB", etc.
+    // Only override if language is recognized; otherwise auto-detect
     const forceLanguage = normalizeForceLanguage(language);
 
-    // Get the right voice
     const voiceConfig = getVoiceConfig(text, forceLanguage);
 
-    // Call Google Cloud Text-to-Speech API
     const response = await fetch(
       `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`,
       {
