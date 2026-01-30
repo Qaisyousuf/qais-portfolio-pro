@@ -44,7 +44,7 @@ const FEMALE_VOICES: Record<string, VoiceConfig> = {
     languageCode: 'sv-SE',
     name: 'sv-SE-Wavenet-A',
     ssmlGender: 'FEMALE',
-    speakingRate: 0.90,
+    speakingRate: 0.85,
     pitch: 0.0,
   },
   
@@ -53,7 +53,7 @@ const FEMALE_VOICES: Record<string, VoiceConfig> = {
     languageCode: 'nl-NL',
     name: 'nl-NL-Wavenet-A',
     ssmlGender: 'FEMALE',
-    speakingRate: 0.90,
+    speakingRate: 0.85,
     pitch: 0.0,
   },
   
@@ -62,7 +62,7 @@ const FEMALE_VOICES: Record<string, VoiceConfig> = {
     languageCode: 'fr-FR',
     name: 'fr-FR-Neural2-A',
     ssmlGender: 'FEMALE',
-    speakingRate: 0.90,
+    speakingRate: 0.85,
     pitch: 0.0,
   },
 };
