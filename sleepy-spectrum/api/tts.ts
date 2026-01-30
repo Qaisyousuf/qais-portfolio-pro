@@ -8,8 +8,8 @@ const corsHeaders = {
 };
 
 // ============================================
-// FEMALE VOICES - YOUR 4 LANGUAGES
-// Warm, friendly, natural pace
+// FEMALE VOICES - YOUR 5 LANGUAGES
+// EN, DA, SV, NL, FR
 // ============================================
 
 interface VoiceConfig {
@@ -21,13 +21,13 @@ interface VoiceConfig {
 }
 
 const FEMALE_VOICES: Record<string, VoiceConfig> = {
-  // 🇩🇰 Danish - Warm, professional Danish woman
+  // 🇩🇰 Danish - Warm Danish woman (SLOWER)
   da: {
     languageCode: 'da-DK',
     name: 'da-DK-Wavenet-D',
     ssmlGender: 'FEMALE',
-    speakingRate: 0.92,
-    pitch: 0.5,
+    speakingRate: 0.85,  // Even slower
+    pitch: 0.0,
   },
   
   // 🇬🇧 English - Sophisticated British woman
@@ -36,7 +36,7 @@ const FEMALE_VOICES: Record<string, VoiceConfig> = {
     name: 'en-GB-Neural2-C',
     ssmlGender: 'FEMALE',
     speakingRate: 0.95,
-    pitch: 0.5,
+    pitch: 0.0,
   },
   
   // 🇸🇪 Swedish - Friendly Swedish woman
@@ -44,8 +44,8 @@ const FEMALE_VOICES: Record<string, VoiceConfig> = {
     languageCode: 'sv-SE',
     name: 'sv-SE-Wavenet-A',
     ssmlGender: 'FEMALE',
-    speakingRate: 0.92,
-    pitch: 0.5,
+    speakingRate: 0.90,
+    pitch: 0.0,
   },
   
   // 🇳🇱 Dutch - Warm Dutch woman
@@ -53,150 +53,220 @@ const FEMALE_VOICES: Record<string, VoiceConfig> = {
     languageCode: 'nl-NL',
     name: 'nl-NL-Wavenet-A',
     ssmlGender: 'FEMALE',
-    speakingRate: 0.92,
-    pitch: 0.5,
+    speakingRate: 0.90,
+    pitch: 0.0,
+  },
+  
+  // 🇫🇷 French - Elegant French woman
+  fr: {
+    languageCode: 'fr-FR',
+    name: 'fr-FR-Neural2-A',
+    ssmlGender: 'FEMALE',
+    speakingRate: 0.90,
+    pitch: 0.0,
   },
 };
 
 // ============================================
-// LANGUAGE DETECTION - OPTIMIZED FOR YOUR 4 LANGUAGES
-// Priority: Danish → Swedish → Dutch → English (default)
+// LANGUAGE DETECTION - IMPROVED
+// Now checks Swedish and Dutch BEFORE Danish
 // ============================================
 
 function detectLanguage(text: string): string {
   const lower = text.toLowerCase();
   
+  console.log(`🔍 Analyzing text: "${text.substring(0, 50)}..."`);
+  
   // =====================
-  // 🇩🇰 DANISH DETECTION
+  // 🇸🇪 SWEDISH - CHECK FIRST!
+  // Swedish has ä ö but NOT æ ø
   // =====================
   
-  // Danish-only characters (not in Swedish)
-  if (/[æø]/.test(text)) {
-    return 'da';
-  }
+  // Swedish unique characters
+  const hasSwedishChars = /[äö]/.test(text) && !/[æø]/.test(text);
   
-  // Danish-specific words (not used in Swedish/Dutch/English)
-  const danishOnlyWords = [
-    'jeg', 'dig', 'mig', 'sig', 'og', 'er', 'det', 'en', 'et', 'af', 'til', 'på', 'med', 
-    'ikke', 'som', 'har', 'kan', 'vil', 'skal', 'være', 'blive', 'efter', 'eller', 
-    'når', 'hvor', 'hvad', 'hvem', 'hvordan', 'hvorfor', 'hej', 'tak', 'goddag', 
-    'farvel', 'ja', 'nej', 'meget', 'også', 'bare', 'nu', 'her', 'der', 'denne', 
-    'disse', 'nogle', 'alle', 'hver', 'anden', 'andet', 'andre', 'min', 'din', 'sin',
-    'vores', 'jeres', 'deres', 'ham', 'hende', 'os', 'dem', 'selv', 'igen', 'altid',
-    'aldrig', 'måske', 'fordi', 'hvis', 'så', 'men', 'fra', 'ved', 'om', 'under',
-    'over', 'mellem', 'gennem', 'uden', 'inden', 'siden', 'før', 'bag', 'foran',
-    'hjælpe', 'hjælp', 'velkommen', 'undskyld', 'venligst', 'gerne', 'godt', 'dårligt',
-    'stor', 'lille', 'ny', 'gammel', 'god', 'ond', 'smuk', 'grim', 'let', 'svær',
-    'virksomhed', 'firma', 'arbejde', 'kunde', 'pris', 'priser', 'tilbud', 'løsning',
-    'spørgsmål', 'svar', 'oplysninger', 'information', 'kontakt', 'email', 'telefon',
-    'dag', 'uge', 'måned', 'tid', 'time', 'minut', 'morgen', 'aften', 'nat',
+  // Swedish-specific words that are NOT in Danish
+  const swedishUniqueWords = [
+    'jag', 'och', 'att', 'är', 'var', 'hur', 'vad', 'för', 'med', 'kan', 
+    'ska', 'har', 'inte', 'som', 'det', 'den', 'ett', 'till', 'av', 'på',
+    'om', 'men', 'så', 'eller', 'när', 'alla', 'vara', 'från', 'vid', 
+    'bli', 'blir', 'blev', 'varit', 'skulle', 'kunde', 'ville', 'måste',
+    'också', 'bara', 'här', 'där', 'vem', 'vilket', 'vilka', 'denna',
+    'dessa', 'något', 'några', 'ingen', 'inget', 'annat', 'andra',
+    'själv', 'egen', 'samma', 'varje', 'mellan', 'under', 'efter',
+    'utan', 'inom', 'sedan', 'redan', 'ännu', 'fortfarande', 'kanske',
+    'väldigt', 'mycket', 'lite', 'mer', 'mest', 'bra', 'bättre', 'bäst',
+    'tack', 'hej', 'välkommen', 'hjälpa', 'hjälp', 'behöver', 'vill',
+    'företag', 'tjänst', 'tjänster', 'pris', 'priser', 'kostnad', 'kostnader',
+    'fungerar', 'använder', 'arbetar', 'skapar', 'gör', 'göra',
+    'idag', 'imorgon', 'igår', 'vecka', 'månad', 'året',
+    'oss', 'vårt', 'vår', 'våra', 'er', 'ert', 'era', 'dig', 'mig', 'sig',
   ];
   
-  const danishWordCount = danishOnlyWords.filter(word => {
-    const regex = new RegExp(`\\b${word}\\b`, 'i');
-    return regex.test(lower);
-  }).length;
+  let swedishScore = 0;
+  swedishUniqueWords.forEach(word => {
+    const regex = new RegExp(`\\b${word}\\b`, 'gi');
+    const matches = lower.match(regex);
+    if (matches) swedishScore += matches.length;
+  });
   
-  if (danishWordCount >= 2) {
-    return 'da';
-  }
+  if (hasSwedishChars) swedishScore += 5;
+  
+  console.log(`🇸🇪 Swedish score: ${swedishScore}`);
   
   // =====================
-  // 🇸🇪 SWEDISH DETECTION
+  // 🇳🇱 DUTCH - CHECK SECOND
+  // Dutch has unique patterns: ij, oe, ui, aa, ee, oo, uu
   // =====================
   
-  // Swedish-only characters (ä and ö but NOT æ and ø)
-  if (/[äö]/.test(text) && !/[æø]/.test(text)) {
-    return 'sv';
-  }
+  // Dutch unique patterns
+  const hasDutchPatterns = /\bij\b|ij[kntsgm]|[aeou]ij|ijk|oe[kntpmr]|oei|ui[ts]|aai|ooi|eeu|ieu|uw|ouw/.test(lower);
   
-  // Swedish-specific words (not used in Danish/Dutch/English)
-  const swedishOnlyWords = [
-    'jag', 'du', 'han', 'hon', 'vi', 'de', 'den', 'det', 'och', 'att', 'är', 'var',
-    'har', 'hade', 'kan', 'kunde', 'ska', 'skulle', 'vill', 'ville', 'måste', 'får',
-    'fick', 'blir', 'blev', 'gör', 'gjorde', 'säger', 'sade', 'kommer', 'kom', 'går',
-    'gick', 'ser', 'såg', 'vet', 'visste', 'tror', 'tycker', 'känner', 'hör', 'tar',
-    'tog', 'ger', 'gav', 'står', 'stod', 'sitter', 'satt', 'ligger', 'låg',
-    'inte', 'om', 'men', 'för', 'på', 'med', 'av', 'till', 'från', 'vid', 'efter',
-    'mellan', 'under', 'över', 'genom', 'utan', 'inom', 'mot', 'hos', 'ur', 'åt',
-    'hej', 'tack', 'ja', 'nej', 'kanske', 'också', 'bara', 'redan', 'ännu', 'igen',
-    'aldrig', 'alltid', 'ofta', 'ibland', 'här', 'där', 'när', 'hur', 'vad', 'vem',
-    'var', 'varför', 'vilket', 'vilken', 'vilka', 'denna', 'detta', 'dessa',
-    'någon', 'något', 'några', 'ingen', 'inget', 'inga', 'alla', 'allt', 'varje',
-    'annan', 'annat', 'andra', 'själv', 'egen', 'eget', 'egna', 'samma', 'sådan',
-    'min', 'mitt', 'mina', 'din', 'ditt', 'dina', 'sin', 'sitt', 'sina', 'vår',
-    'vårt', 'våra', 'er', 'ert', 'era', 'deras', 'hennes', 'hans',
-    'företag', 'arbete', 'kund', 'pris', 'erbjudande', 'lösning', 'hjälp', 'hjälpa',
-    'välkommen', 'ursäkta', 'snälla', 'trevlig', 'bra', 'dålig', 'stor', 'liten',
-    'ny', 'gammal', 'god', 'ond', 'vacker', 'ful', 'lätt', 'svår',
-    'fråga', 'frågor', 'svar', 'information', 'kontakt', 'mejl', 'telefon',
-    'dag', 'vecka', 'månad', 'tid', 'timme', 'minut', 'morgon', 'kväll', 'natt',
+  // Dutch-specific words that are NOT in Danish/Swedish/English
+  const dutchUniqueWords = [
+    'ik', 'jij', 'hij', 'zij', 'wij', 'jullie', 'het', 'een', 'de', 'en',
+    'van', 'voor', 'met', 'aan', 'dat', 'die', 'dit', 'deze', 'maar',
+    'als', 'ook', 'nog', 'wel', 'niet', 'naar', 'uit', 'bij', 'tot',
+    'wat', 'wie', 'waar', 'wanneer', 'waarom', 'hoe', 'welk', 'welke',
+    'hebben', 'heeft', 'had', 'zijn', 'ben', 'bent', 'was', 'waren',
+    'worden', 'wordt', 'werd', 'kunnen', 'kan', 'kon', 'konden',
+    'zullen', 'zal', 'zou', 'zouden', 'willen', 'wil', 'wilde',
+    'moeten', 'moet', 'moest', 'mogen', 'mag', 'mocht',
+    'gaan', 'gaat', 'ging', 'komen', 'komt', 'kwam',
+    'zien', 'ziet', 'zag', 'doen', 'doet', 'deed',
+    'maken', 'maakt', 'maakte', 'geven', 'geeft', 'gaf',
+    'nemen', 'neemt', 'nam', 'zeggen', 'zegt', 'zei',
+    'denken', 'denkt', 'dacht', 'weten', 'weet', 'wist',
+    'hallo', 'bedankt', 'dank', 'alstublieft', 'graag',
+    'goed', 'slecht', 'groot', 'klein', 'nieuw', 'oud',
+    'mooi', 'makkelijk', 'moeilijk', 'veel', 'weinig',
+    'meer', 'minder', 'meest', 'minst',
+    'mijn', 'jouw', 'uw', 'ons', 'onze', 'hun',
+    'iemand', 'niemand', 'iets', 'niets', 'alles', 'allemaal',
+    'ander', 'andere', 'zelf', 'eigen', 'dezelfde',
+    'bedrijf', 'werk', 'klant', 'prijs', 'prijzen', 'aanbod',
+    'vraag', 'vragen', 'antwoord', 'informatie',
+    'welkom', 'sorry', 'helpen', 'hulp',
+    'vandaag', 'morgen', 'gisteren', 'week', 'maand', 'jaar',
+    'snart', 'spoedig', 'mogelijk', 'contact', 'nemen',
   ];
   
-  const swedishWordCount = swedishOnlyWords.filter(word => {
-    const regex = new RegExp(`\\b${word}\\b`, 'i');
-    return regex.test(lower);
-  }).length;
+  let dutchScore = 0;
+  dutchUniqueWords.forEach(word => {
+    const regex = new RegExp(`\\b${word}\\b`, 'gi');
+    const matches = lower.match(regex);
+    if (matches) dutchScore += matches.length;
+  });
   
-  if (swedishWordCount >= 2) {
-    return 'sv';
-  }
+  if (hasDutchPatterns) dutchScore += 3;
+  
+  console.log(`🇳🇱 Dutch score: ${dutchScore}`);
   
   // =====================
-  // 🇳🇱 DUTCH DETECTION
+  // 🇫🇷 FRENCH - CHECK THIRD
+  // French has unique accents: é è ê ë à â ç ù û ü ô î ï
   // =====================
   
-  // Dutch-specific combinations
-  if (/ij|oe(?!s\b)|ui(?!t\b)|eu|aa|ee|oo|uu/.test(lower)) {
-    // Check for Dutch context
-    const hasDutchPattern = /\b(ij|het|een|van|voor)\b/.test(lower);
-    if (hasDutchPattern) {
-      return 'nl';
+  const hasFrenchChars = /[éèêëàâçùûüôîï]/.test(text);
+  
+  // French-specific words
+  const frenchUniqueWords = [
+    'je', 'tu', 'il', 'elle', 'nous', 'vous', 'ils', 'elles',
+    'le', 'la', 'les', 'un', 'une', 'des', 'du', 'de', 'et',
+    'est', 'sont', 'être', 'avoir', 'fait', 'faire', 'dit', 'dire',
+    'peut', 'pouvoir', 'veut', 'vouloir', 'doit', 'devoir',
+    'qui', 'que', 'quoi', 'dont', 'où', 'comment', 'pourquoi', 'quand',
+    'ce', 'cette', 'ces', 'cet', 'quel', 'quelle', 'quels', 'quelles',
+    'mon', 'ton', 'son', 'ma', 'ta', 'sa', 'mes', 'tes', 'ses',
+    'notre', 'votre', 'leur', 'nos', 'vos', 'leurs',
+    'dans', 'sur', 'sous', 'avec', 'pour', 'par', 'sans', 'chez',
+    'mais', 'ou', 'donc', 'car', 'ni', 'puis', 'ensuite',
+    'ne', 'pas', 'plus', 'jamais', 'rien', 'personne', 'aucun',
+    'très', 'bien', 'mal', 'mieux', 'pire', 'moins', 'aussi',
+    'tout', 'toute', 'tous', 'toutes', 'autre', 'autres', 'même',
+    'bonjour', 'bonsoir', 'salut', 'merci', 'oui', 'non',
+    'comment', 'pourquoi', 'combien', 'quand', 'où',
+    'entreprise', 'service', 'services', 'prix', 'coût', 'aide', 'aider',
+    'bienvenue', 'pardon', 'excusez', "s'il", 'plaît',
+    "aujourd'hui", 'demain', 'hier', 'semaine', 'mois', 'année',
+    'intégration', 'fonctionne', 'utilise', 'travaille',
+    'pouvez', 'voulez', 'avez', 'êtes', 'sommes',
+  ];
+  
+  let frenchScore = 0;
+  frenchUniqueWords.forEach(word => {
+    const regex = new RegExp(`\\b${word}\\b`, 'gi');
+    const matches = lower.match(regex);
+    if (matches) frenchScore += matches.length;
+  });
+  
+  if (hasFrenchChars) frenchScore += 5;
+  
+  console.log(`🇫🇷 French score: ${frenchScore}`);
+  
+  // =====================
+  // 🇩🇰 DANISH - CHECK FOURTH
+  // Danish has æ ø å
+  // =====================
+  
+  const hasDanishChars = /[æøå]/.test(text);
+  
+  // Danish-specific words
+  const danishUniqueWords = [
+    'jeg', 'og', 'er', 'det', 'en', 'et', 'af', 'til', 'på', 'med',
+    'ikke', 'som', 'har', 'kan', 'vil', 'skal', 'være', 'blive',
+    'efter', 'eller', 'når', 'hvor', 'hvad', 'hvem', 'hvordan', 'hvorfor',
+    'hej', 'tak', 'goddag', 'farvel', 'ja', 'nej', 'meget', 'også',
+    'bare', 'nu', 'her', 'der', 'denne', 'disse', 'nogle', 'alle',
+    'hver', 'anden', 'andet', 'andre', 'min', 'din', 'sin', 'vores',
+    'jeres', 'deres', 'ham', 'hende', 'os', 'dem', 'selv', 'igen',
+    'altid', 'aldrig', 'måske', 'fordi', 'hvis', 'så', 'men', 'fra',
+    'ved', 'om', 'under', 'over', 'mellem', 'gennem', 'uden', 'inden',
+    'hjælpe', 'hjælp', 'velkommen', 'undskyld', 'venligst', 'gerne',
+    'godt', 'dårligt', 'stor', 'lille', 'ny', 'gammel', 'god',
+    'virksomhed', 'firma', 'arbejde', 'kunde', 'pris', 'priser', 'tilbud',
+    'spørgsmål', 'svar', 'oplysninger', 'information', 'kontakt',
+    'dag', 'uge', 'måned', 'tid', 'time', 'morgen', 'aften',
+    'idag', 'imorgen', 'igår',
+    'dig', 'mig', 'sig', 'vise', 'fungerer', 'bruger',
+  ];
+  
+  let danishScore = 0;
+  danishUniqueWords.forEach(word => {
+    const regex = new RegExp(`\\b${word}\\b`, 'gi');
+    const matches = lower.match(regex);
+    if (matches) danishScore += matches.length;
+  });
+  
+  if (hasDanishChars) danishScore += 10;  // Danish chars are very reliable
+  
+  console.log(`🇩🇰 Danish score: ${danishScore}`);
+  
+  // =====================
+  // DETERMINE WINNER
+  // =====================
+  
+  const scores = {
+    sv: swedishScore,
+    nl: dutchScore,
+    fr: frenchScore,
+    da: danishScore,
+  };
+  
+  // Find highest score
+  let maxScore = 0;
+  let detectedLang = 'en';  // Default to English
+  
+  for (const [lang, score] of Object.entries(scores)) {
+    if (score > maxScore && score >= 2) {  // Minimum threshold of 2
+      maxScore = score;
+      detectedLang = lang;
     }
   }
   
-  // Dutch-specific words (not used in Danish/Swedish/English)
-  const dutchOnlyWords = [
-    'ik', 'jij', 'hij', 'zij', 'wij', 'jullie', 'het', 'een', 'de', 'en', 'van',
-    'voor', 'met', 'op', 'aan', 'in', 'dat', 'die', 'dit', 'deze', 'er', 'maar',
-    'als', 'ook', 'nog', 'wel', 'niet', 'naar', 'uit', 'bij', 'tot', 'om', 'dan',
-    'wat', 'wie', 'waar', 'wanneer', 'waarom', 'hoe', 'welk', 'welke',
-    'hebben', 'heeft', 'had', 'hadden', 'zijn', 'ben', 'bent', 'was', 'waren',
-    'worden', 'wordt', 'werd', 'werden', 'kunnen', 'kan', 'kon', 'konden',
-    'zullen', 'zal', 'zou', 'zouden', 'willen', 'wil', 'wilde', 'wilden',
-    'moeten', 'moet', 'moest', 'moesten', 'mogen', 'mag', 'mocht', 'mochten',
-    'gaan', 'gaat', 'ging', 'gingen', 'komen', 'komt', 'kwam', 'kwamen',
-    'zien', 'ziet', 'zag', 'zagen', 'doen', 'doet', 'deed', 'deden',
-    'maken', 'maakt', 'maakte', 'maakten', 'geven', 'geeft', 'gaf', 'gaven',
-    'nemen', 'neemt', 'nam', 'namen', 'zeggen', 'zegt', 'zei', 'zeiden',
-    'denken', 'denkt', 'dacht', 'dachten', 'weten', 'weet', 'wist', 'wisten',
-    'hallo', 'bedankt', 'dank', 'ja', 'nee', 'alstublieft', 'graag', 'goed',
-    'slecht', 'groot', 'klein', 'nieuw', 'oud', 'mooi', 'lelijk', 'makkelijk',
-    'moeilijk', 'veel', 'weinig', 'meer', 'minder', 'meest', 'minst',
-    'mijn', 'jouw', 'zijn', 'haar', 'ons', 'onze', 'hun', 'uw',
-    'iemand', 'niemand', 'iets', 'niets', 'alles', 'allemaal', 'elk', 'elke',
-    'ander', 'andere', 'zelf', 'eigen', 'dezelfde', 'hetzelfde', 'zo', 'zulk',
-    'bedrijf', 'werk', 'klant', 'prijs', 'prijzen', 'aanbod', 'oplossing',
-    'vraag', 'vragen', 'antwoord', 'informatie', 'contact', 'email', 'telefoon',
-    'dag', 'week', 'maand', 'tijd', 'uur', 'minuut', 'ochtend', 'avond', 'nacht',
-    'welkom', 'sorry', 'excuseer', 'help', 'helpen',
-  ];
+  console.log(`✅ Winner: ${detectedLang.toUpperCase()} (score: ${maxScore})`);
   
-  const dutchWordCount = dutchOnlyWords.filter(word => {
-    const regex = new RegExp(`\\b${word}\\b`, 'i');
-    return regex.test(lower);
-  }).length;
-  
-  if (dutchWordCount >= 2) {
-    return 'nl';
-  }
-  
-  // =====================
-  // 🇬🇧 ENGLISH (DEFAULT)
-  // =====================
-  
-  // If no other language detected, default to English
-  return 'en';
+  return detectedLang;
 }
 
 // ============================================
@@ -214,7 +284,6 @@ function getVoiceConfig(text: string, forceLanguage?: string): VoiceConfig {
   const language = detectLanguage(text);
   const voice = FEMALE_VOICES[language];
   
-  console.log(`🎙️ Detected language: ${language.toUpperCase()}`);
   console.log(`🎙️ Using voice: ${voice.name}`);
   
   return voice;
