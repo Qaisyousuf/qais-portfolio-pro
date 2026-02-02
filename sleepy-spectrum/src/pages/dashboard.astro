@@ -116,7 +116,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="p-5 md:p-6 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl">
           <div class="text-sm font-bold mb-5 flex items-center gap-2">
             <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-            Languages
+            Languages (EN / FR)
           </div>
           <div class="relative w-full h-[250px]">
             <canvas id="languageChart"></canvas>
@@ -167,15 +167,15 @@ import Layout from '../layouts/Layout.astro';
           <span id="questionCount" class="text-xs text-[var(--text-muted)] px-3 py-1 rounded-full border border-white/10 bg-black/20">0 questions</span>
         </div>
         <div class="overflow-x-auto">
-          <table class="w-full text-[0.8125rem]">
+          <table class="w-full text-[0.8125rem]" style="table-layout:fixed">
             <thead>
               <tr>
-                <th class="text-left p-3 text-[0.6875rem] font-semibold uppercase tracking-widest text-[var(--text-muted)] border-b border-white/10 w-8"></th>
-                <th class="text-left p-3 text-[0.6875rem] font-semibold uppercase tracking-widest text-[var(--text-muted)] border-b border-white/10 w-20">Time</th>
+                <th class="text-left p-3 text-[0.6875rem] font-semibold uppercase tracking-widest text-[var(--text-muted)] border-b border-white/10" style="width:2.5rem"></th>
+                <th class="text-left p-3 text-[0.6875rem] font-semibold uppercase tracking-widest text-[var(--text-muted)] border-b border-white/10" style="width:5rem">Time</th>
                 <th class="text-left p-3 text-[0.6875rem] font-semibold uppercase tracking-widest text-[var(--text-muted)] border-b border-white/10">Question</th>
-                <th class="text-left p-3 text-[0.6875rem] font-semibold uppercase tracking-widest text-[var(--text-muted)] border-b border-white/10 w-20">Lang</th>
-                <th class="text-left p-3 text-[0.6875rem] font-semibold uppercase tracking-widest text-[var(--text-muted)] border-b border-white/10 w-20">Session</th>
-                <th class="text-left p-3 text-[0.6875rem] font-semibold uppercase tracking-widest text-[var(--text-muted)] border-b border-white/10 w-12">Msgs</th>
+                <th class="text-left p-3 text-[0.6875rem] font-semibold uppercase tracking-widest text-[var(--text-muted)] border-b border-white/10" style="width:6.5rem">Lang</th>
+                <th class="text-left p-3 text-[0.6875rem] font-semibold uppercase tracking-widest text-[var(--text-muted)] border-b border-white/10" style="width:5rem">Session</th>
+                <th class="text-left p-3 text-[0.6875rem] font-semibold uppercase tracking-widest text-[var(--text-muted)] border-b border-white/10" style="width:3.5rem">Msgs</th>
               </tr>
             </thead>
             <tbody id="questionsBody"></tbody>
@@ -262,7 +262,16 @@ import Layout from '../layouts/Layout.astro';
       chartInstances.daily = new Chart(document.getElementById('dailyChart'), { type:'line', data:{labels:dL.map(function(d){return new Date(d).toLocaleDateString([],{month:'short',day:'numeric'});}),datasets:[{label:'Messages',data:dV,borderColor:c.blue,backgroundColor:c.blueBg,fill:true,tension:0.4,borderWidth:2,pointRadius:3,pointBackgroundColor:c.blue}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:c.grid},ticks:{color:c.text,font:{size:11},maxRotation:45}},y:{grid:{color:c.grid},ticks:{color:c.text,font:{size:11}},beginAtZero:true}}} });
 
       var lL=Object.keys(s.languages),lV=Object.values(s.languages);
-      chartInstances.language = new Chart(document.getElementById('languageChart'), { type:'doughnut', data:{labels:lL.map(function(l){return l.toUpperCase();}),datasets:[{data:lV,backgroundColor:c.palette.slice(0,lL.length),borderWidth:0,hoverOffset:8}]}, options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'bottom',labels:{color:c.text,font:{size:11},padding:16,usePointStyle:true}}}} });
+      var langNorm={};
+      lL.forEach(function(l,i){
+        var code=l.toLowerCase().substring(0,2);
+        var mapped=(code==='fr')?'French':'English';
+        langNorm[mapped]=(langNorm[mapped]||0)+lV[i];
+      });
+      var normLabels=Object.keys(langNorm),normValues=Object.values(langNorm);
+      var langColorMap={'English':'rgb(59,130,246)','French':'rgb(244,63,94)'};
+      var normColors=normLabels.map(function(l){return langColorMap[l]||'rgb(168,85,247)';});
+      chartInstances.language = new Chart(document.getElementById('languageChart'), { type:'doughnut', data:{labels:normLabels,datasets:[{data:normValues,backgroundColor:normColors,borderWidth:0,hoverOffset:8}]}, options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'bottom',labels:{color:c.text,font:{size:12,weight:'bold'},padding:16,usePointStyle:true}}}} });
 
       var dvL=Object.keys(s.devices),dvV=Object.values(s.devices);
       chartInstances.device = new Chart(document.getElementById('deviceChart'), { type:'bar', data:{labels:dvL.map(function(d){return d.charAt(0).toUpperCase()+d.slice(1);}),datasets:[{data:dvV,backgroundColor:[c.purple,c.cyan,c.amber,c.emerald].slice(0,dvL.length),borderRadius:8,borderSkipped:false}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:c.text,font:{size:11}}},y:{grid:{color:c.grid},ticks:{color:c.text,font:{size:11}},beginAtZero:true}}} });
@@ -297,14 +306,15 @@ import Layout from '../layouts/Layout.astro';
         var lang=(q.language||'en').toLowerCase().substring(0,2);
         var lc={en:'bg-blue-500/10 border-blue-500/20 text-blue-400',da:'bg-rose-500/10 border-rose-500/20 text-rose-400',fr:'bg-purple-500/10 border-purple-500/20 text-purple-400',sv:'bg-amber-500/10 border-amber-500/20 text-amber-400',nl:'bg-cyan-500/10 border-cyan-500/20 text-cyan-400'};
         var lm={en:'EN',da:'DA',fr:'FR',sv:'SV',nl:'NL'};
+        var langNames={en:'English',da:'Danish',fr:'French',sv:'Swedish',nl:'Dutch'};
         var ss=q.sessionId?q.sessionId.substring(0,8):'\u2014';
 
         var mainRow=document.createElement('tr');
         mainRow.className='cursor-pointer hover:bg-white/[0.02] transition-colors';
         var h='<td class="p-3 border-b border-white/[0.04]"><span class="inline-block text-xs text-[var(--text-muted)] transition-transform duration-200" style="width:1rem;text-align:center" data-arrow>\u25B6</span></td>';
         h+='<td class="p-3 border-b border-white/[0.04] whitespace-nowrap text-xs">'+time+'</td>';
-        h+='<td class="p-3 border-b border-white/[0.04] max-w-[400px] overflow-hidden text-ellipsis whitespace-nowrap text-[var(--text-secondary)]">'+escapeHtml(q.question||'\u2014')+'</td>';
-        h+='<td class="p-3 border-b border-white/[0.04]"><span class="inline-flex px-2 py-0.5 rounded-full text-[0.6875rem] font-semibold border '+(lc[lang]||lc.en)+'">'+(lm[lang]||lang.toUpperCase())+'</span></td>';
+        h+='<td class="p-3 border-b border-white/[0.04] text-[var(--text-secondary)]" style="max-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escapeHtml(q.question||'\u2014')+'</td>';
+        h+='<td class="p-3 border-b border-white/[0.04]"><span class="inline-flex px-2 py-0.5 rounded-full text-[0.6875rem] font-semibold border '+(lc[lang]||lc.en)+'">'+(langNames[lang]||lang.toUpperCase())+'</span></td>';
         h+='<td class="p-3 border-b border-white/[0.04] font-mono text-[0.6875rem] text-[var(--text-muted)]">'+ss+'</td>';
         h+='<td class="p-3 border-b border-white/[0.04]"><span class="inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full text-[0.625rem] font-bold bg-blue-500/10 border border-blue-500/20 text-blue-400">'+msgs.length+'</span></td>';
         mainRow.innerHTML=h;
@@ -384,21 +394,34 @@ import Layout from '../layouts/Layout.astro';
 
     function renderPagination() {
       var ct=document.getElementById('pagination'), tp=Math.ceil(allSessions.length/pageSize);
-      if(tp<=1){ct.innerHTML='';return;}
-      var bc='inline-flex items-center justify-center min-w-9 h-9 px-2.5 rounded-lg border border-white/10 bg-white/[0.03] text-[var(--text-secondary)] text-[0.8125rem] font-semibold cursor-pointer hover:border-white/20 hover:text-white transition-all';
-      var ac='inline-flex items-center justify-center min-w-9 h-9 px-2.5 rounded-lg border border-blue-500/20 bg-blue-500/10 text-blue-400 text-[0.8125rem] font-semibold cursor-pointer';
-      var h='<button class="'+bc+'" '+(currentPage<=1?'disabled style="opacity:0.3;cursor:default"':'')+' data-page="prev">\u25C0</button>';
-      var sp=Math.max(1,currentPage-2),ep=Math.min(tp,sp+4);
-      if(ep-sp<4)sp=Math.max(1,ep-4);
-      if(sp>1){h+='<button class="'+bc+'" data-page="1">1</button>';if(sp>2)h+='<span class="text-xs text-[var(--text-muted)] px-1">\u2026</span>';}
-      for(var i=sp;i<=ep;i++)h+='<button class="'+(i===currentPage?ac:bc)+'" data-page="'+i+'">'+i+'</button>';
-      if(ep<tp){if(ep<tp-1)h+='<span class="text-xs text-[var(--text-muted)] px-1">\u2026</span>';h+='<button class="'+bc+'" data-page="'+tp+'">'+tp+'</button>';}
-      h+='<button class="'+bc+'" '+(currentPage>=tp?'disabled style="opacity:0.3;cursor:default"':'')+' data-page="next">\u25B6</button>';
-      var si=(currentPage-1)*pageSize+1,ei=Math.min(currentPage*pageSize,allSessions.length);
-      h+='<span class="text-xs text-[var(--text-muted)] px-2">'+si+'\u2013'+ei+' of '+allSessions.length+'</span>';
-      h+='<select class="px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.03] text-[var(--text-secondary)] text-xs cursor-pointer outline-none" data-action="pagesize">';
-      [10,20,50].forEach(function(s){h+='<option value="'+s+'"'+(s===pageSize?' selected':'')+'>'+s+' / page</option>';});
+      if(allSessions.length===0){ct.innerHTML='';return;}
+      var h='';
+
+      // Page info - always show
+      var si=(currentPage-1)*pageSize+1;
+      var ei=Math.min(currentPage*pageSize,allSessions.length);
+      h+='<span class="text-xs text-[var(--text-muted)]">'+si+'\u2013'+ei+' of '+allSessions.length+'</span>';
+
+      // Nav buttons only when multiple pages
+      if(tp>1) {
+        var bc='inline-flex items-center justify-center min-w-9 h-9 px-2.5 rounded-lg border border-white/10 bg-white/[0.03] text-[var(--text-secondary)] text-[0.8125rem] font-semibold cursor-pointer hover:border-white/20 hover:text-white transition-all';
+        var ac='inline-flex items-center justify-center min-w-9 h-9 px-2.5 rounded-lg border border-blue-500/20 bg-blue-500/10 text-blue-400 text-[0.8125rem] font-semibold';
+        h+='<button class="'+bc+'" '+(currentPage<=1?'disabled style="opacity:0.3;cursor:default"':'')+' data-page="prev">\u25C0</button>';
+        var sp=Math.max(1,currentPage-2),ep=Math.min(tp,sp+4);
+        if(ep-sp<4)sp=Math.max(1,ep-4);
+        if(sp>1){h+='<button class="'+bc+'" data-page="1">1</button>';if(sp>2)h+='<span class="text-xs text-[var(--text-muted)] px-1">\u2026</span>';}
+        for(var i=sp;i<=ep;i++)h+='<button class="'+(i===currentPage?ac:bc)+'" data-page="'+i+'">'+i+'</button>';
+        if(ep<tp){if(ep<tp-1)h+='<span class="text-xs text-[var(--text-muted)] px-1">\u2026</span>';h+='<button class="'+bc+'" data-page="'+tp+'">'+tp+'</button>';}
+        h+='<button class="'+bc+'" '+(currentPage>=tp?'disabled style="opacity:0.3;cursor:default"':'')+' data-page="next">\u25B6</button>';
+      }
+
+      // Page size dropdown - ALWAYS visible
+      h+='<select data-action="pagesize" style="padding:0.375rem 2rem 0.375rem 0.625rem;border-radius:0.5rem;border:1px solid rgba(255,255,255,0.15);background-color:#0a0a0a;color:rgba(255,255,255,0.75);font-size:0.75rem;font-weight:500;cursor:pointer;outline:none;appearance:auto;-webkit-appearance:auto">';
+      [10,20,50].forEach(function(s){
+        h+='<option value="'+s+'" style="background-color:#0a0a0a;color:#ddd;padding:4px"'+(s===pageSize?' selected':'')+'>'+s+' / page</option>';
+      });
       h+='</select>';
+
       ct.innerHTML=h;
     }
 
