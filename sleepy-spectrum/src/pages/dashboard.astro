@@ -517,8 +517,6 @@
 
     .table-scroll {
       overflow-x: auto;
-      max-height: 500px;
-      overflow-y: auto;
     }
 
     .data-table {
@@ -595,7 +593,7 @@
     }
 
     /* Clickable Row */
-    .data-table tbody tr {
+    .data-table tbody tr.question-row {
       cursor: pointer;
       transition: background 0.15s;
     }
@@ -633,12 +631,14 @@
     .session-detail-cell {
       padding: 0 !important;
       border-bottom: 1px solid var(--border-color) !important;
+      background: transparent !important;
     }
 
     .session-panel {
       padding: 1.25rem 1rem;
       background: rgba(0, 0, 0, 0.15);
       border-top: 1px solid var(--border-color);
+      overflow: hidden;
     }
 
     .light .session-panel {
@@ -695,6 +695,9 @@
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
+      max-height: 500px;
+      overflow-y: auto;
+      padding-right: 0.5rem;
     }
 
     .session-msg {
@@ -703,6 +706,9 @@
       font-size: 0.8125rem;
       line-height: 1.6;
       max-width: 85%;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: pre-wrap;
     }
 
     .session-msg-user {
@@ -745,6 +751,11 @@
       color: var(--accent-emerald-text);
     }
 
+    .session-msg-text {
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
     .session-msg-time {
       font-size: 0.625rem;
       color: var(--text-muted);
@@ -764,6 +775,82 @@
       background: var(--accent-blue-bg);
       border: 1px solid var(--accent-blue-border);
       color: var(--accent-blue-text);
+    }
+
+    /* ==================== */
+    /* Pagination             */
+    /* ==================== */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .page-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2.25rem;
+      height: 2.25rem;
+      padding: 0 0.625rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .page-btn:hover:not(:disabled) {
+      border-color: var(--border-hover);
+      color: var(--text-primary);
+      background: var(--bg-card-hover);
+    }
+
+    .page-btn.active {
+      background: var(--accent-blue-bg);
+      border-color: var(--accent-blue-border);
+      color: var(--accent-blue-text);
+    }
+
+    .page-btn:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    .page-btn svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .page-info {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      padding: 0 0.5rem;
+    }
+
+    .page-size-select {
+      padding: 0.375rem 0.625rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .light .page-size-select {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .page-size-select:focus {
+      border-color: var(--accent-blue-border);
     }
 
     /* ==================== */
@@ -1000,17 +1087,21 @@
         <table class="data-table">
           <thead>
             <tr>
-              <th></th>
-              <th>Time</th>
+              <th style="width:2rem"></th>
+              <th style="width:5rem">Time</th>
               <th>Question</th>
-              <th>Language</th>
-              <th>Session</th>
-              <th>Msgs</th>
+              <th style="width:5rem">Language</th>
+              <th style="width:5rem">Session</th>
+              <th style="width:3rem">Msgs</th>
             </tr>
           </thead>
           <tbody id="questionsBody">
           </tbody>
         </table>
+      </div>
+      <!-- Pagination -->
+      <div class="pagination" id="pagination">
+      </div>
       </div>
     </div>
 
@@ -1366,149 +1457,298 @@
     }
 
     // ==================== //
+    // Pagination State      //
+    // ==================== //
+    var currentPage = 1;
+    var pageSize = 10;
+    var allSessions = [];
+
+    // ==================== //
     // Render Questions      //
     // ==================== //
     function renderQuestions(questions) {
-      const tbody = document.getElementById('questionsBody');
-      const countEl = document.getElementById('questionCount');
+      var countEl = document.getElementById('questionCount');
 
       // Group all messages by session
-      const sessionMap = {};
-      questions.forEach(q => {
+      var sessionMap = {};
+      questions.forEach(function(q) {
         if (!q.sessionId) return;
         if (!sessionMap[q.sessionId]) sessionMap[q.sessionId] = [];
         sessionMap[q.sessionId].push(q);
       });
 
-      // Show unique sessions (first question per session)
-      const seenSessions = {};
-      const uniqueQuestions = [];
-      questions.forEach(q => {
+      // Build unique sessions list (one entry per session)
+      var seenSessions = {};
+      allSessions = [];
+      questions.forEach(function(q) {
         if (!q.sessionId || seenSessions[q.sessionId]) return;
         seenSessions[q.sessionId] = true;
-        uniqueQuestions.push(q);
+        allSessions.push({
+          firstQuestion: q,
+          messages: sessionMap[q.sessionId] || [],
+          sessionId: q.sessionId
+        });
       });
 
-      countEl.textContent = `${uniqueQuestions.length} sessions · ${questions.length} messages`;
+      countEl.textContent = allSessions.length + ' sessions \u00B7 ' + questions.length + ' messages';
 
-      tbody.innerHTML = uniqueQuestions.map((q, idx) => {
-        const time = q.timestamp ? formatTime(q.timestamp) : '—';
-        const lang = (q.language || 'en').toLowerCase().substring(0, 2);
-        const langMap = { en: 'EN', da: 'DA', fr: 'FR', sv: 'SV', nl: 'NL' };
-        const langDisplay = langMap[lang] || lang.toUpperCase();
-        const sessionShort = q.sessionId ? q.sessionId.substring(0, 8) : '—';
-        const sessionMessages = sessionMap[q.sessionId] || [];
-        const msgCount = sessionMessages.length;
+      currentPage = 1;
+      renderPage();
+    }
 
-        // Build session detail panel
-        const messagesHtml = sessionMessages.map(msg => {
-          const msgTime = msg.timestamp ? formatTime(msg.timestamp) : '';
-          
-          let html = '';
-          // User question
+    function renderPage() {
+      var tbody = document.getElementById('questionsBody');
+      var totalPages = Math.ceil(allSessions.length / pageSize);
+      if (currentPage > totalPages) currentPage = totalPages;
+      if (currentPage < 1) currentPage = 1;
+
+      var start = (currentPage - 1) * pageSize;
+      var end = Math.min(start + pageSize, allSessions.length);
+      var pageSessions = allSessions.slice(start, end);
+
+      // Clear table
+      tbody.innerHTML = '';
+
+      pageSessions.forEach(function(session, idx) {
+        var q = session.firstQuestion;
+        var messages = session.messages;
+        var globalIdx = start + idx;
+        var time = q.timestamp ? formatTime(q.timestamp) : '\u2014';
+        var lang = (q.language || 'en').toLowerCase().substring(0, 2);
+        var langMap = { en: 'EN', da: 'DA', fr: 'FR', sv: 'SV', nl: 'NL' };
+        var langDisplay = langMap[lang] || lang.toUpperCase();
+        var sessionShort = q.sessionId ? q.sessionId.substring(0, 8) : '\u2014';
+        var msgCount = messages.length;
+
+        // Create main row
+        var mainRow = document.createElement('tr');
+        mainRow.className = 'question-row';
+        mainRow.setAttribute('data-idx', globalIdx);
+
+        var expandTd = document.createElement('td');
+        expandTd.innerHTML = '<span class="row-expand-icon">\u25B6</span>';
+        mainRow.appendChild(expandTd);
+
+        var timeTd = document.createElement('td');
+        timeTd.className = 'timestamp-cell';
+        timeTd.textContent = time;
+        mainRow.appendChild(timeTd);
+
+        var questionTd = document.createElement('td');
+        questionTd.className = 'question-text';
+        questionTd.textContent = q.question || '\u2014';
+        questionTd.title = q.question || '';
+        mainRow.appendChild(questionTd);
+
+        var langTd = document.createElement('td');
+        langTd.innerHTML = '<span class="lang-badge ' + lang + '">' + langDisplay + '</span>';
+        mainRow.appendChild(langTd);
+
+        var sessionTd = document.createElement('td');
+        sessionTd.className = 'session-id';
+        sessionTd.textContent = sessionShort;
+        mainRow.appendChild(sessionTd);
+
+        var msgsTd = document.createElement('td');
+        msgsTd.innerHTML = '<span class="msg-count-badge">' + msgCount + '</span>';
+        mainRow.appendChild(msgsTd);
+
+        tbody.appendChild(mainRow);
+
+        // Create detail row
+        var detailRow = document.createElement('tr');
+        detailRow.className = 'session-detail';
+        detailRow.setAttribute('data-detail', globalIdx);
+
+        var detailTd = document.createElement('td');
+        detailTd.setAttribute('colspan', '6');
+        detailTd.className = 'session-detail-cell';
+
+        var panel = document.createElement('div');
+        panel.className = 'session-panel';
+
+        // Panel header
+        var firstMsg = messages[0] || {};
+        var headerHtml = '<div class="session-panel-header">';
+        headerHtml += '<div class="session-panel-title">';
+        headerHtml += 'Session ' + sessionShort + ' ';
+        headerHtml += '<span class="msg-count-badge">' + msgCount + ' messages</span> ';
+        if (msgCount >= 5) headerHtml += '<span class="hot-lead">\uD83D\uDD25 Hot Lead</span>';
+        headerHtml += '</div>';
+        headerHtml += '<div class="session-meta">';
+        headerHtml += buildMetaItem('globe', firstMsg.country || '\u2014');
+        headerHtml += buildMetaItem('device', firstMsg.device || '\u2014');
+        headerHtml += buildMetaItem('link', firstMsg.referrer || 'Direct');
+        headerHtml += buildMetaItem('page', firstMsg.page || '/');
+        headerHtml += buildMetaItem('screen', firstMsg.screenSize || '\u2014');
+        headerHtml += '</div></div>';
+        panel.innerHTML = headerHtml;
+
+        // Messages container
+        var msgsDiv = document.createElement('div');
+        msgsDiv.className = 'session-messages';
+
+        messages.forEach(function(msg) {
+          var msgTime = msg.timestamp ? formatTime(msg.timestamp) : '';
+
+          // User message
           if (msg.question) {
-            html += `
-              <div class="session-msg session-msg-user">
-                <div class="session-msg-label">
-                  <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                  Visitor
-                </div>
-                ${escapeHtml(msg.question)}
-                <div class="session-msg-time">${msgTime}</div>
-              </div>
-            `;
+            var userBubble = document.createElement('div');
+            userBubble.className = 'session-msg session-msg-user';
+
+            var userLabel = document.createElement('div');
+            userLabel.className = 'session-msg-label';
+            userLabel.textContent = '\u{1F464} Visitor';
+            userBubble.appendChild(userLabel);
+
+            var userText = document.createElement('div');
+            userText.className = 'session-msg-text';
+            userText.textContent = msg.question;
+            userBubble.appendChild(userText);
+
+            var userTime = document.createElement('div');
+            userTime.className = 'session-msg-time';
+            userTime.textContent = msgTime;
+            userBubble.appendChild(userTime);
+
+            msgsDiv.appendChild(userBubble);
           }
+
           // AI response
           if (msg.response) {
-            html += `
-              <div class="session-msg session-msg-ai">
-                <div class="session-msg-label">
-                  <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                  GetRok AI
-                </div>
-                ${escapeHtml(msg.response)}
-                <div class="session-msg-time">${msgTime}</div>
-              </div>
-            `;
+            var aiBubble = document.createElement('div');
+            aiBubble.className = 'session-msg session-msg-ai';
+
+            var aiLabel = document.createElement('div');
+            aiLabel.className = 'session-msg-label';
+            aiLabel.textContent = '\u{1F916} GetRok AI';
+            aiBubble.appendChild(aiLabel);
+
+            var aiText = document.createElement('div');
+            aiText.className = 'session-msg-text';
+            aiText.textContent = msg.response;
+            aiBubble.appendChild(aiText);
+
+            var aiTime = document.createElement('div');
+            aiTime.className = 'session-msg-time';
+            aiTime.textContent = msgTime;
+            aiBubble.appendChild(aiTime);
+
+            msgsDiv.appendChild(aiBubble);
           }
-          return html;
-        }).join('');
+        });
 
-        // Session metadata
-        const firstMsg = sessionMessages[0] || {};
-        const device = firstMsg.device || '—';
-        const country = firstMsg.country || '—';
-        const referrer = firstMsg.referrer || 'Direct';
-        const page = firstMsg.page || '/';
-        const screenSize = firstMsg.screenSize || '—';
+        panel.appendChild(msgsDiv);
+        detailTd.appendChild(panel);
+        detailRow.appendChild(detailTd);
+        tbody.appendChild(detailRow);
 
-        return `
-          <tr class="question-row" data-idx="${idx}">
-            <td><span class="row-expand-icon">▶</span></td>
-            <td class="timestamp-cell">${time}</td>
-            <td class="question-text" title="${escapeHtml(q.question)}">${escapeHtml(q.question)}</td>
-            <td><span class="lang-badge ${lang}">${langDisplay}</span></td>
-            <td class="session-id">${sessionShort}</td>
-            <td><span class="msg-count-badge">${msgCount}</span></td>
-          </tr>
-          <tr class="session-detail" data-detail="${idx}">
-            <td colspan="6" class="session-detail-cell">
-              <div class="session-panel">
-                <div class="session-panel-header">
-                  <div class="session-panel-title">
-                    Session ${sessionShort}
-                    <span class="msg-count-badge">${msgCount} messages</span>
-                    ${msgCount >= 5 ? '<span class="hot-lead">🔥 Hot Lead</span>' : ''}
-                  </div>
-                  <div class="session-meta">
-                    <span class="session-meta-item">
-                      <svg class="session-meta-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9"/></svg>
-                      ${escapeHtml(country)}
-                    </span>
-                    <span class="session-meta-item">
-                      <svg class="session-meta-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                      ${escapeHtml(device)}
-                    </span>
-                    <span class="session-meta-item">
-                      <svg class="session-meta-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101"/><path d="M10.172 13.828a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.102 1.101"/></svg>
-                      ${escapeHtml(referrer)}
-                    </span>
-                    <span class="session-meta-item">
-                      <svg class="session-meta-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
-                      ${escapeHtml(page)}
-                    </span>
-                    <span class="session-meta-item">
-                      <svg class="session-meta-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                      ${escapeHtml(screenSize)}
-                    </span>
-                  </div>
-                </div>
-                <div class="session-messages">
-                  ${messagesHtml}
-                </div>
-              </div>
-            </td>
-          </tr>
-        `;
-      }).join('');
+        // Click handler
+        mainRow.addEventListener('click', function() {
+          var isOpen = detailRow.classList.contains('open');
 
-      // Add click handlers
-      document.querySelectorAll('.question-row').forEach(row => {
-        row.addEventListener('click', () => {
-          const idx = row.getAttribute('data-idx');
-          const detail = document.querySelector(`[data-detail="${idx}"]`);
-          const isOpen = detail.classList.contains('open');
-
-          // Close all others
-          document.querySelectorAll('.session-detail').forEach(d => d.classList.remove('open'));
-          document.querySelectorAll('.question-row').forEach(r => r.classList.remove('row-active'));
+          // Close all
+          document.querySelectorAll('.session-detail').forEach(function(d) { d.classList.remove('open'); });
+          document.querySelectorAll('.question-row').forEach(function(r) { r.classList.remove('row-active'); });
 
           if (!isOpen) {
-            detail.classList.add('open');
-            row.classList.add('row-active');
+            detailRow.classList.add('open');
+            mainRow.classList.add('row-active');
           }
         });
       });
+
+      // Render pagination
+      renderPagination();
+    }
+
+    function buildMetaItem(type, value) {
+      var icons = {
+        globe: 'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9',
+        device: 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
+        link: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101',
+        page: 'M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z',
+        screen: 'M2 3h20v14H2z'
+      };
+      var safeValue = document.createElement('span');
+      safeValue.textContent = value;
+      return '<span class="session-meta-item"><svg class="session-meta-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="' + (icons[type] || '') + '"/></svg>' + safeValue.innerHTML + '</span>';
+    }
+
+    // ==================== //
+    // Pagination Controls   //
+    // ==================== //
+    function renderPagination() {
+      var container = document.getElementById('pagination');
+      var totalPages = Math.ceil(allSessions.length / pageSize);
+      if (totalPages <= 1) { container.innerHTML = ''; return; }
+
+      var html = '';
+
+      // Prev button
+      html += '<button class="page-btn" ' + (currentPage <= 1 ? 'disabled' : '') + ' data-page="prev">';
+      html += '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>';
+      html += '</button>';
+
+      // Page numbers
+      var startPage = Math.max(1, currentPage - 2);
+      var endPage = Math.min(totalPages, startPage + 4);
+      if (endPage - startPage < 4) startPage = Math.max(1, endPage - 4);
+
+      if (startPage > 1) {
+        html += '<button class="page-btn" data-page="1">1</button>';
+        if (startPage > 2) html += '<span class="page-info">\u2026</span>';
+      }
+
+      for (var i = startPage; i <= endPage; i++) {
+        html += '<button class="page-btn' + (i === currentPage ? ' active' : '') + '" data-page="' + i + '">' + i + '</button>';
+      }
+
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) html += '<span class="page-info">\u2026</span>';
+        html += '<button class="page-btn" data-page="' + totalPages + '">' + totalPages + '</button>';
+      }
+
+      // Next button
+      html += '<button class="page-btn" ' + (currentPage >= totalPages ? 'disabled' : '') + ' data-page="next">';
+      html += '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>';
+      html += '</button>';
+
+      // Page info
+      var startItem = (currentPage - 1) * pageSize + 1;
+      var endItem = Math.min(currentPage * pageSize, allSessions.length);
+      html += '<span class="page-info">' + startItem + '\u2013' + endItem + ' of ' + allSessions.length + '</span>';
+
+      // Page size selector
+      html += '<select class="page-size-select" id="pageSizeSelect">';
+      [10, 20, 50].forEach(function(size) {
+        html += '<option value="' + size + '"' + (size === pageSize ? ' selected' : '') + '>' + size + ' / page</option>';
+      });
+      html += '</select>';
+
+      container.innerHTML = html;
+
+      // Bind events
+      container.querySelectorAll('.page-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var page = btn.getAttribute('data-page');
+          if (page === 'prev') currentPage--;
+          else if (page === 'next') currentPage++;
+          else currentPage = parseInt(page);
+          renderPage();
+          // Scroll to table top
+          document.querySelector('.table-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+
+      var sizeSelect = document.getElementById('pageSizeSelect');
+      if (sizeSelect) {
+        sizeSelect.addEventListener('change', function() {
+          pageSize = parseInt(sizeSelect.value);
+          currentPage = 1;
+          renderPage();
+        });
+      }
     }
 
     function formatTime(timestamp) {
