@@ -33,8 +33,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(500).json({ error: 'Failed to fetch sheet data' });
     }
 
-    // Set cache for 5 minutes so you don't hit Apps Script too often
-    res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate');
+    // No cache - always fresh data
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
 
     return res.status(200).json(data);
 

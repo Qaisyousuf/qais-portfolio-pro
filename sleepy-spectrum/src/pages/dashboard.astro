@@ -594,6 +594,178 @@
       font-size: 0.75rem;
     }
 
+    /* Clickable Row */
+    .data-table tbody tr {
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .data-table tbody tr.row-active td {
+      background: var(--accent-blue-bg);
+    }
+
+    .row-expand-icon {
+      display: inline-flex;
+      width: 1.25rem;
+      height: 1.25rem;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      transition: transform 0.2s;
+    }
+
+    .row-active .row-expand-icon {
+      transform: rotate(90deg);
+      color: var(--accent-blue-text);
+    }
+
+    /* Session Detail Panel */
+    .session-detail {
+      display: none;
+    }
+
+    .session-detail.open {
+      display: table-row;
+    }
+
+    .session-detail-cell {
+      padding: 0 !important;
+      border-bottom: 1px solid var(--border-color) !important;
+    }
+
+    .session-panel {
+      padding: 1.25rem 1rem;
+      background: rgba(0, 0, 0, 0.15);
+      border-top: 1px solid var(--border-color);
+    }
+
+    .light .session-panel {
+      background: rgba(0, 0, 0, 0.03);
+    }
+
+    .session-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .session-panel-title {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .session-meta {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .session-meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.25rem 0.625rem;
+      border-radius: 9999px;
+      border: 1px solid var(--border-color);
+      background: rgba(0, 0, 0, 0.2);
+      font-size: 0.6875rem;
+      color: var(--text-secondary);
+    }
+
+    .light .session-meta-item {
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    .session-meta-icon {
+      width: 0.75rem;
+      height: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .session-messages {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .session-msg {
+      padding: 0.875rem 1rem;
+      border-radius: 0.75rem;
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      max-width: 85%;
+    }
+
+    .session-msg-user {
+      background: var(--accent-blue-bg);
+      border: 1px solid var(--accent-blue-border);
+      color: var(--accent-blue-text);
+      align-self: flex-end;
+      margin-left: auto;
+      border-bottom-right-radius: 0.25rem;
+    }
+
+    .session-msg-ai {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      align-self: flex-start;
+      border-bottom-left-radius: 0.25rem;
+    }
+
+    .light .session-msg-ai {
+      background: rgba(0, 0, 0, 0.03);
+    }
+
+    .session-msg-label {
+      font-size: 0.625rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.375rem;
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+    }
+
+    .session-msg-user .session-msg-label {
+      color: var(--accent-blue-text);
+    }
+
+    .session-msg-ai .session-msg-label {
+      color: var(--accent-emerald-text);
+    }
+
+    .session-msg-time {
+      font-size: 0.625rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    .msg-count-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.25rem;
+      height: 1.25rem;
+      padding: 0 0.375rem;
+      border-radius: 9999px;
+      font-size: 0.625rem;
+      font-weight: 700;
+      background: var(--accent-blue-bg);
+      border: 1px solid var(--accent-blue-border);
+      color: var(--accent-blue-text);
+    }
+
     /* ==================== */
     /* Hot Leads Badge       */
     /* ==================== */
@@ -828,10 +1000,12 @@
         <table class="data-table">
           <thead>
             <tr>
+              <th></th>
               <th>Time</th>
               <th>Question</th>
               <th>Language</th>
               <th>Session</th>
+              <th>Msgs</th>
             </tr>
           </thead>
           <tbody id="questionsBody">
@@ -1197,24 +1371,144 @@
     function renderQuestions(questions) {
       const tbody = document.getElementById('questionsBody');
       const countEl = document.getElementById('questionCount');
-      countEl.textContent = `${questions.length} questions`;
 
-      tbody.innerHTML = questions.map(q => {
+      // Group all messages by session
+      const sessionMap = {};
+      questions.forEach(q => {
+        if (!q.sessionId) return;
+        if (!sessionMap[q.sessionId]) sessionMap[q.sessionId] = [];
+        sessionMap[q.sessionId].push(q);
+      });
+
+      // Show unique sessions (first question per session)
+      const seenSessions = {};
+      const uniqueQuestions = [];
+      questions.forEach(q => {
+        if (!q.sessionId || seenSessions[q.sessionId]) return;
+        seenSessions[q.sessionId] = true;
+        uniqueQuestions.push(q);
+      });
+
+      countEl.textContent = `${uniqueQuestions.length} sessions · ${questions.length} messages`;
+
+      tbody.innerHTML = uniqueQuestions.map((q, idx) => {
         const time = q.timestamp ? formatTime(q.timestamp) : '—';
         const lang = (q.language || 'en').toLowerCase().substring(0, 2);
         const langMap = { en: 'EN', da: 'DA', fr: 'FR', sv: 'SV', nl: 'NL' };
         const langDisplay = langMap[lang] || lang.toUpperCase();
         const sessionShort = q.sessionId ? q.sessionId.substring(0, 8) : '—';
+        const sessionMessages = sessionMap[q.sessionId] || [];
+        const msgCount = sessionMessages.length;
+
+        // Build session detail panel
+        const messagesHtml = sessionMessages.map(msg => {
+          const msgTime = msg.timestamp ? formatTime(msg.timestamp) : '';
+          
+          let html = '';
+          // User question
+          if (msg.question) {
+            html += `
+              <div class="session-msg session-msg-user">
+                <div class="session-msg-label">
+                  <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  Visitor
+                </div>
+                ${escapeHtml(msg.question)}
+                <div class="session-msg-time">${msgTime}</div>
+              </div>
+            `;
+          }
+          // AI response
+          if (msg.response) {
+            html += `
+              <div class="session-msg session-msg-ai">
+                <div class="session-msg-label">
+                  <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                  GetRok AI
+                </div>
+                ${escapeHtml(msg.response)}
+                <div class="session-msg-time">${msgTime}</div>
+              </div>
+            `;
+          }
+          return html;
+        }).join('');
+
+        // Session metadata
+        const firstMsg = sessionMessages[0] || {};
+        const device = firstMsg.device || '—';
+        const country = firstMsg.country || '—';
+        const referrer = firstMsg.referrer || 'Direct';
+        const page = firstMsg.page || '/';
+        const screenSize = firstMsg.screenSize || '—';
 
         return `
-          <tr>
+          <tr class="question-row" data-idx="${idx}">
+            <td><span class="row-expand-icon">▶</span></td>
             <td class="timestamp-cell">${time}</td>
             <td class="question-text" title="${escapeHtml(q.question)}">${escapeHtml(q.question)}</td>
             <td><span class="lang-badge ${lang}">${langDisplay}</span></td>
             <td class="session-id">${sessionShort}</td>
+            <td><span class="msg-count-badge">${msgCount}</span></td>
+          </tr>
+          <tr class="session-detail" data-detail="${idx}">
+            <td colspan="6" class="session-detail-cell">
+              <div class="session-panel">
+                <div class="session-panel-header">
+                  <div class="session-panel-title">
+                    Session ${sessionShort}
+                    <span class="msg-count-badge">${msgCount} messages</span>
+                    ${msgCount >= 5 ? '<span class="hot-lead">🔥 Hot Lead</span>' : ''}
+                  </div>
+                  <div class="session-meta">
+                    <span class="session-meta-item">
+                      <svg class="session-meta-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9"/></svg>
+                      ${escapeHtml(country)}
+                    </span>
+                    <span class="session-meta-item">
+                      <svg class="session-meta-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                      ${escapeHtml(device)}
+                    </span>
+                    <span class="session-meta-item">
+                      <svg class="session-meta-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101"/><path d="M10.172 13.828a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.102 1.101"/></svg>
+                      ${escapeHtml(referrer)}
+                    </span>
+                    <span class="session-meta-item">
+                      <svg class="session-meta-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                      ${escapeHtml(page)}
+                    </span>
+                    <span class="session-meta-item">
+                      <svg class="session-meta-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                      ${escapeHtml(screenSize)}
+                    </span>
+                  </div>
+                </div>
+                <div class="session-messages">
+                  ${messagesHtml}
+                </div>
+              </div>
+            </td>
           </tr>
         `;
       }).join('');
+
+      // Add click handlers
+      document.querySelectorAll('.question-row').forEach(row => {
+        row.addEventListener('click', () => {
+          const idx = row.getAttribute('data-idx');
+          const detail = document.querySelector(`[data-detail="${idx}"]`);
+          const isOpen = detail.classList.contains('open');
+
+          // Close all others
+          document.querySelectorAll('.session-detail').forEach(d => d.classList.remove('open'));
+          document.querySelectorAll('.question-row').forEach(r => r.classList.remove('row-active'));
+
+          if (!isOpen) {
+            detail.classList.add('open');
+            row.classList.add('row-active');
+          }
+        });
+      });
     }
 
     function formatTime(timestamp) {
