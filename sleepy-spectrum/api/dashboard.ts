@@ -1,52 +1,44 @@
-// api/dashboard.ts
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-export default async function handler(req: any, res: any) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // Only allow GET requests
+  if (req.method !== 'GET') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  // Check dashboard password
+  const { key } = req.query;
+  const dashboardSecret = process.env.DASHBOARD_SECRET;
+
+  if (!key || key !== dashboardSecret) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  // Fetch data from Google Sheets via Apps Script
+  const sheetsUrl = process.env.GOOGLE_SHEETS_URL;
+
+  if (!sheetsUrl) {
+    return res.status(500).json({ error: 'Google Sheets URL not configured' });
+  }
+
   try {
-    const baseUrl = process.env.GOOGLE_SHEETS_URL;
-    const secret = process.env.DASHBOARD_SECRET;
+    const response = await fetch(sheetsUrl, {
+      method: 'GET',
+      redirect: 'follow',
+    });
 
-    if (!baseUrl || !secret) {
-      res.statusCode = 500;
-      res.setHeader("Content-Type", "application/json");
-      res.end(
-        JSON.stringify({
-          success: false,
-          error: "Missing GOOGLE_SHEETS_URL or DASHBOARD_SECRET in environment variables",
-        })
-      );
-      return;
+    const data = await response.json();
+
+    if (!data.success) {
+      return res.status(500).json({ error: 'Failed to fetch sheet data' });
     }
 
-    // baseUrl should be like: https://script.google.com/macros/s/XXXXX/exec
-    const url = `${baseUrl}?key=${encodeURIComponent(secret)}`;
+    // Set cache for 5 minutes so you don't hit Apps Script too often
+    res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate');
 
-    const r = await fetch(url, { headers: { Accept: "application/json" } });
-    const text = await r.text();
+    return res.status(200).json(data);
 
-    // safer JSON parse with readable errors
-    let data: any;
-    try {
-      data = JSON.parse(text);
-    } catch {
-      res.statusCode = 500;
-      res.setHeader("Content-Type", "application/json");
-      res.end(
-        JSON.stringify({
-          success: false,
-          error: "Apps Script did not return valid JSON",
-          raw: text.slice(0, 500),
-        })
-      );
-      return;
-    }
-
-    res.statusCode = r.ok ? 200 : 500;
-    res.setHeader("Content-Type", "application/json");
-    res.setHeader("Cache-Control", "no-store");
-    res.end(JSON.stringify(data));
-  } catch (err: any) {
-    res.statusCode = 500;
-    res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify({ success: false, error: String(err) }));
+  } catch (error) {
+    return res.status(500).json({ error: 'Failed to connect to Google Sheets' });
   }
 }
