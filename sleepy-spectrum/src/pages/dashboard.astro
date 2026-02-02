@@ -13,22 +13,25 @@
   <meta name="robots" content="noindex, nofollow" />
   <title>GetRok Dashboard</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-  <style is:global>
+  <style is:inline>
     /* ==================== */
-    /* Kill Tailwind Reset   */
+    /* Scope everything      */
     /* ==================== */
-    #dashApp, #dashApp *, #dashApp *::before, #dashApp *::after {
-      all: revert;
-      box-sizing: border-box;
-    }
-
     #dashApp {
+      all: initial;
+      display: block;
       margin: 0;
       padding: 0;
       min-height: 100vh;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    #dashApp *, #dashApp *::before, #dashApp *::after {
+      box-sizing: border-box;
     }
 
     #dashApp img, #dashApp svg {
@@ -42,10 +45,17 @@
       width: 100%;
     }
 
+    #dashApp button, #dashApp input, #dashApp select {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+      background: none;
+    }
+
     /* ==================== */
     /* CSS Variables         */
     /* ==================== */
-    :root {
+    #dashApp {
       --bg-primary: #000000;
       --bg-card: rgba(255, 255, 255, 0.03);
       --bg-card-hover: rgba(255, 255, 255, 0.06);
@@ -80,7 +90,7 @@
       --accent-cyan-text: rgb(103, 232, 249);
     }
 
-    .light {
+    #dashApp.light {
       --bg-primary: #f8fafc;
       --bg-card: rgba(255, 255, 255, 0.8);
       --bg-card-hover: rgba(255, 255, 255, 0.95);
@@ -91,27 +101,11 @@
       --text-muted: rgba(0, 0, 0, 0.4);
     }
 
-    /* ==================== */
-    /* Reset & Base          */
-    /* ==================== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    #dashApp {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      min-height: 100vh;
-      line-height: 1.6;
-    }
-
+    /* All rules scoped under #dashApp using CSS nesting */
     /* ==================== */
     /* Login Screen          */
     /* ==================== */
-    .login-screen {
+    #dashApp .login-screen {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -119,7 +113,7 @@
       padding: 1rem;
     }
 
-    .login-card {
+    #dashApp .login-card {
       width: 100%;
       max-width: 400px;
       padding: 2.5rem;
@@ -130,7 +124,7 @@
       text-align: center;
     }
 
-    .login-logo {
+    #dashApp .login-logo {
       width: 3.5rem;
       height: 3.5rem;
       margin: 0 auto 1.5rem;
@@ -144,19 +138,19 @@
       color: white;
     }
 
-    .login-title {
+    #dashApp .login-title {
       font-size: 1.5rem;
       font-weight: 800;
       margin-bottom: 0.5rem;
     }
 
-    .login-subtitle {
+    #dashApp .login-subtitle {
       font-size: 0.875rem;
       color: var(--text-muted);
       margin-bottom: 2rem;
     }
 
-    .login-input {
+    #dashApp .login-input {
       width: 100%;
       padding: 0.75rem 1rem;
       border-radius: 0.5rem;
@@ -169,19 +163,19 @@
       margin-bottom: 1rem;
     }
 
-    .light .login-input {
+    #dashApp.light .login-input {
       background: rgba(0, 0, 0, 0.04);
     }
 
-    .login-input:focus {
+    #dashApp .login-input:focus {
       border-color: var(--accent-blue);
     }
 
-    .login-input::placeholder {
+    #dashApp .login-input::placeholder {
       color: var(--text-muted);
     }
 
-    .login-btn {
+    #dashApp .login-btn {
       width: 100%;
       padding: 0.75rem;
       border-radius: 0.5rem;
@@ -194,12 +188,12 @@
       transition: all 0.2s;
     }
 
-    .login-btn:hover {
+    #dashApp .login-btn:hover {
       background: rgba(59, 130, 246, 0.2);
       border-color: rgba(59, 130, 246, 0.4);
     }
 
-    .login-error {
+    #dashApp .login-error {
       color: var(--accent-rose-text);
       font-size: 0.75rem;
       margin-top: 0.75rem;
@@ -209,14 +203,14 @@
     /* ==================== */
     /* Loading Screen        */
     /* ==================== */
-    .loading-screen {
+    #dashApp .loading-screen {
       display: none;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
     }
 
-    .loading-spinner {
+    #dashApp .loading-spinner {
       width: 2.5rem;
       height: 2.5rem;
       border: 3px solid var(--border-color);
@@ -232,7 +226,7 @@
     /* ==================== */
     /* Dashboard Layout      */
     /* ==================== */
-    .dashboard {
+    #dashApp .dashboard {
       display: none;
       max-width: 80rem;
       margin: 0 auto;
@@ -242,7 +236,7 @@
     /* ==================== */
     /* Dashboard Header      */
     /* ==================== */
-    .dash-header {
+    #dashApp .dash-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -251,13 +245,13 @@
       gap: 1rem;
     }
 
-    .dash-header-left {
+    #dashApp .dash-header-left {
       display: flex;
       align-items: center;
       gap: 1rem;
     }
 
-    .dash-logo {
+    #dashApp .dash-logo {
       width: 2.75rem;
       height: 2.75rem;
       border-radius: 0.75rem;
@@ -270,13 +264,13 @@
       color: white;
     }
 
-    .dash-title {
+    #dashApp .dash-title {
       font-size: 1.5rem;
       font-weight: 800;
       letter-spacing: -0.025em;
     }
 
-    .dash-badge {
+    #dashApp .dash-badge {
       display: inline-flex;
       align-items: center;
       gap: 0.375rem;
@@ -285,7 +279,7 @@
       color: var(--accent-emerald-text);
     }
 
-    .dash-badge-dot {
+    #dashApp .dash-badge-dot {
       width: 0.5rem;
       height: 0.5rem;
       border-radius: 50%;
@@ -298,13 +292,13 @@
       50% { opacity: 0.4; }
     }
 
-    .dash-header-right {
+    #dashApp .dash-header-right {
       display: flex;
       align-items: center;
       gap: 0.75rem;
     }
 
-    .dash-refresh-btn {
+    #dashApp .dash-refresh-btn {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
@@ -319,17 +313,17 @@
       transition: all 0.2s;
     }
 
-    .dash-refresh-btn:hover {
+    #dashApp .dash-refresh-btn:hover {
       border-color: var(--border-hover);
       color: var(--text-primary);
     }
 
-    .dash-refresh-btn svg {
+    #dashApp .dash-refresh-btn svg {
       width: 0.875rem;
       height: 0.875rem;
     }
 
-    .theme-toggle {
+    #dashApp .theme-toggle {
       width: 2.25rem;
       height: 2.25rem;
       border-radius: 0.5rem;
@@ -343,17 +337,17 @@
       transition: all 0.2s;
     }
 
-    .theme-toggle:hover {
+    #dashApp .theme-toggle:hover {
       border-color: var(--border-hover);
       color: var(--text-primary);
     }
 
-    .theme-toggle svg {
+    #dashApp .theme-toggle svg {
       width: 1rem;
       height: 1rem;
     }
 
-    .last-updated {
+    #dashApp .last-updated {
       font-size: 0.75rem;
       color: var(--text-muted);
     }
@@ -361,14 +355,14 @@
     /* ==================== */
     /* Stats Grid            */
     /* ==================== */
-    .stats-grid {
+    #dashApp .stats-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 1rem;
       margin-bottom: 2rem;
     }
 
-    .stat-card {
+    #dashApp .stat-card {
       padding: 1.5rem;
       border-radius: 1rem;
       border: 1px solid var(--border-color);
@@ -377,13 +371,13 @@
       transition: all 0.3s;
     }
 
-    .stat-card:hover {
+    #dashApp .stat-card:hover {
       border-color: var(--border-hover);
       background: var(--bg-card-hover);
       transform: translateY(-4px);
     }
 
-    .stat-icon {
+    #dashApp .stat-icon {
       width: 2.5rem;
       height: 2.5rem;
       border-radius: 0.625rem;
@@ -393,43 +387,43 @@
       margin-bottom: 1rem;
     }
 
-    .stat-icon svg {
+    #dashApp .stat-icon svg {
       width: 1.25rem;
       height: 1.25rem;
     }
 
-    .stat-icon.blue {
+    #dashApp .stat-icon.blue {
       background: var(--accent-blue-bg);
       border: 1px solid var(--accent-blue-border);
       color: var(--accent-blue-text);
     }
 
-    .stat-icon.emerald {
+    #dashApp .stat-icon.emerald {
       background: var(--accent-emerald-bg);
       border: 1px solid var(--accent-emerald-border);
       color: var(--accent-emerald-text);
     }
 
-    .stat-icon.purple {
+    #dashApp .stat-icon.purple {
       background: var(--accent-purple-bg);
       border: 1px solid var(--accent-purple-border);
       color: var(--accent-purple-text);
     }
 
-    .stat-icon.amber {
+    #dashApp .stat-icon.amber {
       background: var(--accent-amber-bg);
       border: 1px solid var(--accent-amber-border);
       color: var(--accent-amber-text);
     }
 
-    .stat-value {
+    #dashApp .stat-value {
       font-size: 2rem;
       font-weight: 800;
       letter-spacing: -0.025em;
       line-height: 1.2;
     }
 
-    .stat-label {
+    #dashApp .stat-label {
       font-size: 0.75rem;
       color: var(--text-muted);
       margin-top: 0.25rem;
@@ -441,14 +435,14 @@
     /* ==================== */
     /* Charts Grid           */
     /* ==================== */
-    .charts-grid {
+    #dashApp .charts-grid {
       display: grid;
       grid-template-columns: 2fr 1fr;
       gap: 1rem;
       margin-bottom: 2rem;
     }
 
-    .chart-card {
+    #dashApp .chart-card {
       padding: 1.5rem;
       border-radius: 1rem;
       border: 1px solid var(--border-color);
@@ -456,7 +450,7 @@
       backdrop-filter: blur(12px);
     }
 
-    .chart-title {
+    #dashApp .chart-title {
       font-size: 0.875rem;
       font-weight: 700;
       margin-bottom: 1.25rem;
@@ -465,19 +459,19 @@
       gap: 0.5rem;
     }
 
-    .chart-title-dot {
+    #dashApp .chart-title-dot {
       width: 0.5rem;
       height: 0.5rem;
       border-radius: 50%;
     }
 
-    .chart-canvas-wrapper {
+    #dashApp .chart-canvas-wrapper {
       position: relative;
       width: 100%;
       height: 250px;
     }
 
-    .chart-canvas-wrapper canvas {
+    #dashApp .chart-canvas-wrapper canvas {
       width: 100% !important;
       height: 100% !important;
     }
@@ -485,14 +479,14 @@
     /* ==================== */
     /* Small Charts Row      */
     /* ==================== */
-    .small-charts-grid {
+    #dashApp .small-charts-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1rem;
       margin-bottom: 2rem;
     }
 
-    .small-chart-card {
+    #dashApp .small-chart-card {
       padding: 1.5rem;
       border-radius: 1rem;
       border: 1px solid var(--border-color);
@@ -500,13 +494,13 @@
       backdrop-filter: blur(12px);
     }
 
-    .small-chart-canvas {
+    #dashApp .small-chart-canvas {
       position: relative;
       width: 100%;
       height: 200px;
     }
 
-    .small-chart-canvas canvas {
+    #dashApp .small-chart-canvas canvas {
       width: 100% !important;
       height: 100% !important;
     }
@@ -514,7 +508,7 @@
     /* ==================== */
     /* Questions Table       */
     /* ==================== */
-    .table-card {
+    #dashApp .table-card {
       padding: 1.5rem;
       border-radius: 1rem;
       border: 1px solid var(--border-color);
@@ -523,14 +517,14 @@
       margin-bottom: 2rem;
     }
 
-    .table-header {
+    #dashApp .table-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 1.25rem;
     }
 
-    .table-count {
+    #dashApp .table-count {
       font-size: 0.75rem;
       color: var(--text-muted);
       padding: 0.25rem 0.75rem;
@@ -539,21 +533,21 @@
       background: rgba(0, 0, 0, 0.2);
     }
 
-    .light .table-count {
+    #dashApp.light .table-count {
       background: rgba(0, 0, 0, 0.04);
     }
 
-    .table-scroll {
+    #dashApp .table-scroll {
       overflow-x: auto;
     }
 
-    .data-table {
+    #dashApp .data-table {
       width: 100%;
       border-collapse: collapse;
       font-size: 0.8125rem;
     }
 
-    .data-table th {
+    #dashApp .data-table th {
       text-align: left;
       padding: 0.75rem 1rem;
       font-size: 0.6875rem;
@@ -568,33 +562,33 @@
       z-index: 1;
     }
 
-    .data-table td {
+    #dashApp .data-table td {
       padding: 0.75rem 1rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.04);
       color: var(--text-secondary);
       vertical-align: top;
     }
 
-    .light .data-table td {
+    #dashApp.light .data-table td {
       border-bottom-color: rgba(0, 0, 0, 0.04);
     }
 
-    .data-table tr:hover td {
+    #dashApp .data-table tr:hover td {
       background: rgba(255, 255, 255, 0.02);
     }
 
-    .light .data-table tr:hover td {
+    #dashApp.light .data-table tr:hover td {
       background: rgba(0, 0, 0, 0.02);
     }
 
-    .question-text {
+    #dashApp .question-text {
       max-width: 400px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    .lang-badge {
+    #dashApp .lang-badge {
       display: inline-flex;
       padding: 0.125rem 0.5rem;
       border-radius: 9999px;
@@ -603,34 +597,34 @@
       border: 1px solid;
     }
 
-    .lang-badge.en { background: var(--accent-blue-bg); border-color: var(--accent-blue-border); color: var(--accent-blue-text); }
-    .lang-badge.da { background: var(--accent-rose-bg); border-color: var(--accent-rose-border); color: var(--accent-rose-text); }
-    .lang-badge.fr { background: var(--accent-purple-bg); border-color: var(--accent-purple-border); color: var(--accent-purple-text); }
-    .lang-badge.sv { background: var(--accent-amber-bg); border-color: var(--accent-amber-border); color: var(--accent-amber-text); }
-    .lang-badge.nl { background: var(--accent-cyan-bg); border-color: var(--accent-cyan-border); color: var(--accent-cyan-text); }
+    #dashApp .lang-badge.en { background: var(--accent-blue-bg); border-color: var(--accent-blue-border); color: var(--accent-blue-text); }
+    #dashApp .lang-badge.da { background: var(--accent-rose-bg); border-color: var(--accent-rose-border); color: var(--accent-rose-text); }
+    #dashApp .lang-badge.fr { background: var(--accent-purple-bg); border-color: var(--accent-purple-border); color: var(--accent-purple-text); }
+    #dashApp .lang-badge.sv { background: var(--accent-amber-bg); border-color: var(--accent-amber-border); color: var(--accent-amber-text); }
+    #dashApp .lang-badge.nl { background: var(--accent-cyan-bg); border-color: var(--accent-cyan-border); color: var(--accent-cyan-text); }
 
-    .session-id {
+    #dashApp .session-id {
       font-family: 'Courier New', monospace;
       font-size: 0.6875rem;
       color: var(--text-muted);
     }
 
-    .timestamp-cell {
+    #dashApp .timestamp-cell {
       white-space: nowrap;
       font-size: 0.75rem;
     }
 
     /* Clickable Row */
-    .data-table tbody tr.question-row {
+    #dashApp .data-table tbody tr.question-row {
       cursor: pointer;
       transition: background 0.15s;
     }
 
-    .data-table tbody tr.row-active td {
+    #dashApp .data-table tbody tr.row-active td {
       background: var(--accent-blue-bg);
     }
 
-    .row-expand-icon {
+    #dashApp .row-expand-icon {
       display: inline-flex;
       width: 1.25rem;
       height: 1.25rem;
@@ -642,38 +636,38 @@
       transition: transform 0.2s;
     }
 
-    .row-active .row-expand-icon {
+    #dashApp .row-active .row-expand-icon {
       transform: rotate(90deg);
       color: var(--accent-blue-text);
     }
 
     /* Session Detail Panel */
-    .session-detail {
+    #dashApp .session-detail {
       display: none;
     }
 
-    .session-detail.open {
+    #dashApp .session-detail.open {
       display: table-row;
     }
 
-    .session-detail-cell {
+    #dashApp .session-detail-cell {
       padding: 0 !important;
       border-bottom: 1px solid var(--border-color) !important;
       background: transparent !important;
     }
 
-    .session-panel {
+    #dashApp .session-panel {
       padding: 1.25rem 1rem;
       background: rgba(0, 0, 0, 0.15);
       border-top: 1px solid var(--border-color);
       overflow: hidden;
     }
 
-    .light .session-panel {
+    #dashApp.light .session-panel {
       background: rgba(0, 0, 0, 0.03);
     }
 
-    .session-panel-header {
+    #dashApp .session-panel-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -682,7 +676,7 @@
       gap: 0.5rem;
     }
 
-    .session-panel-title {
+    #dashApp .session-panel-title {
       font-size: 0.8125rem;
       font-weight: 700;
       color: var(--text-primary);
@@ -691,13 +685,13 @@
       gap: 0.5rem;
     }
 
-    .session-meta {
+    #dashApp .session-meta {
       display: flex;
       gap: 0.75rem;
       flex-wrap: wrap;
     }
 
-    .session-meta-item {
+    #dashApp .session-meta-item {
       display: inline-flex;
       align-items: center;
       gap: 0.375rem;
@@ -709,17 +703,17 @@
       color: var(--text-secondary);
     }
 
-    .light .session-meta-item {
+    #dashApp.light .session-meta-item {
       background: rgba(0, 0, 0, 0.04);
     }
 
-    .session-meta-icon {
+    #dashApp .session-meta-icon {
       width: 0.75rem;
       height: 0.75rem;
       color: var(--text-muted);
     }
 
-    .session-messages {
+    #dashApp .session-messages {
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
@@ -728,7 +722,7 @@
       padding-right: 0.5rem;
     }
 
-    .session-msg {
+    #dashApp .session-msg {
       padding: 0.875rem 1rem;
       border-radius: 0.75rem;
       font-size: 0.8125rem;
@@ -739,7 +733,7 @@
       white-space: pre-wrap;
     }
 
-    .session-msg-user {
+    #dashApp .session-msg-user {
       background: var(--accent-blue-bg);
       border: 1px solid var(--accent-blue-border);
       color: var(--accent-blue-text);
@@ -748,7 +742,7 @@
       border-bottom-right-radius: 0.25rem;
     }
 
-    .session-msg-ai {
+    #dashApp .session-msg-ai {
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--border-color);
       color: var(--text-secondary);
@@ -756,11 +750,11 @@
       border-bottom-left-radius: 0.25rem;
     }
 
-    .light .session-msg-ai {
+    #dashApp.light .session-msg-ai {
       background: rgba(0, 0, 0, 0.03);
     }
 
-    .session-msg-label {
+    #dashApp .session-msg-label {
       font-size: 0.625rem;
       font-weight: 700;
       text-transform: uppercase;
@@ -771,26 +765,26 @@
       gap: 0.375rem;
     }
 
-    .session-msg-user .session-msg-label {
+    #dashApp .session-msg-user .session-msg-label {
       color: var(--accent-blue-text);
     }
 
-    .session-msg-ai .session-msg-label {
+    #dashApp .session-msg-ai .session-msg-label {
       color: var(--accent-emerald-text);
     }
 
-    .session-msg-text {
+    #dashApp .session-msg-text {
       word-break: break-word;
       overflow-wrap: break-word;
     }
 
-    .session-msg-time {
+    #dashApp .session-msg-time {
       font-size: 0.625rem;
       color: var(--text-muted);
       margin-top: 0.5rem;
     }
 
-    .msg-count-badge {
+    #dashApp .msg-count-badge {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -808,7 +802,7 @@
     /* ==================== */
     /* Pagination             */
     /* ==================== */
-    .pagination {
+    #dashApp .pagination {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -817,7 +811,7 @@
       flex-wrap: wrap;
     }
 
-    .page-btn {
+    #dashApp .page-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -834,35 +828,35 @@
       transition: all 0.2s;
     }
 
-    .page-btn:hover:not(:disabled) {
+    #dashApp .page-btn:hover:not(:disabled) {
       border-color: var(--border-hover);
       color: var(--text-primary);
       background: var(--bg-card-hover);
     }
 
-    .page-btn.active {
+    #dashApp .page-btn.active {
       background: var(--accent-blue-bg);
       border-color: var(--accent-blue-border);
       color: var(--accent-blue-text);
     }
 
-    .page-btn:disabled {
+    #dashApp .page-btn:disabled {
       opacity: 0.3;
       cursor: default;
     }
 
-    .page-btn svg {
+    #dashApp .page-btn svg {
       width: 1rem;
       height: 1rem;
     }
 
-    .page-info {
+    #dashApp .page-info {
       font-size: 0.75rem;
       color: var(--text-muted);
       padding: 0 0.5rem;
     }
 
-    .page-size-select {
+    #dashApp .page-size-select {
       padding: 0.375rem 0.625rem;
       border-radius: 0.5rem;
       border: 1px solid var(--border-color);
@@ -873,18 +867,18 @@
       outline: none;
     }
 
-    .light .page-size-select {
+    #dashApp.light .page-size-select {
       background: rgba(255, 255, 255, 0.8);
     }
 
-    .page-size-select:focus {
+    #dashApp .page-size-select:focus {
       border-color: var(--accent-blue-border);
     }
 
     /* ==================== */
     /* Hot Leads Badge       */
     /* ==================== */
-    .hot-lead {
+    #dashApp .hot-lead {
       display: inline-flex;
       align-items: center;
       gap: 0.25rem;
@@ -901,52 +895,52 @@
     /* Responsive            */
     /* ==================== */
     @media (max-width: 1024px) {
-      .stats-grid {
+      #dashApp .stats-grid {
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .charts-grid {
+      #dashApp .charts-grid {
         grid-template-columns: 1fr;
       }
 
-      .small-charts-grid {
+      #dashApp .small-charts-grid {
         grid-template-columns: 1fr;
       }
     }
 
     @media (max-width: 640px) {
-      .dashboard {
+      #dashApp .dashboard {
         padding: 1rem 0.875rem 3rem;
       }
 
-      .stats-grid {
+      #dashApp .stats-grid {
         grid-template-columns: 1fr 1fr;
         gap: 0.75rem;
       }
 
-      .stat-card {
+      #dashApp .stat-card {
         padding: 1rem;
       }
 
-      .stat-value {
+      #dashApp .stat-value {
         font-size: 1.5rem;
       }
 
-      .chart-card,
-      .small-chart-card,
-      .table-card {
+      #dashApp .chart-card,
+      #dashApp .small-chart-card,
+      #dashApp .table-card {
         padding: 1rem;
       }
 
-      .dash-title {
+      #dashApp .dash-title {
         font-size: 1.125rem;
       }
 
-      .data-table {
+      #dashApp .data-table {
         font-size: 0.75rem;
       }
 
-      .question-text {
+      #dashApp .question-text {
         max-width: 200px;
       }
     }
