@@ -17,6 +17,11 @@
     /* ==================== */
     /* Scope everything      */
     /* ==================== */
+    #dashApp, #dashApp *, #dashApp *::before, #dashApp *::after {
+      all: revert;
+      box-sizing: border-box;
+    }
+
     #dashApp {
       all: initial;
       display: block;
