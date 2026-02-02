@@ -485,7 +485,7 @@ const contractTypes = [
       this.input?.addEventListener('input', (e) => {
         const target = e.target as HTMLTextAreaElement;
         if (target) {
-          target.style.height = '48px';
+          target.style.height = '25px';
           if (target.scrollHeight > 48) {
             target.style.height = Math.min(target.scrollHeight, 120) + 'px';
             target.style.overflowY = 'auto';

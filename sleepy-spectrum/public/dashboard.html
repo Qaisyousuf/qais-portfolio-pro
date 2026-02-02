@@ -1,11 +1,4 @@
----
-/**
- * PRIVATE DASHBOARD - GetRok Analytics
- * URL: getrok.com/dashboard?key=YOUR_DASHBOARD_SECRET
- * Shows AI chat analytics from Google Sheets data
- */
----
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -14,6 +7,41 @@
   <title>GetRok Dashboard</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
   <style>
+    /* ==================== */
+    /* Hard Reset             */
+    /* ==================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      border: 0;
+      font: inherit;
+      vertical-align: baseline;
+    }
+
+    img, svg {
+      display: inline-block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      table-layout: fixed;
+    }
+
+    td, th {
+      text-align: left;
+      vertical-align: middle;
+      overflow: hidden;
+    }
+
+    button, input, select {
+      font-family: inherit;
+      font-size: inherit;
+    }
+
     /* ==================== */
     /* CSS Variables         */
     /* ==================== */
@@ -98,7 +126,7 @@
       border-radius: 1rem;
       border: 1px solid var(--border-color);
       background: var(--bg-card);
-      backdrop-filter: blur(12px);
+      
       text-align: center;
     }
 
@@ -299,6 +327,8 @@
     .dash-refresh-btn svg {
       width: 0.875rem;
       height: 0.875rem;
+      flex-shrink: 0;
+      display: block;
     }
 
     .theme-toggle {
@@ -323,6 +353,8 @@
     .theme-toggle svg {
       width: 1rem;
       height: 1rem;
+      flex-shrink: 0;
+      display: block;
     }
 
     .last-updated {
@@ -345,7 +377,7 @@
       border-radius: 1rem;
       border: 1px solid var(--border-color);
       background: var(--bg-card);
-      backdrop-filter: blur(12px);
+     
       transition: all 0.3s;
     }
 
@@ -368,6 +400,8 @@
     .stat-icon svg {
       width: 1.25rem;
       height: 1.25rem;
+      flex-shrink: 0;
+      display: block;
     }
 
     .stat-icon.blue {
@@ -425,7 +459,7 @@
       border-radius: 1rem;
       border: 1px solid var(--border-color);
       background: var(--bg-card);
-      backdrop-filter: blur(12px);
+     
     }
 
     .chart-title {
@@ -469,7 +503,7 @@
       border-radius: 1rem;
       border: 1px solid var(--border-color);
       background: var(--bg-card);
-      backdrop-filter: blur(12px);
+      
     }
 
     .small-chart-canvas {
@@ -491,7 +525,7 @@
       border-radius: 1rem;
       border: 1px solid var(--border-color);
       background: var(--bg-card);
-      backdrop-filter: blur(12px);
+     
       margin-bottom: 2rem;
     }
 
@@ -689,6 +723,8 @@
       width: 0.75rem;
       height: 0.75rem;
       color: var(--text-muted);
+      flex-shrink: 0;
+      display: block;
     }
 
     .session-messages {
@@ -826,6 +862,8 @@
     .page-btn svg {
       width: 1rem;
       height: 1rem;
+      flex-shrink: 0;
+      display: block;
     }
 
     .page-info {
@@ -1107,7 +1145,7 @@
 
   </div>
 
-  <script is:inline>
+  <script>
     // ==================== //
     // State                 //
     // ==================== //
