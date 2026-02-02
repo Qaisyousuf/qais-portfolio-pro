@@ -11,12 +11,12 @@ import Layout from '../layouts/Layout.astro';
 
     <!-- Login Screen -->
     <div id="loginScreen" class="flex items-center justify-center min-h-screen">
-      <div class="w-full max-w-[400px] p-8 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl text-center">
+      <div class="w-full max-w-[400px] p-8 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl text-center overflow-hidden">
         <div class="w-14 h-14 mx-auto mb-6 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-2xl font-extrabold text-white">G</div>
         <h1 class="text-2xl font-extrabold mb-2">GetRok Dashboard</h1>
         <p class="text-sm text-[var(--text-muted)] mb-8">Enter your access key to view analytics</p>
         <input type="password" id="loginKey" placeholder="Access key..."
-          class="w-full px-4 py-3 rounded-lg border border-white/10 bg-black/20 text-[var(--text-primary)] text-sm outline-none focus:border-blue-500 placeholder:text-[var(--text-muted)] mb-4" />
+          class="box-border w-full max-w-full px-4 py-3 rounded-lg border border-white/10 bg-black/20 text-[var(--text-primary)] text-sm outline-none focus:border-blue-500 placeholder:text-[var(--text-muted)] mb-4" style="box-sizing:border-box" />
         <button id="loginBtn"
           class="w-full py-3 rounded-lg border border-blue-500/20 bg-blue-500/10 text-blue-400 text-sm font-semibold cursor-pointer hover:bg-blue-500/20 hover:border-blue-500/40 transition-all">
           Access Dashboard
@@ -262,15 +262,16 @@ import Layout from '../layouts/Layout.astro';
       chartInstances.daily = new Chart(document.getElementById('dailyChart'), { type:'line', data:{labels:dL.map(function(d){return new Date(d).toLocaleDateString([],{month:'short',day:'numeric'});}),datasets:[{label:'Messages',data:dV,borderColor:c.blue,backgroundColor:c.blueBg,fill:true,tension:0.4,borderWidth:2,pointRadius:3,pointBackgroundColor:c.blue}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:c.grid},ticks:{color:c.text,font:{size:11},maxRotation:45}},y:{grid:{color:c.grid},ticks:{color:c.text,font:{size:11}},beginAtZero:true}}} });
 
       var lL=Object.keys(s.languages),lV=Object.values(s.languages);
+      var langNameMap={'en':'English','fr':'French','da':'Danish','sv':'Swedish','nl':'Dutch','de':'German','es':'Spanish','it':'Italian','pt':'Portuguese','no':'Norwegian'};
+      var langColorMap={'English':'rgb(59,130,246)','French':'rgb(244,63,94)','Danish':'rgb(168,85,247)','Swedish':'rgb(245,158,11)','Dutch':'rgb(6,182,212)','German':'rgb(16,185,129)','Spanish':'rgb(251,146,60)','Italian':'rgb(236,72,153)','Portuguese':'rgb(34,211,238)','Norwegian':'rgb(163,230,53)'};
       var langNorm={};
       lL.forEach(function(l,i){
         var code=l.toLowerCase().substring(0,2);
-        var mapped=(code==='fr')?'French':'English';
-        langNorm[mapped]=(langNorm[mapped]||0)+lV[i];
+        var name=langNameMap[code]||(code.toUpperCase());
+        langNorm[name]=(langNorm[name]||0)+lV[i];
       });
       var normLabels=Object.keys(langNorm),normValues=Object.values(langNorm);
-      var langColorMap={'English':'rgb(59,130,246)','French':'rgb(244,63,94)'};
-      var normColors=normLabels.map(function(l){return langColorMap[l]||'rgb(168,85,247)';});
+      var normColors=normLabels.map(function(l){return langColorMap[l]||c.palette[normLabels.indexOf(l)%c.palette.length];});
       chartInstances.language = new Chart(document.getElementById('languageChart'), { type:'doughnut', data:{labels:normLabels,datasets:[{data:normValues,backgroundColor:normColors,borderWidth:0,hoverOffset:8}]}, options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'bottom',labels:{color:c.text,font:{size:12,weight:'bold'},padding:16,usePointStyle:true}}}} });
 
       var dvL=Object.keys(s.devices),dvV=Object.values(s.devices);
