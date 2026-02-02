@@ -17,7 +17,7 @@
     /* ==================== */
     /* Kill Tailwind Reset   */
     /* ==================== */
-    #dashApp, #dashApp *, #dashApp *::before, #dashApp *::after {
+    :where(#dashApp, #dashApp *, #dashApp *::before, #dashApp *::after) {
       all: revert;
       box-sizing: border-box;
     }
