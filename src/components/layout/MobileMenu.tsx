@@ -1,9 +1,9 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { useEffect } from "react";
-
-const navigation = ["Work", "Skills", "Tools", "Solutions", "About", "Contact"];
+import { useEffect, type MouseEvent } from "react";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
+import { navigation } from "@/data/portfolio";
 
 type MobileMenuProps = {
   isOpen: boolean;
@@ -30,6 +30,14 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     };
   }, [isOpen, onClose]);
 
+  const followLink = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
+    event.preventDefault();
+    onClose();
+    window.requestAnimationFrame(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+    });
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -40,14 +48,21 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           transition={{ duration: reduceMotion ? 0 : 0.28, ease: [0.22, 1, 0.36, 1] }}
           className="fixed inset-0 z-40 bg-background pt-[78px] lg:hidden"
           id="mobile-navigation"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigation menu"
         >
-          <div className="page-container flex h-full flex-col border-x border-line/70">
+          <div className="page-container flex h-full flex-col overflow-y-auto border-x border-line/70">
+            <div className="flex items-center justify-between border-b border-line px-4 py-3 sm:px-6">
+              <p className="technical-label text-muted">Navigation / Index</p>
+              <p className="technical-label text-muted">Qais Yousuf</p>
+            </div>
             <nav aria-label="Mobile navigation" className="flex-1">
               {navigation.map((item, index) => (
                 <motion.a
                   key={item}
                   href={`#${item.toLowerCase()}`}
-                  onClick={onClose}
+                  onClick={(event) => followLink(event, item.toLowerCase())}
                   initial={reduceMotion ? false : { opacity: 0, x: -14 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{
@@ -55,30 +70,29 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     delay: reduceMotion ? 0 : 0.04 + index * 0.045,
                     ease: [0.22, 1, 0.36, 1],
                   }}
-                  className="group flex items-baseline justify-between border-b border-line px-4 py-3.5 sm:px-7 sm:py-4"
+                  className="grid grid-cols-[42px_1fr] items-baseline border-b border-line px-4 py-3 sm:grid-cols-[52px_1fr] sm:px-6"
                 >
-                  <span className="text-[clamp(2.6rem,11vw,5rem)] leading-none font-semibold tracking-[-0.055em]">
-                    {item}
-                  </span>
                   <span className="font-mono text-[10px] tracking-[0.12em] text-muted">
                     0{index + 1}
+                  </span>
+                  <span className="text-[clamp(2.25rem,11vw,3.5rem)] leading-none font-semibold tracking-[-0.055em]">
+                    {item}
                   </span>
                 </motion.a>
               ))}
             </nav>
 
-            <div className="flex items-center justify-between border-t border-foreground px-4 py-5 sm:px-7">
-              <p className="technical-label text-muted">Nordic / EU</p>
-              <div className="flex items-end gap-0.5" aria-hidden="true">
-                {[5, 8, 11, 14].map((height) => (
-                  <span
-                    key={height}
-                    className="w-[3px] bg-accent"
-                    style={{ height }}
-                  />
-                ))}
+            <div className="grid grid-cols-[1fr_auto] items-end gap-4 border-t border-foreground px-4 py-4 sm:px-6">
+              <div>
+                <p className="technical-label mb-2 text-muted">Nordic / EU</p>
+                <div className="flex items-center gap-2.5">
+                  <div className="flex items-end gap-0.5" aria-hidden="true">
+                    {[5, 8, 11, 14].map((height) => <span key={height} className="w-[3px] bg-accent" style={{ height }} />)}
+                  </div>
+                  <p className="technical-label">Available for selected work</p>
+                </div>
               </div>
-              <p className="technical-label text-right">Available for selected work</p>
+              <ThemeToggle />
             </div>
           </div>
         </motion.div>

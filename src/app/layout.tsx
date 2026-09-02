@@ -17,9 +17,13 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Qais Yousuf  Software Engineer",
+  title: "Qais Yousuf — Software Engineer",
   description:
     "Software engineer building SaaS platforms, digital products and business systems for Nordic and European companies.",
+  applicationName: "Qais Yousuf Portfolio",
+  authors: [{ name: "Qais Yousuf" }],
+  creator: "Qais Yousuf",
+  keywords: ["software engineer", "SaaS", "Next.js", ".NET", "Nordic", "Denmark"],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

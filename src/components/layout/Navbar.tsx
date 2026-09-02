@@ -3,9 +3,9 @@
 import { Menu, X } from "lucide-react";
 import { useCallback, useState } from "react";
 import { MobileMenu } from "@/components/layout/MobileMenu";
+import { ProfileMark } from "@/components/layout/ProfileMark";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
-
-const navigation = ["Work", "Skills", "Tools", "Solutions", "About", "Contact"];
+import { navigation } from "@/data/portfolio";
 
 function SignalBars() {
   return (
@@ -26,14 +26,14 @@ export function Navbar() {
   const closeMenu = useCallback(() => setIsMenuOpen(false), []);
 
   return (
-    <header className="sticky top-0 z-50 bg-nav backdrop-blur-[14px]">
-      <div className="page-container grid h-[78px] grid-cols-[1fr_auto] items-center border-b border-foreground lg:grid-cols-[180px_minmax(0,1fr)_auto] xl:grid-cols-[220px_minmax(0,1fr)_auto]">
+    <header className="sticky top-0 z-50">
+      <div className="page-container relative z-50 grid h-[78px] grid-cols-[1fr_auto] items-center border-b border-foreground bg-nav backdrop-blur-[14px] lg:grid-cols-[190px_minmax(0,1fr)_auto] xl:grid-cols-[220px_minmax(0,1fr)_auto]">
         <a
           href="#top"
-          className="w-fit text-[19px] font-extrabold tracking-[-0.045em] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground"
+          className="w-fit focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground"
           aria-label="Qais Yousuf, home"
         >
-          QY
+          <ProfileMark />
         </a>
 
         <nav aria-label="Primary navigation" className="hidden justify-center gap-4 lg:flex xl:gap-7">
