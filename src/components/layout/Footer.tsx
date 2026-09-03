@@ -1,5 +1,5 @@
 const links = [
-  ["GitHub", "https://github.com/Qaisyousuf"],
+  ["Email", "mailto:mr.qais.yousuf@gmail.com"],
   ["LinkedIn", "https://www.linkedin.com/in/qais-yousuf-75261b125/"],
 ] as const;
 

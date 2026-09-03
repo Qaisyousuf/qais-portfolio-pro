@@ -11,7 +11,7 @@ export function Contact() {
         </h2>
       </Reveal>
       <Reveal delay={0.08}>
-        <a href="mailto:seo@seosoft.dk" className="group flex items-center justify-between border-y border-foreground py-5 text-[clamp(1.5rem,3vw,2.625rem)] tracking-[-0.04em]">
+        <a href="mailto:mr.qais.yousuf@gmail.com" className="group flex items-center justify-between border-y border-foreground py-5 text-[clamp(1.5rem,3vw,2.625rem)] tracking-[-0.04em]">
           <span>Let&apos;s build it properly.</span>
           <ArrowUpRight className="size-9 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1 sm:size-11" strokeWidth={1.2} />
         </a>
