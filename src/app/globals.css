@@ -88,6 +88,19 @@ a {
     -webkit-text-stroke: 1.4px var(--foreground);
   }
 
+  .editorial-mark {
+    padding-inline: 0.045em;
+    color: #0d0e10;
+    background: linear-gradient(
+      transparent 18%,
+      var(--accent) 18%,
+      var(--accent) 88%,
+      transparent 88%
+    );
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
   .section-shell {
     padding-block: clamp(6rem, 8vw, 7.5rem);
     border-bottom: 1px solid var(--foreground);

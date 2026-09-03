@@ -4,7 +4,12 @@ import { SectionHeader } from "@/components/home/SectionHeader";
 import { projects } from "@/data/portfolio";
 import { EngineeringVisual, PayWatanVisual, StakyVisual, SurveyVisual } from "@/components/projects/ProjectVisuals";
 
-const visuals = [SurveyVisual, StakyVisual, PayWatanVisual, EngineeringVisual];
+const visuals = {
+  staky: StakyVisual,
+  paywatan: PayWatanVisual,
+  "a-survey": SurveyVisual,
+  engineering: EngineeringVisual,
+};
 
 export function Projects() {
   return (
@@ -12,8 +17,8 @@ export function Projects() {
       <SectionHeader index="01" label="Selected work" title="Products with real workflows behind the interface." />
 
       <div className="space-y-8 lg:space-y-10">
-        {projects.map((project, index) => {
-          const Visual = visuals[index];
+        {projects.map((project) => {
+          const Visual = visuals[project.id];
           const isInternal = project.href.startsWith("#");
 
           return (

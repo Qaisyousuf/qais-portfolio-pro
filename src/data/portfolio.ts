@@ -1,9 +1,35 @@
-export const navigation = ["Work", "Skills", "Tools", "Solutions", "About", "Contact"] as const;
+export const navigation = ["Work", "Skills", "Tools", "Solutions", "About", "Process", "Contact"] as const;
 
 export const projects = [
   {
-    id: "a-survey",
+    id: "staky",
     index: "01",
+    category: "European software",
+    market: "Live",
+    title: "Staky",
+    status: "Live / Production",
+    description:
+      "A platform that helps Danish companies discover European alternatives, build an EU software stack, connect with verified migration partners and manage the move in one workspace.",
+    tags: ["EU alternatives", "Migration", "Partners", "Workspace"],
+    href: "https://staky.dk/",
+    linkLabel: "Visit live product",
+  },
+  {
+    id: "paywatan",
+    index: "02",
+    category: "Mobile top-up",
+    market: "Live",
+    title: "PayWatan",
+    status: "Live / Production",
+    description:
+      "A mobile-first service for people in Europe to send airtime and internet packages to Afghanistan through operator detection, secure payment and instant delivery.",
+    tags: ["Airtime", "Data", "Payments", "Afghanistan"],
+    href: "https://paywatan.com/",
+    linkLabel: "Visit live product",
+  },
+  {
+    id: "a-survey",
+    index: "03",
     category: "Survey infrastructure",
     market: "Nordic",
     title: "A Survey",
@@ -13,32 +39,6 @@ export const projects = [
     tags: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Supabase", "WCAG 2.2"],
     href: "https://asurvey.dk/",
     linkLabel: "Product in development",
-  },
-  {
-    id: "staky",
-    index: "02",
-    category: "European software",
-    market: "Live",
-    title: "Staky",
-    status: "Production",
-    description:
-      "A platform that helps Danish companies discover European alternatives, build an EU software stack, connect with verified migration partners and manage the move in one workspace.",
-    tags: ["EU alternatives", "Migration", "Partners", "Workspace"],
-    href: "https://staky.dk/",
-    linkLabel: "Visit live product",
-  },
-  {
-    id: "paywatan",
-    index: "03",
-    category: "Mobile top-up",
-    market: "Live",
-    title: "PayWatan",
-    status: "Production",
-    description:
-      "A mobile-first service for people in Europe to send airtime and internet packages to Afghanistan through operator detection, secure payment and instant delivery.",
-    tags: ["Airtime", "Data", "Payments", "Afghanistan"],
-    href: "https://paywatan.com/",
-    linkLabel: "Visit live product",
   },
   {
     id: "engineering",
