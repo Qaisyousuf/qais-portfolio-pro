@@ -1,7 +1,7 @@
 import { Reveal } from "@/components/home/Reveal";
 import { SectionHeader } from "@/components/home/SectionHeader";
 
-const facts = [["Experience", "10+ years"], ["Focus", "Web / SaaS"], ["Market", "Nordic / EU"], ["Work", "Remote / Collaborative"]] as const;
+const facts = [["Experience", "Senior product engineering"], ["Focus", "Web / SaaS"], ["Market", "Nordic / EU"], ["Work", "Remote / Collaborative"]] as const;
 
 export function About() {
   return (

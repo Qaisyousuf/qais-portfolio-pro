@@ -14,7 +14,7 @@ type SocialProof = {
 
 export const socialProof: SocialProof = {
   metrics: [
-    { value: "10+ years", label: "Product engineering" },
+    { value: "Senior", label: "Product engineering" },
     { value: "3", label: "Products built / actively developed" },
     { value: "Nordic / EU", label: "Primary market" },
     { value: "End to end", label: "Architecture · product · production" },

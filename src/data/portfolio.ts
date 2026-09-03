@@ -44,7 +44,7 @@ export const projects = [
     id: "engineering",
     index: "04",
     category: "Engineering depth",
-    market: "10+ years",
+    market: "Production systems",
     title: "Beyond the UI",
     description:
       "The production systems underneath the interface: identity, permissions, billing, data, APIs, queues, integrations, testing, infrastructure and deployment.",

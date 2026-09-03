@@ -40,7 +40,7 @@ export function Hero() {
           className="technical-label grid grid-cols-2 py-5 text-muted lg:grid-cols-3 lg:py-[22px]"
         >
           <span>Software Engineer / Product Builder</span>
-          <span className="hidden text-center lg:block">10+ years in product engineering</span>
+          <span className="hidden text-center lg:block">End-to-end product engineering</span>
           <span className="text-right">Nordic / EU</span>
         </motion.div>
 
