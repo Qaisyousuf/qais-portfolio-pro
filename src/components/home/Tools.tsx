@@ -30,10 +30,10 @@ export function Tools() {
   return (
     <section id="tools" className="section-shell scroll-mt-[78px]">
       <SectionHeader
-        index="03"
+        index="04"
         label="Tools"
         title="The stack behind the products."
-        description="A production-focused mix of application, data, infrastructure and testing tools—shown with local technology marks instead of generic badges."
+        description="A production-focused mix of application, data, AI integration, infrastructure and testing tools—shown with local technology marks instead of generic badges."
       />
       <Reveal className="overflow-hidden border-y border-foreground bg-white/20 dark:bg-white/[0.02]">
         <div className="tool-marquee flex w-max">
@@ -42,7 +42,7 @@ export function Tools() {
         </div>
       </Reveal>
       <div className="mt-4 flex flex-col justify-between gap-2 font-mono text-[9px] tracking-[0.09em] text-muted uppercase sm:flex-row">
-        <span>Application / Data / Infrastructure / Quality</span>
+        <span>Application / Data / AI / Infrastructure / Quality</span>
         <span>Pause to inspect</span>
       </div>
     </section>

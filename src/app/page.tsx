@@ -1,4 +1,5 @@
 import { About } from "@/components/home/About";
+import { AIEngineering } from "@/components/home/AIEngineering";
 import { Contact } from "@/components/home/Contact";
 import { Hero } from "@/components/home/Hero";
 import { Process } from "@/components/home/Process";
@@ -19,6 +20,7 @@ export default function Home() {
         <Projects />
         <SocialProof />
         <Skills />
+        <AIEngineering />
         <Tools />
         <Solutions />
         <About />

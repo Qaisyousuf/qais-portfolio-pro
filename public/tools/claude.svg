@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-labelledby="title">
+  <title id="title">Claude</title>
+  <g fill="#D97757">
+    <rect x="21.8" y="3" width="4.4" height="17" rx="2.2"/>
+    <rect x="21.8" y="28" width="4.4" height="17" rx="2.2"/>
+    <rect x="28" y="21.8" width="17" height="4.4" rx="2.2"/>
+    <rect x="3" y="21.8" width="17" height="4.4" rx="2.2"/>
+    <rect x="21.8" y="3" width="4.4" height="17" rx="2.2" transform="rotate(45 24 24)"/>
+    <rect x="21.8" y="28" width="4.4" height="17" rx="2.2" transform="rotate(45 24 24)"/>
+    <rect x="28" y="21.8" width="17" height="4.4" rx="2.2" transform="rotate(45 24 24)"/>
+    <rect x="3" y="21.8" width="17" height="4.4" rx="2.2" transform="rotate(45 24 24)"/>
+  </g>
+</svg>

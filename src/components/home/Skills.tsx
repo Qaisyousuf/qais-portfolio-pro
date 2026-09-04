@@ -1,6 +1,6 @@
 import { Reveal } from "@/components/home/Reveal";
 import { SectionHeader } from "@/components/home/SectionHeader";
-import { skills } from "@/data/portfolio";
+import { aiSkill, skills } from "@/data/portfolio";
 
 export function Skills() {
   return (
@@ -24,6 +24,15 @@ export function Skills() {
           ))}
         </div>
       </div>
+      <Reveal className="mt-5 grid gap-6 border-y border-foreground py-5 md:grid-cols-[220px_minmax(0,1fr)] md:items-end lg:gap-10">
+        <p className="technical-label text-muted">{aiSkill.label}</p>
+        <div className="grid gap-3 lg:grid-cols-[minmax(0,0.8fr)_minmax(280px,1.2fr)] lg:items-end lg:gap-10">
+          <h3 className="text-[clamp(1.8rem,3vw,2.75rem)] leading-[0.96] font-semibold tracking-[-0.045em]">
+            {aiSkill.title}
+          </h3>
+          <p className="max-w-2xl text-[13px] leading-[1.65] text-muted">{aiSkill.description}</p>
+        </div>
+      </Reveal>
     </section>
   );
 }

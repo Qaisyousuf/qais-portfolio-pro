@@ -7,7 +7,7 @@ export function Process() {
   return (
     <section id="process" className="section-shell scroll-mt-[78px]">
       <SectionHeader
-        index="06"
+        index="07"
         label="Process"
         title="How we’d work together."
         description="A clear process, direct communication and no unnecessary layers."

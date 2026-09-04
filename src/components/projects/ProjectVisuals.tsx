@@ -156,7 +156,15 @@ export function PayWatanVisual() {
 }
 
 export function EngineeringVisual() {
-  const systems = ["Identity & access", "Billing & payments", "APIs & integrations", "Queues & background work", "Data & tenant isolation"];
+  const systems = [
+    "Identity & permissions",
+    "Billing & payments",
+    "APIs & integrations",
+    "AI / LLM workflows",
+    "Queues & background processing",
+    "Data & tenant isolation",
+    "Testing / infrastructure / deployment",
+  ];
 
   return (
     <div className="project-visual bg-[#ff6338] text-[#17120f]">
@@ -164,9 +172,9 @@ export function EngineeringVisual() {
         <WindowBar path="System architecture" mode="Production" />
         <div className="grid h-[calc(100%-2.5rem)] grid-rows-[1fr_240px] sm:grid-cols-[0.95fr_1.05fr] sm:grid-rows-1">
           <div className="border-b border-[#7b250d] p-5 sm:border-r sm:border-b-0 lg:p-6">
-            <h3 className="mb-6 text-[clamp(1.7rem,3.6vw,2.35rem)] leading-none font-semibold tracking-[-0.05em]">Systems that survive real use.</h3>
+            <h3 className="mb-4 text-[clamp(1.55rem,3.2vw,2.2rem)] leading-none font-semibold tracking-[-0.05em]">Systems that survive real use.</h3>
             {systems.map((system, index) => (
-              <div key={system} className="flex justify-between border-t border-[#7b250d] py-2.5 text-[10px] last:border-b sm:text-[11px]">
+              <div key={system} className="flex justify-between gap-3 border-t border-[#7b250d] py-2 text-[9px] last:border-b sm:text-[10px]">
                 <span>{system}</span><b className="font-mono text-[8px] font-medium">0{index + 1}</b>
               </div>
             ))}
@@ -179,6 +187,7 @@ export function EngineeringVisual() {
               <span className="absolute top-1/2 -right-8 bg-[#ff6a3f] px-1">Services</span>
               <span className="absolute -bottom-3 left-1/3 bg-[#ff6a3f] px-1">Data</span>
               <span className="absolute top-1/2 -left-6 bg-[#ff6a3f] px-1">Ops</span>
+              <span className="absolute top-[18%] right-[8%] bg-[#ff6a3f] px-1">AI / LLM</span>
             </div>
           </div>
         </div>

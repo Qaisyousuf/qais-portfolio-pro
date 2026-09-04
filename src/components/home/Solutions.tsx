@@ -10,7 +10,7 @@ const solutions = [
 export function Solutions() {
   return (
     <section id="solutions" className="section-shell scroll-mt-[78px]">
-      <SectionHeader index="04" label="Solutions" title="What I can build for a business." />
+      <SectionHeader index="05" label="Solutions" title="What I can build for a business." />
       <div className="grid border-t border-foreground lg:grid-cols-3">
         {solutions.map((solution, index) => (
           <Reveal key={solution.number} delay={index * 0.06} className="relative flex min-h-[330px] flex-col justify-between overflow-hidden border-b border-foreground py-6 lg:min-h-[390px] lg:border-r lg:px-6 lg:last:border-r-0">

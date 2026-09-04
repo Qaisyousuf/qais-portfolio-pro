@@ -1,4 +1,4 @@
-export const navigation = ["Work", "Skills", "Tools", "Solutions", "About", "Process", "Contact"] as const;
+export const navigation = ["Work", "Skills", "AI", "Tools", "Solutions", "About", "Process", "Contact"] as const;
 
 export const projects = [
   {
@@ -47,8 +47,8 @@ export const projects = [
     market: "Production systems",
     title: "Beyond the UI",
     description:
-      "The production systems underneath the interface: identity, permissions, billing, data, APIs, queues, integrations, testing, infrastructure and deployment.",
-    tags: [".NET", "SQL", "Architecture", "Systems"],
+      "The production systems underneath the interface: identity, permissions, billing, data, APIs, AI / LLM workflows, queues, integrations, testing, infrastructure and deployment.",
+    tags: [".NET", "SQL", "Architecture", "AI / LLM"],
     href: "#skills",
     linkLabel: "Explore capabilities",
   },
@@ -77,6 +77,13 @@ export const skills = [
   },
 ] as const;
 
+export const aiSkill = {
+  label: "Secondary technical competency",
+  title: "Prompt & Context Engineering",
+  description:
+    "System instructions, reusable context structures, constrained outputs and multi-step model workflows designed for predictable product behaviour.",
+} as const;
+
 export const tools = [
   { name: ".NET", category: "Backend", logo: "/tools/dotnet.svg" },
   { name: "C#", category: "Language", logo: "/tools/csharp.svg" },
@@ -91,4 +98,7 @@ export const tools = [
   { name: "Git", category: "Version control", logo: "/tools/git.svg" },
   { name: "Tailwind CSS", category: "Interface", logo: "/tools/tailwindcss.svg" },
   { name: "Playwright", category: "Testing", logo: "/tools/playwright.svg" },
+  { name: "Claude", category: "AI / LLM", logo: "/tools/claude.svg" },
+  { name: "Claude Code", category: "Engineering workflow", logo: "/tools/claude-code.svg" },
+  { name: "Anthropic API", category: "AI integration", logo: "/tools/anthropic.svg", monochrome: true },
 ] as const;

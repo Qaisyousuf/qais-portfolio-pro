@@ -5,7 +5,7 @@ export function Contact() {
   return (
     <section id="contact" className="scroll-mt-[78px] pt-24 pb-8 lg:pt-30">
       <Reveal>
-        <p className="technical-label mb-10 text-muted">07 / Contact</p>
+        <p className="technical-label mb-10 text-muted">08 / Contact</p>
         <h2 className="mb-12 text-[clamp(4.5rem,12vw,11.875rem)] leading-[0.78] font-extrabold tracking-[-0.072em] uppercase">
           <span className="block">Have a</span><span className="outline-text block">serious</span><span className="block">idea?</span>
         </h2>

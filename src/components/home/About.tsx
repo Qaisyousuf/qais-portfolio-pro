@@ -6,7 +6,7 @@ const facts = [["Experience", "Senior product engineering"], ["Focus", "Web / Sa
 export function About() {
   return (
     <section id="about" className="section-shell scroll-mt-[78px]">
-      <SectionHeader index="05" label="About" title="Engineering with product judgement." />
+      <SectionHeader index="06" label="About" title="Engineering with product judgement." />
       <div className="grid gap-14 lg:grid-cols-[1.08fr_0.92fr] lg:gap-20 xl:gap-24">
         <Reveal className="min-w-0">
           <p className="max-w-[820px] text-[clamp(2.375rem,11vw,3.625rem)] leading-[1.01] font-semibold tracking-[-0.04em] lg:text-[clamp(2.625rem,5vw,4.75rem)]">
