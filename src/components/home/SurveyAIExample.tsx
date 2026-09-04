@@ -15,47 +15,47 @@ export function SurveyAIExample() {
       </div>
 
       <div className="grid lg:grid-cols-[0.78fr_0.78fr_1.44fr]">
-        <div className="border-b border-line p-4 sm:p-5 lg:border-r lg:border-b-0">
-          <p className="technical-label mb-5 text-muted">Input</p>
+        <div className="border-b border-line p-5 sm:p-6 lg:border-r lg:border-b-0">
+          <p className="mb-6 font-mono text-[11px] tracking-[0.1em] text-muted uppercase">Input</p>
           <dl>
             {surveyAIInput.map(([term, detail]) => (
-              <div key={term} className="grid grid-cols-[76px_1fr] gap-3 border-t border-line py-2.5 text-[11px] last:border-b">
-                <dt className="font-mono text-[9px] tracking-[0.06em] text-muted uppercase">{term}</dt>
+              <div key={term} className="grid grid-cols-[76px_1fr] gap-3 border-t border-line py-3 text-[13px] last:border-b">
+                <dt className="font-mono text-[10px] tracking-[0.06em] text-muted uppercase">{term}</dt>
                 <dd className="font-semibold">{detail}</dd>
               </div>
             ))}
           </dl>
         </div>
 
-        <div className="border-b border-line p-4 sm:p-5 lg:border-r lg:border-b-0">
-          <p className="technical-label mb-5 text-muted">AI plan</p>
+        <div className="border-b border-line p-5 sm:p-6 lg:border-r lg:border-b-0">
+          <p className="mb-6 font-mono text-[11px] tracking-[0.1em] text-muted uppercase">AI plan</p>
           <ol>
             {surveyAIPlan.map((item, index) => (
-              <li key={item} className="grid grid-cols-[28px_1fr] border-t border-line py-2.5 text-[11px] last:border-b">
-                <span className="font-mono text-[9px] text-muted">0{index + 1}</span>
+              <li key={item} className="grid grid-cols-[32px_1fr] border-t border-line py-3 text-[13px] last:border-b">
+                <span className="font-mono text-[10px] text-muted">0{index + 1}</span>
                 <span>{item}</span>
               </li>
             ))}
           </ol>
         </div>
 
-        <div className="bg-[#121418] p-4 text-[#f3f1eb] sm:p-5">
-          <div className="mb-6 flex items-center justify-between gap-3">
-            <p className="technical-label text-[#98958d]">Editable survey draft</p>
+        <div className="bg-[#121418] p-5 text-[#f3f1eb] sm:p-6">
+          <div className="mb-7 flex items-start justify-between gap-3">
+            <h4 className="text-[clamp(1.5rem,2.2vw,1.875rem)] leading-tight font-semibold tracking-[-0.035em]">Editable survey draft</h4>
             <span className="border border-[#d9ff47] px-2 py-1 font-mono text-[8px] tracking-[0.08em] text-[#d9ff47] uppercase">
               Draft
             </span>
           </div>
           <div className="border border-[#33363b]">
             {draftQuestions.map((question, index) => (
-              <div key={question} className="grid grid-cols-[30px_1fr_auto] gap-3 border-b border-[#33363b] p-3 text-[10px] last:border-b-0 sm:text-[11px]">
-                <span className="font-mono text-[8px] text-[#98958d]">Q{index + 1}</span>
+              <div key={question} className="grid grid-cols-[26px_minmax(0,1fr)_auto] gap-3 border-b border-[#33363b] p-3 text-[11px] leading-5 last:border-b-0 sm:text-xs">
+                <span className="font-mono text-[9px] text-[#98958d]">Q{index + 1}</span>
                 <span>{question}</span>
                 <span className="font-mono text-[8px] text-[#d9ff47]">EDIT</span>
               </div>
             ))}
           </div>
-          <p className="mt-5 max-w-lg text-[11px] leading-5 text-[#98958d]">
+          <p className="mt-6 max-w-lg text-[13px] leading-6 text-[#b0aea5]">
             AI prepares the structure and first draft. The user reviews, changes and owns every question before distribution.
           </p>
         </div>

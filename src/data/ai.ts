@@ -75,7 +75,6 @@ export const surveyAIInput = [
   ["Goal", "Workplace assessment"],
   ["Audience", "Employees"],
   ["Language", "Danish"],
-  ["Length", "Medium"],
   ["Privacy", "Confidential"],
 ] as const;
 
